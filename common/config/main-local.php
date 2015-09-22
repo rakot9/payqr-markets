@@ -3,9 +3,9 @@ return [
     'components' => [
         'db' => [
             'class' => 'yii\db\Connection',
-            'dsn' => 'mysql:host=localhost;dbname=payqr_asobolev',
+            'dsn' => 'mysql:host=localhost;dbname=payqrmarkets',
             'username' => 'root',
-            'password' => 'z25ecopReu',
+            'password' => 'root',
             'charset' => 'utf8',
         ],
         'mailer' => [
