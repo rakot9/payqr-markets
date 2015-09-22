@@ -11,7 +11,7 @@ class m150922_084346_create_order_table extends Migration
     public function before()
     {
         $this->tablePrefix = Yii::$app->getDb()->tablePrefix;
-        $this->tableName = $this->tablePrefix. 'orders';
+        $this->tableName = $this->tablePrefix. 'order';
     }
 
     public function up()
@@ -33,14 +33,14 @@ class m150922_084346_create_order_table extends Migration
             'datetime' => Schema::TYPE_TIMESTAMP . ' DEFAULT CURRENT_TIMESTAMP'
         ], $tableOptions);
         
-        $this->createIndex('proxy_id', $this->tableName , 'id', true);
+        $this->createIndex('order_id', $this->tableName , 'id', true);
     }
 
     public function down()
     {
         $this->before();
         
-        $this->dropIndex('proxy_id', $this->tableName);
+        $this->dropIndex('order_id', $this->tableName);
         
         $this->dropTable($this->tableName);
 
