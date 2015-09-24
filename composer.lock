@@ -4,8 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8580bd82955b1fbb80d47024e184056e",
-    "content-hash": "e1929a97e872bdbaacc8530468eccb67",
+    "hash": "6273cbc6f82059dab093b741f1053c9e",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -316,6 +315,52 @@
                 "html"
             ],
             "time": "2013-11-30 08:25:19"
+        },
+        {
+            "name": "light/yii2-xmlparser",
+            "version": "0.2.11",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lichunqiang/yii2-xmlparser.git",
+                "reference": "0e86c5d214dd04e28e4360de22aa1e2c7484e318"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lichunqiang/yii2-xmlparser/zipball/0e86c5d214dd04e28e4360de22aa1e2c7484e318",
+                "reference": "0e86c5d214dd04e28e4360de22aa1e2c7484e318",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0",
+                "yiisoft/yii2": "2.0.*"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.4.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "light\\yii2\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "lichunqiang",
+                    "email": "light-li@hotmail.com"
+                }
+            ],
+            "description": "yii2 xml request parser",
+            "keywords": [
+                "parse",
+                "request",
+                "xml",
+                "yii2"
+            ],
+            "time": "2015-08-15 16:07:34"
         },
         {
             "name": "swiftmailer/swiftmailer",
