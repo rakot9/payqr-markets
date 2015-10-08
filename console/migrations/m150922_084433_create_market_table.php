@@ -28,7 +28,7 @@ class m150922_084433_create_market_table extends Migration
             'id' => Schema::TYPE_PK,
             'user_id' => Schema::TYPE_INTEGER . '(11) NOT NULL',
             'name' => Schema::TYPE_STRING . '(124) NOT NULL',
-            'settings' => Schema::TYPE_DECIMAL . '(10,2) NOT NULL'
+            'settings' => Schema::TYPE_TEXT . ' NOT NULL'
         ], $tableOptions);
         
         $this->createIndex('market_id', $this->tableName , 'id', true);
