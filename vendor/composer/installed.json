@@ -617,58 +617,6 @@
         ]
     },
     {
-        "name": "yiisoft/yii2-bootstrap",
-        "version": "2.0.4",
-        "version_normalized": "2.0.4.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/yiisoft/yii2-bootstrap.git",
-            "reference": "1b6b1e61cf91c3cdd517d6a7e71d30bb212e4af0"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/yiisoft/yii2-bootstrap/zipball/1b6b1e61cf91c3cdd517d6a7e71d30bb212e4af0",
-            "reference": "1b6b1e61cf91c3cdd517d6a7e71d30bb212e4af0",
-            "shasum": ""
-        },
-        "require": {
-            "bower-asset/bootstrap": "3.3.* | 3.2.* | 3.1.*",
-            "yiisoft/yii2": ">=2.0.4"
-        },
-        "time": "2015-05-10 22:08:17",
-        "type": "yii2-extension",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "2.0.x-dev"
-            },
-            "asset-installer-paths": {
-                "npm-asset-library": "vendor/npm",
-                "bower-asset-library": "vendor/bower"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "yii\\bootstrap\\": ""
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "BSD-3-Clause"
-        ],
-        "authors": [
-            {
-                "name": "Qiang Xue",
-                "email": "qiang.xue@gmail.com"
-            }
-        ],
-        "description": "The Twitter Bootstrap extension for the Yii framework",
-        "keywords": [
-            "bootstrap",
-            "yii2"
-        ]
-    },
-    {
         "name": "yiisoft/yii2-debug",
         "version": "2.0.5",
         "version_normalized": "2.0.5.0",
@@ -985,6 +933,58 @@
             "parse",
             "request",
             "xml",
+            "yii2"
+        ]
+    },
+    {
+        "name": "yiisoft/yii2-bootstrap",
+        "version": "2.0.5",
+        "version_normalized": "2.0.5.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/yiisoft/yii2-bootstrap.git",
+            "reference": "1464f93834b1d5edb1f5625f7ffd6c3723fa4923"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/yiisoft/yii2-bootstrap/zipball/1464f93834b1d5edb1f5625f7ffd6c3723fa4923",
+            "reference": "1464f93834b1d5edb1f5625f7ffd6c3723fa4923",
+            "shasum": ""
+        },
+        "require": {
+            "bower-asset/bootstrap": "3.3.* | 3.2.* | 3.1.*",
+            "yiisoft/yii2": ">=2.0.6"
+        },
+        "time": "2015-09-23 17:48:24",
+        "type": "yii2-extension",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.0.x-dev"
+            },
+            "asset-installer-paths": {
+                "npm-asset-library": "vendor/npm",
+                "bower-asset-library": "vendor/bower"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "yii\\bootstrap\\": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Qiang Xue",
+                "email": "qiang.xue@gmail.com"
+            }
+        ],
+        "description": "The Twitter Bootstrap extension for the Yii framework",
+        "keywords": [
+            "bootstrap",
             "yii2"
         ]
     }

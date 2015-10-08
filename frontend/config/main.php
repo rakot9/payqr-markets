@@ -29,5 +29,13 @@ return [
             'errorAction' => 'site/error',
         ],
     ],
+    'modules' => [
+        'payqr' => [
+            'class' => 'frontend\modules\Payqr\module',
+            'config' => [
+                'xml' => '../modules/Payqr/xml/payqr.button.schema.xml'
+            ]
+        ],
+    ],
     'params' => $params,
 ];
