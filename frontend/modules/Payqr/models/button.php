@@ -5,6 +5,7 @@ use Yii;
 use yii\base\Model;
 use light\yii2\XmlParser;
 use yii\helpers\Html;
+use frontend\models\Market;
 
 class Button extends \yii\base\Model{
     
@@ -35,11 +36,16 @@ class Button extends \yii\base\Model{
     /**
      * Инициализация кнопки
      */
-    public function init()
+    public function init(Market $market = null)
     {
+        if($market && isset($market->settings))
+        {
+            $settings = json_decode($market->settings, true);
+        }
+        
         $xml_structure = $this->getStructure();
         
-        $html = \yii\bootstrap\Html::beginForm('?r=payqr/button/create', 'post', []);
+        $html = \yii\bootstrap\Html::beginForm('?r=payqr/button/create' . (isset($market->id)? "&market_id=".$market->id : ""), 'post', []);
         
         $html .= \yii\bootstrap\Html::csrfMetaTags();
         
@@ -54,14 +60,16 @@ class Button extends \yii\base\Model{
                 
                 $html .= \yii\bootstrap\Html::beginTag("div", ['class' => 'col-xs-6']);
                 
+                $fieldName = $button_option[0]['@attributes']['value'];
+                
                 switch ($button_option[1]['@attributes']['value'])
                 {
                     case 'text':
-                        $html .= \yii\bootstrap\Html::textInput($button_option[0]['@attributes']['value'], $button_option[2]['@attributes']['value']);
+                        $html .= \yii\bootstrap\Html::textInput($fieldName, isset($settings[$fieldName])? $settings[$fieldName] : "" );
                         break;
                     case 'select':
                         $select = json_decode($button_option[3]['@attributes']['value'], true);
-                        $html .= \yii\bootstrap\Html::dropDownList($button_option[0]['@attributes']['value'], 1, $select);
+                        $html .= \yii\bootstrap\Html::dropDownList($fieldName, 1, $select);
                         break;
                 }
                 
