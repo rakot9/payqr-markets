@@ -42,71 +42,63 @@
     </object>
     <!-- cart -->
     <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="button_show_on_cart"/>
-        <field name="htmltype" value="select"/>
-        <field name="htmlvalue" value="no"/>
-        <field name="htmlpossiblevalues" value="{yes:'Да',no:'Нет'}"/>
-        <field name="description" value="Показывать кнопку PayQR на странице корзины товаров"/>
-        <field name="active" value="1"/>
-    </object>
-    <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="cart_button_color"/>
+        <field name="name" value="button_color"/>
         <field name="htmltype" value="select"/>
         <field name="htmlvalue" value="default"/>
-        <field name="htmlpossiblevalues" value="{default:'По умолчанию', green:'Зеленый', red:'Красный', 'blue':'Синий', orange: 'Оранжевый'}"/>
+        <field name="htmlpossiblevalues" value='{"default":"По умолчанию", "green":"Зеленый", "red":"Красный", "blue":"Синий", "orange": "Оранжевый"}'/>
         <field name="description" value="Цвет кнопки на странице корзины товаров"/>
         <field name="active" value="1"/>
     </object>
     <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="cart_button_form"/>
+        <field name="name" value="button_form"/>
         <field name="htmltype" value="select"/>
         <field name="htmlvalue" value="default"/>
-        <field name="htmlpossiblevalues" value="{default:'По умолчанию', sharp:'Без округления', rude:'Минимальное округление', soft:'Мягкое округление', sleek:'Значительное округление', oval:'Максимальное округление'}"/>
+        <field name="htmlpossiblevalues" value='{"default":"По умолчанию", "sharp":"Без округления", "rude":"Минимальное округление", "soft":"Мягкое округление", "sleek":"Значительное округление", "oval":"Максимальное округление"}'/>
         <field name="description" value="Форма кнопки на странице корзины товаров"/>
         <field name="active" value="1"/>
     </object>
     <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="cart_button_shadow"/>
+        <field name="name" value="button_shadow"/>
         <field name="htmltype" value="select"/>
         <field name="htmlvalue" value="default"/>
-        <field name="htmlpossiblevalues" value="{default:'По умолчанию', shadow:'Включена', noshadow:'Отключена'}"/>
+        <field name="htmlpossiblevalues" value='{"default":"По умолчанию", "shadow":"Включена", "noshadow":"Отключена"}'/>
         <field name="description" value="Тень кнопки на странице корзины товаров"/>
         <field name="active" value="1"/>
     </object>
     <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="cart_button_gradient"/>
+        <field name="name" value="button_gradient"/>
         <field name="htmltype" value="select"/>
         <field name="htmlvalue" value="default"/>
-        <field name="htmlpossiblevalues" value="{default:'По умолчанию', flat:'Отключен', gradient:'Включен'}"/>
+        <field name="htmlpossiblevalues" value='{"default":"По умолчанию", "flat":"Отключен", "gradient":"Включен"}'/>
         <field name="description" value="Градиент кнопки на странице корзины товаров"/>
         <field name="active" value="1"/>
     </object>
     <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="cart_button_font_trans"/>
+        <field name="name" value="button_font_trans"/>
         <field name="htmltype" value="select"/>
         <field name="htmlvalue" value="default"/>
-        <field name="htmlpossiblevalues" value="{default:'По умолчанию', 'small':'Мелко', 'medium':'Средне', 'large':'Крупно'}"/>
+        <field name="htmlpossiblevalues" value='{"default":"По умолчанию", "small":"Мелко", "medium":"Средне", "large":"Крупно"}'/>
         <field name="description" value="Размер шрифта кнопки на странице корзины товаров"/>
         <field name="active" value="1"/>
     </object>
     <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="cart_button_font_width"/>
+        <field name="name" value="button_font_width"/>
         <field name="htmltype" value="select"/>
         <field name="htmlvalue" value="default"/>
-        <field name="htmlpossiblevalues" value="{default:'По умолчанию', 'normal':'Отключен', 'bold':'Включен'}"/>
+        <field name="htmlpossiblevalues" value='{"default":"По умолчанию", "normal":"Отключен", "bold":"Включен"}'/>
         <field name="description" value="Жирный шрифт текста кнопки на странице корзины товаров"/>
         <field name="active" value="1"/>
     </object>
     <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="cart_button_text_case"/>
+        <field name="name" value="button_text_case"/>
         <field name="htmltype" value="select"/>
         <field name="htmlvalue" value="default"/>
-        <field name="htmlpossiblevalues" value="{default:'По умолчанию', 'lowercase':'Нижний', 'standartcase':'Стандартный', 'upper':'Верхний'}"/>
+        <field name="htmlpossiblevalues" value='{"default":"По умолчанию", "lowercase":"Нижний", "standartcase":"Стандартный", "upper":"Верхний"}'/>
         <field name="description" value="Регистр текста кнопки на странице корзины товара"/>
         <field name="active" value="1"/>
     </object>
     <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="cart_button_height"/>
+        <field name="name" value="button_height"/>
         <field name="htmltype" value="text"/>
         <field name="htmlvalue" value="auto"/>
         <field name="htmlpossiblevalues" value=""/>
@@ -114,213 +106,19 @@
         <field name="active" value="1"/>
     </object>
     <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="cart_button_width"/>
+        <field name="name" value="button_width"/>
         <field name="htmltype" value="text"/>
         <field name="htmlvalue" value="auto"/>
         <field name="htmlpossiblevalues" value=""/>
         <field name="description" value="Ширина кнопки на странице корзины товаров"/>
         <field name="active" value="1"/>
     </object>
-    <!-- product -->
-    <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="button_show_on_product"/>
-        <field name="htmltype" value="select"/>
-        <field name="htmlvalue" value="no"/>
-        <field name="htmlpossiblevalues" value="{yes:'Да',no:'Нет'}"/>
-        <field name="description" value="Показывать кнопку PayQR на странице карточки товара"/>
-        <field name="active" value="1"/>
-    </object>
-    <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="product_button_color"/>
-        <field name="htmltype" value="select"/>
-        <field name="htmlvalue" value="default"/>
-        <field name="htmlpossiblevalues" value="{default:'По умолчанию', green:'Зеленый', red:'Красный', 'blue':'Синий', orange: 'Оранжевый'}"/>
-        <field name="description" value="Цвет кнопки на странице карточки товара"/>
-        <field name="active" value="1"/>
-    </object>
-    <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="product_button_form"/>
-        <field name="htmltype" value="select"/>
-        <field name="htmlvalue" value="default"/>
-        <field name="htmlpossiblevalues" value="{default:'По умолчанию', sharp:'Без округления', rude:'Минимальное округление', soft:'Мягкое округление', sleek:'Значительное округление', oval:'Максимальное округление'}"/>
-        <field name="description" value="Форма кнопки на странице карточки товара"/>
-        <field name="active" value="1"/>
-    </object>
-    <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="product_button_shadow"/>
-        <field name="htmltype" value="select"/>
-        <field name="htmlvalue" value="default"/>
-        <field name="htmlpossiblevalues" value="{default:'По умолчанию', shadow:'Включена', noshadow:'Отключена'}"/>
-        <field name="description" value="Тень кнопки на странице карточки товара"/>
-        <field name="active" value="1"/>
-    </object>
-    <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="product_button_gradient"/>
-        <field name="htmltype" value="select"/>
-        <field name="htmlvalue" value="default"/>
-        <field name="htmlpossiblevalues" value="{default:'По умолчанию', flat:'Отключен', gradient:'Включен'}"/>
-        <field name="description" value="Градиент кнопки на странице карточки товара"/>
-        <field name="active" value="1"/>
-    </object>
-    <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="product_button_font_trans"/>
-        <field name="htmltype" value="select"/>
-        <field name="htmlvalue" value="default"/>
-        <field name="htmlpossiblevalues" value="{default:'По умолчанию', 'small':'Мелко', 'medium':'Средне', 'large':'Крупно'}"/>
-        <field name="description" value="Размер шрифта кнопки на странице карточки товара"/>
-        <field name="active" value="1"/>
-    </object>
-    <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="product_button_font_width"/>
-        <field name="htmltype" value="select"/>
-        <field name="htmlvalue" value="default"/>
-        <field name="htmlpossiblevalues" value="{default:'По умолчанию', 'normal':'Отключен', 'bold':'Включен'}"/>
-        <field name="description" value="Жирный шрифт текста кнопки на странице карточки товара"/>
-        <field name="active" value="1"/>
-    </object>
-    <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="product_button_text_case"/>
-        <field name="htmltype" value="select"/>
-        <field name="htmlvalue" value="default"/>
-        <field name="htmlpossiblevalues" value="{default:'По умолчанию', 'lowercase':'Нижний', 'standartcase':'Стандартный', 'upper':'Верхний'}"/>
-        <field name="description" value="Регистр текста кнопки на странице карточки товара"/>
-        <field name="active" value="1"/>
-    </object>
-    <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="product_button_height"/>
-        <field name="htmltype" value="text"/>
-        <field name="htmlvalue" value="auto"/>
-        <field name="htmlpossiblevalues" value=""/>
-        <field name="description" value="Высота кнопки на странице карточки товара"/>
-        <field name="active" value="1"/>
-    </object>
-    <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="product_button_width"/>
-        <field name="htmltype" value="text"/>
-        <field name="htmlvalue" value="auto"/>
-        <field name="htmlpossiblevalues" value=""/>
-        <field name="description" value="Ширина кнопки на странице карточки товара"/>
-        <field name="active" value="1"/>
-    </object>
-    <!-- category -->
-    <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="button_show_on_category"/>
-        <field name="htmltype" value="select"/>
-        <field name="htmlvalue" value="no"/>
-        <field name="htmlpossiblevalues" value="{yes:'Да',no:'Нет'}"/>
-        <field name="description" value="Показывать кнопку PayQR на странице категории товаров"/>
-        <field name="active" value="1"/>
-    </object>
-    <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="category_button_color"/>
-        <field name="htmltype" value="select"/>
-        <field name="htmlvalue" value="default"/>
-        <field name="htmlpossiblevalues" value="{default:'По умолчанию', green:'Зеленый', red:'Красный', 'blue':'Синий', orange: 'Оранжевый'}"/>
-        <field name="description" value="Цвет кнопки на странице категории товаров"/>
-        <field name="active" value="1"/>
-    </object>
-    <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="category_button_form"/>
-        <field name="htmltype" value="select"/>
-        <field name="htmlvalue" value="default"/>
-        <field name="htmlpossiblevalues" value="{default:'По умолчанию', sharp:'Без округления', rude:'Минимальное округление', soft:'Мягкое округление', sleek:'Значительное округление', oval:'Максимальное округление'}"/>
-        <field name="description" value="Форма кнопки на странице категории товаров"/>
-        <field name="active" value="1"/>
-    </object>
-    <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="category_button_shadow"/>
-        <field name="htmltype" value="select"/>
-        <field name="htmlvalue" value="default"/>
-        <field name="htmlpossiblevalues" value="{default:'По умолчанию', shadow:'Включена', noshadow:'Отключена'}"/>
-        <field name="description" value="Тень кнопки на странице категории товаров"/>
-        <field name="active" value="1"/>
-    </object>
-    <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="category_button_gradient"/>
-        <field name="htmltype" value="select"/>
-        <field name="htmlvalue" value="default"/>
-        <field name="htmlpossiblevalues" value="{default:'По умолчанию', flat:'Отключен', gradient:'Включен'}"/>
-        <field name="description" value="Градиент кнопки на странице категории товаров"/>
-        <field name="active" value="1"/>
-    </object>
-    <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="category_button_font_trans"/>
-        <field name="htmltype" value="select"/>
-        <field name="htmlvalue" value="default"/>
-        <field name="htmlpossiblevalues" value="{default:'По умолчанию', 'small':'Мелко', 'medium':'Средне', 'large':'Крупно'}"/>
-        <field name="description" value="Размер шрифта кнопки на странице категории товаров"/>
-        <field name="active" value="1"/>
-    </object>
-    <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="category_button_font_width"/>
-        <field name="htmltype" value="select"/>
-        <field name="htmlvalue" value="default"/>
-        <field name="htmlpossiblevalues" value="{default:'По умолчанию', 'normal':'Отключен', 'bold':'Включен'}"/>
-        <field name="description" value="Жирный шрифт текста кнопки на странице категории товаров"/>
-        <field name="active" value="1"/>
-    </object>
-    <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="category_button_text_case"/>
-        <field name="htmltype" value="select"/>
-        <field name="htmlvalue" value="default"/>
-        <field name="htmlpossiblevalues" value="{default:'По умолчанию', 'lowercase':'Нижний', 'standartcase':'Стандартный', 'upper':'Верхний'}"/>
-        <field name="description" value="Регистр текста кнопки на странице категории товара"/>
-        <field name="active" value="1"/>
-    </object>
-    <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="category_button_height"/>
-        <field name="htmltype" value="text"/>
-        <field name="htmlvalue" value="auto"/>
-        <field name="htmlpossiblevalues" value=""/>
-        <field name="description" value="Высота кнопки на странице категории товаров"/>
-        <field name="active" value="1"/>
-    </object>
-    <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="category_button_width"/>
-        <field name="htmltype" value="text"/>
-        <field name="htmlvalue" value="auto"/>
-        <field name="htmlpossiblevalues" value=""/>
-        <field name="description" value="Ширина кнопки на странице категории товаров"/>
-        <field name="active" value="1"/>
-    </object>
     <!-- common -->
-    <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="status_creatted"/>
-        <field name="htmltype" value="text"/>
-        <field name="htmlvalue" value=""/>
-        <field name="htmlpossiblevalues" value=""/>
-        <field name="description" value="Статус PayQR заказа 'создан'"/>
-        <field name="active" value="1"/>
-    </object>
-    <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="status_paid"/>
-        <field name="htmltype" value="text"/>
-        <field name="htmlvalue" value=""/>
-        <field name="htmlpossiblevalues" value=""/>
-        <field name="description" value="Статус PayQR заказа 'оплачен'"/>
-        <field name="active" value="1"/>
-    </object>
-    <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="status_cancelled"/>
-        <field name="htmltype" value="text"/>
-        <field name="htmlvalue" value=""/>
-        <field name="htmlpossiblevalues" value=""/>
-        <field name="description" value="Статус PayQR заказа 'отменен'"/>
-        <field name="active" value="1"/>
-    </object>
-    <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="status_completed"/>
-        <field name="htmltype" value="text"/>
-        <field name="htmlvalue" value=""/>
-        <field name="htmlpossiblevalues" value=""/>
-        <field name="description" value="Статус PayQR заказа 'завершен'"/>
-        <field name="active" value="1"/>
-    </object>
     <object class="payqr_item_rows" table="payqr_items">
         <field name="name" value="require_firstname"/>
         <field name="htmltype" value="select"/>
         <field name="htmlvalue" value="default"/>
-        <field name="htmlpossiblevalues" value="{default:'По умолчанию', deny:'Не запрашивать', required:'Запрашивать'}"/>
+        <field name="htmlpossiblevalues" value='{"default":"По умолчанию", "deny":"Не запрашивать", "required":"Запрашивать"}'/>
         <field name="description" value="Запрашивать имя покупателя"/>
         <field name="active" value="1"/>
     </object>
@@ -328,7 +126,7 @@
         <field name="name" value="require_lastname"/>
         <field name="htmltype" value="select"/>
         <field name="htmlvalue" value="default"/>
-        <field name="htmlpossiblevalues" value="{default:'По умолчанию', deny:'Не запрашивать', required:'Запрашивать'}"/>
+        <field name="htmlpossiblevalues" value='{"default":"По умолчанию", "deny":"Не запрашивать", "required":"Запрашивать"}'/>
         <field name="description" value="Запрашивать фамилию покупателя"/>
         <field name="active" value="1"/>
     </object>
@@ -336,7 +134,7 @@
         <field name="name" value="require_middlename"/>
         <field name="htmltype" value="select"/>
         <field name="htmlvalue" value="default"/>
-        <field name="htmlpossiblevalues" value="{default:'По умолчанию', deny:'Не запрашивать', required:'Запрашивать'}"/>
+        <field name="htmlpossiblevalues" value='{"default":"По умолчанию", "deny":"Не запрашивать", "required":"Запрашивать"}'/>
         <field name="description" value="Запрашивать отчество покупателя"/>
         <field name="active" value="1"/>
     </object>
@@ -344,7 +142,7 @@
         <field name="name" value="require_phone"/>
         <field name="htmltype" value="select"/>
         <field name="htmlvalue" value="default"/>
-        <field name="htmlpossiblevalues" value="{default:'По умолчанию', deny:'Не запрашивать', required:'Запрашивать'}"/>
+        <field name="htmlpossiblevalues" value='{"default":"По умолчанию", "deny":"Не запрашивать", "required":"Запрашивать"}'/>
         <field name="description" value="Запрашивать номер телефона покупателя"/>
         <field name="active" value="1"/>
     </object>
@@ -352,7 +150,7 @@
         <field name="name" value="require_email"/>
         <field name="htmltype" value="select"/>
         <field name="htmlvalue" value="default"/>
-        <field name="htmlpossiblevalues" value="{default:'По умолчанию', deny:'Не запрашивать', required:'Запрашивать'}"/>
+        <field name="htmlpossiblevalues" value='{"default":"По умолчанию", "deny":"Не запрашивать", "required":"Запрашивать"}'/>
         <field name="description" value="Запрашивать заполнения e-mail покупателем"/>
         <field name="active" value="1"/>
     </object>
@@ -360,7 +158,7 @@
         <field name="name" value="require_delivery"/>
         <field name="htmltype" value="select"/>
         <field name="htmlvalue" value="default"/>
-        <field name="htmlpossiblevalues" value="{default:'По умолчанию', deny:'Не запрашивать', required:'Запрашивать', nonrequired:'Запросить после оплаты'}"/>
+        <field name="htmlpossiblevalues" value='{"default":"По умолчанию", "deny":"Не запрашивать", "required":"Запрашивать", "nonrequired":"Запросить после оплаты"}'/>
         <field name="description" value="Запрашивать адрес доставки"/>
         <field name="active" value="1"/>
     </object>
@@ -368,7 +166,7 @@
         <field name="name" value="require_deliverycases"/>
         <field name="htmltype" value="select"/>
         <field name="htmlvalue" value="default"/>
-        <field name="htmlpossiblevalues" value="{default:'По умолчанию', deny:'Не запрашивать', required:'Запрашивать'}"/>
+        <field name="htmlpossiblevalues" value='{"default":"По умолчанию", "deny":"Не запрашивать", "required":"Запрашивать"}'/>
         <field name="description" value="Могут ли быть в магазине способы доставки"/>
         <field name="active" value="1"/>
     </object>
@@ -376,7 +174,7 @@
         <field name="name" value="require_pickpoints"/>
         <field name="htmltype" value="select"/>
         <field name="htmlvalue" value="default"/>
-        <field name="htmlpossiblevalues" value="{default:'По умолчанию', deny:'Не запрашивать', required:'Запрашивать'}"/>
+        <field name="htmlpossiblevalues" value='{"default":"По умолчанию", "deny":"Не запрашивать", "required":"Запрашивать"}'/>
         <field name="description" value="Могут ли быть в магазине точки самовывоза"/>
         <field name="active" value="1"/>
     </object>
@@ -384,7 +182,7 @@
         <field name="name" value="require_promo_code"/>
         <field name="htmltype" value="select"/>
         <field name="htmlvalue" value="default"/>
-        <field name="htmlpossiblevalues" value="{default:'По умолчанию', deny:'Не запрашивать', nonrequired:'Запросить после оплаты'}"/>
+        <field name="htmlpossiblevalues" value='{"default":"По умолчанию", "deny":"Не запрашивать", "nonrequired":"Запросить после оплаты"}'/>
         <field name="description" value="Предлагать ввести промо-код"/>
         <field name="active" value="1"/>
     </object>
@@ -392,7 +190,7 @@
         <field name="name" value="require_promo_card"/>
         <field name="htmltype" value="select"/>
         <field name="htmlvalue" value="default"/>
-        <field name="htmlpossiblevalues" value="{default:'По умолчанию', deny:'Не запрашивать', nonrequired:'Запросить после оплаты'}"/>
+        <field name="htmlpossiblevalues" value='{"default":"По умолчанию", "deny":"Не запрашивать", "nonrequired":"Запросить после оплаты"}'/>
         <field name="description" value="Предлагать ввести карту лояльности"/>
         <field name="active" value="1"/>
     </object>
