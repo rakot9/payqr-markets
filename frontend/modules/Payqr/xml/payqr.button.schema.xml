@@ -46,7 +46,7 @@
         <field name="htmltype" value="select"/>
         <field name="htmlvalue" value="default"/>
         <field name="htmlpossiblevalues" value='{"default":"По умолчанию", "green":"Зеленый", "red":"Красный", "blue":"Синий", "orange": "Оранжевый"}'/>
-        <field name="description" value="Цвет кнопки на странице корзины товаров"/>
+        <field name="description" value="Цвет кнопки"/>
         <field name="active" value="1"/>
     </object>
     <object class="payqr_item_rows" table="payqr_items">
@@ -54,7 +54,7 @@
         <field name="htmltype" value="select"/>
         <field name="htmlvalue" value="default"/>
         <field name="htmlpossiblevalues" value='{"default":"По умолчанию", "sharp":"Без округления", "rude":"Минимальное округление", "soft":"Мягкое округление", "sleek":"Значительное округление", "oval":"Максимальное округление"}'/>
-        <field name="description" value="Форма кнопки на странице корзины товаров"/>
+        <field name="description" value="Форма кнопки"/>
         <field name="active" value="1"/>
     </object>
     <object class="payqr_item_rows" table="payqr_items">
@@ -62,7 +62,7 @@
         <field name="htmltype" value="select"/>
         <field name="htmlvalue" value="default"/>
         <field name="htmlpossiblevalues" value='{"default":"По умолчанию", "shadow":"Включена", "noshadow":"Отключена"}'/>
-        <field name="description" value="Тень кнопки на странице корзины товаров"/>
+        <field name="description" value="Тень кнопки"/>
         <field name="active" value="1"/>
     </object>
     <object class="payqr_item_rows" table="payqr_items">
@@ -70,7 +70,7 @@
         <field name="htmltype" value="select"/>
         <field name="htmlvalue" value="default"/>
         <field name="htmlpossiblevalues" value='{"default":"По умолчанию", "flat":"Отключен", "gradient":"Включен"}'/>
-        <field name="description" value="Градиент кнопки на странице корзины товаров"/>
+        <field name="description" value="Градиент кнопки"/>
         <field name="active" value="1"/>
     </object>
     <object class="payqr_item_rows" table="payqr_items">
@@ -78,7 +78,7 @@
         <field name="htmltype" value="select"/>
         <field name="htmlvalue" value="default"/>
         <field name="htmlpossiblevalues" value='{"default":"По умолчанию", "small":"Мелко", "medium":"Средне", "large":"Крупно"}'/>
-        <field name="description" value="Размер шрифта кнопки на странице корзины товаров"/>
+        <field name="description" value="Размер шрифта"/>
         <field name="active" value="1"/>
     </object>
     <object class="payqr_item_rows" table="payqr_items">
@@ -86,7 +86,7 @@
         <field name="htmltype" value="select"/>
         <field name="htmlvalue" value="default"/>
         <field name="htmlpossiblevalues" value='{"default":"По умолчанию", "normal":"Отключен", "bold":"Включен"}'/>
-        <field name="description" value="Жирный шрифт текста кнопки на странице корзины товаров"/>
+        <field name="description" value="Жирный шрифт"/>
         <field name="active" value="1"/>
     </object>
     <object class="payqr_item_rows" table="payqr_items">
@@ -94,7 +94,7 @@
         <field name="htmltype" value="select"/>
         <field name="htmlvalue" value="default"/>
         <field name="htmlpossiblevalues" value='{"default":"По умолчанию", "lowercase":"Нижний", "standartcase":"Стандартный", "upper":"Верхний"}'/>
-        <field name="description" value="Регистр текста кнопки на странице корзины товара"/>
+        <field name="description" value="Регистр текста"/>
         <field name="active" value="1"/>
     </object>
     <object class="payqr_item_rows" table="payqr_items">
@@ -102,7 +102,7 @@
         <field name="htmltype" value="text"/>
         <field name="htmlvalue" value="auto"/>
         <field name="htmlpossiblevalues" value=""/>
-        <field name="description" value="Высота кнопки на странице корзины товаров"/>
+        <field name="description" value="Высота кнопки"/>
         <field name="active" value="1"/>
     </object>
     <object class="payqr_item_rows" table="payqr_items">
@@ -110,7 +110,7 @@
         <field name="htmltype" value="text"/>
         <field name="htmlvalue" value="auto"/>
         <field name="htmlpossiblevalues" value=""/>
-        <field name="description" value="Ширина кнопки на странице корзины товаров"/>
+        <field name="description" value="Ширина кнопки"/>
         <field name="active" value="1"/>
     </object>
     <!-- common -->
