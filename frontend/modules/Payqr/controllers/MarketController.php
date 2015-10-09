@@ -11,8 +11,13 @@ class MarketController extends Controller
     {
         $markets = new Market();
         
-        $markets->getMarkets();
-        
-        return $this->render('index');
+        return $this->render('index', [
+            'dataProvider' => new \yii\data\ActiveDataProvider([
+                'query' => $markets->getMarkets(),
+                'pagination' => [
+                    'pageSize' => 10,
+                ]
+            ])
+        ]);
     }
 }
