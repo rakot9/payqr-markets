@@ -15,4 +15,10 @@ class ButtonController extends Controller
             'button' => $button
         ]);
     }
+    
+    public function actionCreate()
+    {
+        var_dump($_POST);
+        exit();
+    }
 }

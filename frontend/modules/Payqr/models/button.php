@@ -39,7 +39,7 @@ class Button extends \yii\base\Model{
     {
         $xml_structure = $this->getStructure();
         
-        $html = \yii\bootstrap\Html::beginForm('?r=payqr/button/index', 'post', []);
+        $html = \yii\bootstrap\Html::beginForm('?r=payqr/button/create', 'post', []);
         
         $html .= \yii\bootstrap\Html::csrfMetaTags();
         
