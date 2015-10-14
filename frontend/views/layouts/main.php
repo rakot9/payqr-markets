@@ -36,7 +36,7 @@ AppAsset::register($this);
     ]);
     $menuItems = [
         ['label' => 'На главную', 'url' => ['/site/index']],
-        ['label' => 'Конструктор кнопки', 'url' => ['/button/index']],
+        ['label' => 'Конструктор кнопки', 'url' => ['/payqr/button/index']],
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
