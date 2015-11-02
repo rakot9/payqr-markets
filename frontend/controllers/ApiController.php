@@ -1,6 +1,11 @@
 <?php
 namespace frontend\controllers;
 use Yii;
+use yii\base\InvalidParamException;
+use yii\web\BadRequestHttpException;
+use yii\web\Controller;
+use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 class ApiController extends Controller
 {
@@ -10,7 +15,7 @@ class ApiController extends Controller
 
         $modelName = Yii::$app->request->get("model");
 
-        $this->_sendResponse(200, CJSON::encode(["OK List"]));
+        $this->_sendResponse(200, json_encode(["OK List"]));
     }
     
     private function _sendResponse($status = 200, $body = '', $content_type = 'text/html; charset=utf-8')
