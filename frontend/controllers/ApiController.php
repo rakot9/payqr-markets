@@ -1,23 +1,29 @@
 <?php
 namespace frontend\controllers;
+
 use Yii;
-use yii\base\InvalidParamException;
-use yii\web\BadRequestHttpException;
 use yii\web\Controller;
-use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
+use yii\helpers\Json;
+use frontend\models\Report;
 
 class ApiController extends Controller
 {
-    public function actionList()
+    public function actionView()
     {
         $this->_checkAuth();
 
-        $modelName = Yii::$app->request->get("model");
+        //Yii::$app->request->get("user_id")
+        
+//        if(empty($pasport))
+//            $this->_sendResponse(404, "No Item found with id " . Yii::$app->request->get("user_id"));
+//        else
+//            $this->_sendResponse(200, Json::encode($pasport));
+        
+        $this->_sendResponse(200, Json::encode(["List OK"]));
 
-        $this->_sendResponse(200, json_encode(["OK List"]));
+        Yii::$app->end();
     }
-    
+
     private function _sendResponse($status = 200, $body = '', $content_type = 'text/html; charset=utf-8')
     {
         // set the status
@@ -80,7 +86,11 @@ class ApiController extends Controller
         }
         Yii::$app->end();
     }
-    
+
+    /**
+     * @param $status
+     * @return string
+     */
     private function _getStatusCodeMessage($status)
     {
         // these could be stored in a .ini file and loaded
@@ -98,18 +108,21 @@ class ApiController extends Controller
         );
         return (isset($codes[$status])) ? $codes[$status] : '';
     }
-    
+
+    /**
+     * @param null $x_api_key
+     * @return bool
+     */
     private function _checkAuth($x_api_key = null)
     {
         return true;
         
-        if(isset($_SERVER['HTTP_X_API_KEY']) || !empty($x_api_key))
+        if(Yii::$app->request->get('HTTP_X_API_KEY') || !empty($x_api_key))
         {
-            $apiKey = isset($_SERVER['HTTP_X_API_KEY'])?$_SERVER['HTTP_X_API_KEY'] : $x_api_key;
-            $user = RestUser::model()->findByAttributes(array("api_key"=>$apiKey));
-            if($user)
+            $apiKey = Yii::$app->request->get('HTTP_X_API_KEY')?Yii::$app->request->get('HTTP_X_API_KEY') : $x_api_key;
+
+            if($apiKey == "EW5ERdsfwref23")
             {
-                $this->user = $user;
                 return true;
             }
             else
