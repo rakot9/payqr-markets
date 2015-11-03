@@ -5,9 +5,13 @@ use Yii;
 use yii\web\Controller;
 use yii\helpers\Json;
 use frontend\models\Restget;
+use frontend\modules\Payqr\models\Button;
+use frontend\modules\Payqr\models\Market;
 
 class ApiController extends Controller
 {
+    public $market;
+    
     public function actionView()
     {
         $this->_checkAuth();
@@ -32,7 +36,7 @@ class ApiController extends Controller
         
         $callback = \Yii::$app->request->get("callback");
         
-        $sendData = Restget::getResource($typeResource);
+        $sendData = Restget::getResource($typeResource, $this->market);
         
         if(is_array($sendData))
         {
@@ -135,9 +139,11 @@ class ApiController extends Controller
      */
     private function _checkAuth($x_api_key = null)
     {
-        return true;
+        $marketObj = new Market();
         
-        if(Yii::$app->request->get('HTTP_X_API_KEY') || !empty($x_api_key))
+        $this->market = $marketObj->getMarket(Yii::$app->request->get('merchant_id'));
+        
+        if(Yii::$app->request->get('HTTP_X_API_KEY') || !empty($x_api_key) || !$this->market)
         {
             $apiKey = Yii::$app->request->get('HTTP_X_API_KEY')?Yii::$app->request->get('HTTP_X_API_KEY') : $x_api_key;
 

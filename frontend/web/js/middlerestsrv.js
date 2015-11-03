@@ -1,3 +1,6 @@
+var merchant_id = "094711-13811";
+
+
 function initBasketButton(callback, type){
     
     if(callback && $.isFunction(callback))
@@ -16,7 +19,7 @@ function initBasketButton(callback, type){
         
         type: 'GET',
         
-        url: 'http://insales.payqr-sites.qrteam.ru/?r=api/get&HTTP_X_API_KEY=EW5ERdsfwref23&type=' + type + '&callback=' + callback,
+        url: 'http://insales.payqr-sites.qrteam.ru/?r=api/get&HTTP_X_API_KEY=EW5ERdsfwref23&type=' + type + '&callback=' + callback + '&merchant_id=' + merchant_id,
         
         dataType: "jsonp",
         
@@ -26,20 +29,40 @@ function initBasketButton(callback, type){
         {
             console.log(response);
             
-            try{
-                data = $.parseJSON(response);
+            if(typeof response ==  "object")
+            {
+                data = response;
 
-                if(typeof data.cart == "undefined" || data.cart.length == 0)
+                if(typeof data.button == "undefined")
                 {
                     console.log("Промежуточный сервер вернул данные в некорректном формате!");
+                    
                     return false;
                 }
+                else
+                {
+                    return data.button;
+                }
 
-                return data.cart;
+                return "";
             }
-            catch(e){
-                console.log("Не смогли получить данные с промежуточного сервера в нужном формате!");
-                return false;
+            if($.parseJSON(response))
+            {
+                try{
+                    var data = $.parseJSON(response);
+
+                    if(typeof data.cart == "undefined" || data.cart.length == 0)
+                    {
+                        console.log("Промежуточный сервер вернул данные в некорректном формате!");
+                        return false;
+                    }
+
+                    return data.cart;
+                }
+                catch(e){
+                    console.log("Не смогли получить данные с промежуточного сервера в нужном формате!");
+                    return false;
+                }
             }
             return false;
         }
@@ -48,7 +71,9 @@ function initBasketButton(callback, type){
 
 function callbackBasketButton(data)
 {
-    console.log(data.data);
+    console.log(data);
+    
+    var button = $('button[class=payqr-button]').attr(data);
 }
     
 function setCart()
@@ -61,8 +86,6 @@ function setCart()
     {
         console.log("Basket items ia array");
     }
-    
-    var button = $('button[class=payqr-button]');
 }
 
 $(function(){
