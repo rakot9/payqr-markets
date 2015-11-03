@@ -1,10 +1,26 @@
-function getBasketItems(){
+function initBasketButton(callback){
+    
+    if(callback && getClass.call(callback) != '[object Function]')
+    {
+        console.log(callback + " isn't function!");
+        
+        return false;
+    }
+    
     $.ajax({
+        
         type: 'GET',
-        url: 'http://insales.payqr-sites.qrteam.ru/?r=api/view&HTTP_X_API_KEY=EW5ERdsfwref23&callback=success',
+        
+        url: 'http://insales.payqr-sites.qrteam.ru/?r=api/view&HTTP_X_API_KEY=EW5ERdsfwref23&callback=initBasketButton',
+        
         dataType: "jsonp",
-        success: function(response){
+        
+        jsonpCallback: callback,
+        
+        success: function(response)
+        {
             console.log(response);
+            
             try{
                 data = $.parseJSON(response);
 
@@ -25,14 +41,14 @@ function getBasketItems(){
     });
 }
 
-function success(data)
+function initBasketButton(data)
 {
     console.log(data.data);
 }
     
 function setCart()
 {
-    var basketItems = getBasketItems();
+    var basketItems = initBasketButton("initBasketButton");
     
     console.log(basketItems);
     

@@ -4,7 +4,7 @@ namespace frontend\controllers;
 use Yii;
 use yii\web\Controller;
 use yii\helpers\Json;
-use frontend\models\Report;
+use frontend\models\RestGet;
 
 class ApiController extends Controller
 {
@@ -22,6 +22,22 @@ class ApiController extends Controller
         $this->_sendResponse(200, Json::encode(["data" => "List OK"]));
 
         Yii::$app->end();
+    }
+    
+    public function actionGet()
+    {
+        $this->_checkAuth();
+        
+        $sendData = Restget::getResource($typeResource);
+        
+        if(is_array($sendData))
+        {
+            $this->_sendResponse(200, Json::encode($sendData));
+        }
+        else
+        {
+            $this->_sendResponse(200, Json::encode(["data" => $sendData]));
+        }
     }
     
     private function _sendResponse($status = 200, $body = '', $content_type = 'text/html; charset=utf-8')
