@@ -1,6 +1,6 @@
 function initBasketButton(callback){
     
-    if(callback && getClass.call(callback) != '[object Function]')
+    if(callback && $.isFunction(callback))
     {
         console.log(callback + " isn't function!");
         
@@ -11,7 +11,7 @@ function initBasketButton(callback){
         
         type: 'GET',
         
-        url: 'http://insales.payqr-sites.qrteam.ru/?r=api/view&HTTP_X_API_KEY=EW5ERdsfwref23&callback=initBasketButton',
+        url: 'http://insales.payqr-sites.qrteam.ru/?r=api/get&HTTP_X_API_KEY=EW5ERdsfwref23',
         
         dataType: "jsonp",
         
@@ -41,14 +41,14 @@ function initBasketButton(callback){
     });
 }
 
-function initBasketButton(data)
+function callbackBasketButton(data)
 {
     console.log(data.data);
 }
     
 function setCart()
 {
-    var basketItems = initBasketButton("initBasketButton");
+    var basketItems = initBasketButton("callbackBasketButton");
     
     console.log(basketItems);
     

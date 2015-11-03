@@ -4,7 +4,7 @@ namespace frontend\controllers;
 use Yii;
 use yii\web\Controller;
 use yii\helpers\Json;
-use frontend\models\RestGet;
+use frontend\models\Restget;
 
 class ApiController extends Controller
 {
