@@ -19,11 +19,11 @@ class ApiController extends Controller
 //        else
 //            $this->_sendResponse(200, Json::encode($pasport));
         
-        $this->_sendResponse(200, Json::encode(["List OK"]));
+        $this->_sendResponse(200, Json::encode(["data" => "List OK"]));
 
         Yii::$app->end();
     }
-
+    
     private function _sendResponse($status = 200, $body = '', $content_type = 'text/html; charset=utf-8')
     {
         // set the status
