@@ -28,6 +28,8 @@ class ApiController extends Controller
     {
         $this->_checkAuth();
         
+        $typeResource = \Yii::$app->request->get("type");
+        
         $sendData = Restget::getResource($typeResource);
         
         if(is_array($sendData))

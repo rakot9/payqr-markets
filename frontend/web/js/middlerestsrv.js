@@ -1,9 +1,14 @@
-function initBasketButton(callback){
+function initBasketButton(callback, type){
     
     if(callback && $.isFunction(callback))
     {
         console.log(callback + " isn't function!");
         
+        return false;
+    }
+    
+    if(!type)
+    {
         return false;
     }
     
@@ -48,7 +53,7 @@ function callbackBasketButton(data)
     
 function setCart()
 {
-    var basketItems = initBasketButton("callbackBasketButton");
+    var basketItems = initBasketButton("callbackBasketButton", "button");
     
     console.log(basketItems);
     
