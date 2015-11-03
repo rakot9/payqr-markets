@@ -16,7 +16,7 @@ function initBasketButton(callback, type){
         
         type: 'GET',
         
-        url: 'http://insales.payqr-sites.qrteam.ru/?r=api/get&HTTP_X_API_KEY=EW5ERdsfwref23',
+        url: 'http://insales.payqr-sites.qrteam.ru/?r=api/get&HTTP_X_API_KEY=EW5ERdsfwref23&type=' + type + '&callback=' + callback,
         
         dataType: "jsonp",
         

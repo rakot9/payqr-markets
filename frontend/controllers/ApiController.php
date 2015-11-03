@@ -30,15 +30,17 @@ class ApiController extends Controller
         
         $typeResource = \Yii::$app->request->get("type");
         
+        $callback = \Yii::$app->request->get("callback");
+        
         $sendData = Restget::getResource($typeResource);
         
         if(is_array($sendData))
         {
-            $this->_sendResponse(200, Json::encode($sendData));
+            $this->_sendResponse(200, $callback . "(" . Json::encode($sendData) . ")" );
         }
         else
         {
-            $this->_sendResponse(200, Json::encode(["data" => $sendData]));
+            $this->_sendResponse(200, $callback . "(" . Json::encode(["data" => $sendData]) . ")" );
         }
     }
     
