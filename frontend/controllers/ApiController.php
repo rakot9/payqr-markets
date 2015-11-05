@@ -47,7 +47,7 @@ class ApiController extends Controller
         
         if(is_array($sendData))
         {
-            $this->_sendResponse(200, $callback . "(" . Json::encode($sendData) . ")" );
+            $this->_sendResponse(200, $callback . "(" . Json::encode(["data" => $sendData]) . ")" );
         }
         else
         {
