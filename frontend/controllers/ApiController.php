@@ -30,13 +30,20 @@ class ApiController extends Controller
     
     public function actionGet()
     {
+        $param = array();
+                
         $this->_checkAuth();
         
         $typeResource = \Yii::$app->request->get("type");
         
+        if(strtolower($typeResource) == "button")
+        {
+            $param["button"]["place"] = \Yii::$app->request->get("place") ? \Yii::$app->request->get("place") : "cart";
+        }
+        
         $callback = \Yii::$app->request->get("callback");
         
-        $sendData = Restget::getResource($typeResource, $this->market);
+        $sendData = Restget::getResource($typeResource, $this->market, $param);
         
         if(is_array($sendData))
         {

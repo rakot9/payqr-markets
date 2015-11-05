@@ -5,7 +5,7 @@ use Yii;
 use yii\base\Model;
 use light\yii2\XmlParser;
 use yii\helpers\Html;
-use frontend\models\Market;
+use frontend\modules\Payqr\models\Market;
 
 class Button extends \yii\base\Model{
     
@@ -13,7 +13,11 @@ class Button extends \yii\base\Model{
      * @var type 
      */
     private static $instance;
-
+    
+    private $ShowInPlace = array("cart", "product", "category");
+    
+    private $buttonXmlStructure = array();
+    
     /**
      * В классе реализован singletone, конструктор не используем
      */
@@ -36,11 +40,15 @@ class Button extends \yii\base\Model{
     /**
      * Инициализация кнопки
      */
-    public function init(Market $market = null)
+    public function init(\frontend\models\Market $market = null)
     {
         if($market && isset($market->settings))
         {
             $settings = json_decode($market->settings, true);
+        }
+        else
+        {
+            $settings = array();
         }
         
         $xml_structure = $this->getStructure();
@@ -49,36 +57,81 @@ class Button extends \yii\base\Model{
         
         $html .= \yii\bootstrap\Html::csrfMetaTags();
         
+        //инициализируем общие настройки кнопки
         foreach($xml_structure as $row)
         {
-            $button_option = $row['field'];
-            
-            $html .= \yii\bootstrap\Html::beginTag("div", ['class' => 'row form-group']);
-                $html .= \yii\bootstrap\Html::beginTag("div", ['class' => 'col-xs-6']);
-                $html .= $button_option[4]['@attributes']['value'];
-                $html .= \yii\bootstrap\Html::endTag("div");
-                
-                $html .= \yii\bootstrap\Html::beginTag("div", ['class' => 'col-xs-6']);
-                
-                $fieldName = $button_option[0]['@attributes']['value'];
-                
-                switch ($button_option[1]['@attributes']['value'])
-                {
-                    case 'text':
-                        $html .= \yii\bootstrap\Html::textInput($fieldName, isset($settings[$fieldName])? $settings[$fieldName] : "" );
-                        break;
-                    case 'select':
-                        $select = json_decode($button_option[3]['@attributes']['value'], true);
-                        $html .= \yii\bootstrap\Html::dropDownList($fieldName, isset($settings[$fieldName])? $settings[$fieldName] : "", $select);
-                        break;
-                }
-                
-                $html .= \yii\bootstrap\Html::endTag("div");
-            $html .= \yii\bootstrap\Html::endTag("div");
+            if(isset($row['field'][0]['@attributes']['value']) && !$this->buttonStructure($row))
+            {
+                $html.= $this->generateHtml($row, $settings);
+            }
         }
+        //инициализиурем параметры кнопки в соответствии с местом отображения
+        foreach($this->ShowInPlace as $place)
+        {
+            foreach($this->buttonXmlStructure as $xmlrow)
+            {
+                $html.= $this->generateHtml($xmlrow, $settings, $place);
+            }
+        }
+        
         $html .= \yii\bootstrap\Html::submitButton('Создать кнопку');
         $html .= \yii\bootstrap\Html::endForm();
+        
         return $html;
+    }
+    
+    /**
+     * 
+     * @param type $xmlRow
+     * @param type $settings
+     * @param type $place - Для какого места (карточка товара, корзина, категория товара) будет настраиваться настройка
+     * @return type
+     */
+    private function generateHtml($xmlRow, $settings, $place = false)
+    {
+        $html = "";
+        
+        $button_option = $xmlRow['field'];
+            
+        $html .= \yii\bootstrap\Html::beginTag("div", ['class' => 'row form-group']);
+            $html .= \yii\bootstrap\Html::beginTag("div", ['class' => 'col-xs-6']);
+            $html .= $button_option[4]['@attributes']['value'];
+            $html .= \yii\bootstrap\Html::endTag("div");
+
+            $html .= \yii\bootstrap\Html::beginTag("div", ['class' => 'col-xs-6']);
+
+            $fieldName = $place ? $place . $button_option[0]['@attributes']['value'] : $button_option[0]['@attributes']['value'];
+
+            switch ($button_option[1]['@attributes']['value'])
+            {
+                case 'text':
+                    $html .= \yii\bootstrap\Html::textInput($fieldName, isset($settings[$fieldName])? $settings[$fieldName] : "" );
+                    break;
+                case 'select':
+                    $select = json_decode($button_option[3]['@attributes']['value'], true);
+                    $html .= \yii\bootstrap\Html::dropDownList($fieldName, isset($settings[$fieldName])? $settings[$fieldName] : "", $select);
+                    break;
+            }
+
+            $html .= \yii\bootstrap\Html::endTag("div");
+        $html .= \yii\bootstrap\Html::endTag("div");
+        
+        return $html;
+    }
+    
+    private function buttonStructure($xmlRow)
+    {
+        $button_option = $xmlRow['field'];
+        
+        $fieldName = $button_option[0]['@attributes']['value'];
+        
+        if(strpos($fieldName, "button") !== false)
+        {
+            $this->buttonXmlStructure[] = $xmlRow;
+            
+            return true;
+        }
+        return false;
     }
     
     /**
@@ -96,6 +149,45 @@ class Button extends \yii\base\Model{
             
             return isset($xmlObject['object']) ? $xmlObject['object'] : array();
         }
+        return array();
+    }
+    
+    public function prepareStruct2Json(\frontend\models\Market $market = null, $place = "cart")
+    {
+        // создаем критерий, по которому будем отбирать параметры кнопок
+        $filter = array($place, "required");
+        
+        if(isset($market->settings) && !empty($market->settings))
+        {
+            $settings = json_decode($market->settings, true);
+            
+            $buttonSettings = array();
+            
+            if(is_array($settings))
+            {
+                $button = array();
+                //начинаем преобразовывать кнопку к нужному для нас виду
+                //параллельно отсеиваем значения по фильтру из переменной $filter
+                
+                foreach($settings as $key => $setting)
+                {
+                    //проверяем соответсвие
+                    foreach ($filter as $filtered_value)
+                    {
+                        if(strpos($key, $filtered_value) !== false)
+                        {
+                            $key = $filtered_value == $place? str_replace($place, "", $key) : $key;
+                            $key = str_replace("_", "-", $key);
+                            $key = "data-" . $key;
+                            $buttonSettings[ $key ] = $setting;
+                            break;
+                        }
+                    }
+                }
+            }
+            return $buttonSettings;
+        }
+        
         return array();
     }
 }

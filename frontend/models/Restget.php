@@ -3,10 +3,18 @@
 namespace frontend\models;
 
 use Yii;
+use frontend\modules\Payqr\models\Button;
 
 class Restget extends \yii\db\ActiveRecord{
     
-    static public function getResource($typeResource, $merchant)
+    /**
+     * 
+     * @param type $typeResource
+     * @param \frontend\models\Market $market
+     * @param type $param
+     * @return string
+     */
+    static public function getResource($typeResource, Market $market, $param = array())
     {
         $resource = "";
         
@@ -17,7 +25,10 @@ class Restget extends \yii\db\ActiveRecord{
                 $resource = "button";
                 
                 //получаем состояние кнопки
-                $resource = isset($merchant->settings)? $merchant->settings : "";
+                $resource = isset($market->settings)? $market->settings : "";
+                
+                //преобразуем данные кнопки
+                $resource = Button::getInstance()->prepareStruct2Json($market, isset($param[$typeResource]["place"])? $param[$typeResource]["place"] : "cart" );
                         
                 break;
             

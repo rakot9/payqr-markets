@@ -1,7 +1,7 @@
 var merchant_id = "094711-13811";
 
 
-function initBasketButton(callback, type){
+function initButton(callback, place){
     
     if(callback && $.isFunction(callback))
     {
@@ -10,7 +10,7 @@ function initBasketButton(callback, type){
         return false;
     }
     
-    if(!type)
+    if(!place)
     {
         return false;
     }
@@ -19,7 +19,7 @@ function initBasketButton(callback, type){
         
         type: 'GET',
         
-        url: 'http://insales.payqr-sites.qrteam.ru/?r=api/get&HTTP_X_API_KEY=EW5ERdsfwref23&type=' + type + '&callback=' + callback + '&merchant_id=' + merchant_id,
+        url: 'http://insales.payqr-sites.qrteam.ru/?r=api/get&HTTP_X_API_KEY=EW5ERdsfwref23&type=button&callback=' + callback + '&merchant_id=' + merchant_id + '&place=' + place,
         
         dataType: "jsonp",
         
@@ -80,7 +80,7 @@ function callbackBasketButton(data)
     
 function setCart()
 {
-    var basketItems = initBasketButton("callbackBasketButton", "button");
+    var basketItems = initButton("callbackBasketButton", "cart");
     
     console.log(basketItems);
     
