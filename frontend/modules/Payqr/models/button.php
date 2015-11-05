@@ -69,7 +69,7 @@ class Button extends \yii\base\Model{
                         break;
                     case 'select':
                         $select = json_decode($button_option[3]['@attributes']['value'], true);
-                        $html .= \yii\bootstrap\Html::dropDownList($fieldName, 1, $select);
+                        $html .= \yii\bootstrap\Html::dropDownList($fieldName, isset($settings[$fieldName])? $settings[$fieldName] : "", $select);
                         break;
                 }
                 

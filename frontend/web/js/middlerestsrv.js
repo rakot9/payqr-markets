@@ -71,9 +71,11 @@ function initBasketButton(callback, type){
 
 function callbackBasketButton(data)
 {
-    console.log(data);
-    
-    var button = $('button[class=payqr-button]').attr(data);
+    if(data.data)
+    {        
+        var button = $('button[class=payqr-button]').attr(data.data);
+        console.log(data.data);
+    }
 }
     
 function setCart()
