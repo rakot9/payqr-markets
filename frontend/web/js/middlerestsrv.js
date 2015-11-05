@@ -27,8 +27,6 @@ function initButton(callback, place){
         
         success: function(response)
         {
-            console.log(response);
-            
             if(typeof response ==  "object")
             {
                 data = response;
@@ -72,17 +70,29 @@ function initButton(callback, place){
 function callbackBasketButton(data)
 {
     if(data.data)
-    {        
-        var button = $('button[class=payqr-button]').attr(data.data);
+    {
         console.log(data.data);
+        
+        var button = $('button[class=payqr-button]');
+        
+        if(typeof data.data.class != "undefined")
+        {
+            button.addClass(data.data.class.join(" "));
+        }
+        if(typeof data.data.style != "undefined")
+        {
+            button.attr("style", data.data.style.join(";"));
+        }
+        if(typeof data.data.attr != "undefined")
+        {
+            button.attr(data.data.attr);
+        }
     }
 }
     
 function setCart()
 {
     var basketItems = initButton("callbackBasketButton", "cart");
-    
-    console.log(basketItems);
     
     if(typeof basketItems == "Array")
     {

@@ -90,10 +90,10 @@
         <field name="active" value="1"/>
     </object>
     <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="payqr-button_text_case"/>
+        <field name="name" value="payqr-button_text"/>
         <field name="htmltype" value="select"/>
         <field name="htmlvalue" value="default"/>
-        <field name="htmlpossiblevalues" value='{"default":"По умолчанию", "lowercase":"Нижний", "standartcase":"Стандартный", "upper":"Верхний"}'/>
+        <field name="htmlpossiblevalues" value='{"default":"По умолчанию", "lowercase":"Нижний", "standartcase":"Стандартный", "uppercase":"Верхний"}'/>
         <field name="description" value="Регистр текста"/>
         <field name="active" value="1"/>
     </object>
