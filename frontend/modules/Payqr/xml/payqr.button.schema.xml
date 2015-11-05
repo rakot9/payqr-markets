@@ -42,7 +42,7 @@
     </object>
     <!-- cart -->
     <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="button_color"/>
+        <field name="name" value="payqr-button_color"/>
         <field name="htmltype" value="select"/>
         <field name="htmlvalue" value="default"/>
         <field name="htmlpossiblevalues" value='{"default":"По умолчанию", "green":"Зеленый", "red":"Красный", "blue":"Синий", "orange": "Оранжевый"}'/>
@@ -50,7 +50,7 @@
         <field name="active" value="1"/>
     </object>
     <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="button_form"/>
+        <field name="name" value="payqr-button_form"/>
         <field name="htmltype" value="select"/>
         <field name="htmlvalue" value="default"/>
         <field name="htmlpossiblevalues" value='{"default":"По умолчанию", "sharp":"Без округления", "rude":"Минимальное округление", "soft":"Мягкое округление", "sleek":"Значительное округление", "oval":"Максимальное округление"}'/>
@@ -58,7 +58,7 @@
         <field name="active" value="1"/>
     </object>
     <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="button_shadow"/>
+        <field name="name" value="payqr-button_shadow"/>
         <field name="htmltype" value="select"/>
         <field name="htmlvalue" value="default"/>
         <field name="htmlpossiblevalues" value='{"default":"По умолчанию", "shadow":"Включена", "noshadow":"Отключена"}'/>
@@ -66,7 +66,7 @@
         <field name="active" value="1"/>
     </object>
     <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="button_gradient"/>
+        <field name="name" value="payqr-button_gradient"/>
         <field name="htmltype" value="select"/>
         <field name="htmlvalue" value="default"/>
         <field name="htmlpossiblevalues" value='{"default":"По умолчанию", "flat":"Отключен", "gradient":"Включен"}'/>
@@ -74,7 +74,7 @@
         <field name="active" value="1"/>
     </object>
     <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="button_font_trans"/>
+        <field name="name" value="payqr-button_font_trans"/>
         <field name="htmltype" value="select"/>
         <field name="htmlvalue" value="default"/>
         <field name="htmlpossiblevalues" value='{"default":"По умолчанию", "small":"Мелко", "medium":"Средне", "large":"Крупно"}'/>
@@ -82,7 +82,7 @@
         <field name="active" value="1"/>
     </object>
     <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="button_font_width"/>
+        <field name="name" value="payqr-button_font_width"/>
         <field name="htmltype" value="select"/>
         <field name="htmlvalue" value="default"/>
         <field name="htmlpossiblevalues" value='{"default":"По умолчанию", "normal":"Отключен", "bold":"Включен"}'/>
@@ -90,7 +90,7 @@
         <field name="active" value="1"/>
     </object>
     <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="button_text_case"/>
+        <field name="name" value="payqr-button_text_case"/>
         <field name="htmltype" value="select"/>
         <field name="htmlvalue" value="default"/>
         <field name="htmlpossiblevalues" value='{"default":"По умолчанию", "lowercase":"Нижний", "standartcase":"Стандартный", "upper":"Верхний"}'/>
@@ -115,7 +115,7 @@
     </object>
     <!-- common -->
     <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="firstname_required"/>
+        <field name="name" value="data-firstname-required"/>
         <field name="htmltype" value="select"/>
         <field name="htmlvalue" value="default"/>
         <field name="htmlpossiblevalues" value='{"default":"По умолчанию", "deny":"Не запрашивать", "required":"Запрашивать"}'/>
@@ -123,7 +123,7 @@
         <field name="active" value="1"/>
     </object>
     <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="lastname_required"/>
+        <field name="name" value="data-lastname-required"/>
         <field name="htmltype" value="select"/>
         <field name="htmlvalue" value="default"/>
         <field name="htmlpossiblevalues" value='{"default":"По умолчанию", "deny":"Не запрашивать", "required":"Запрашивать"}'/>
@@ -131,7 +131,7 @@
         <field name="active" value="1"/>
     </object>
     <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="middlename_required"/>
+        <field name="name" value="data-middlename-required"/>
         <field name="htmltype" value="select"/>
         <field name="htmlvalue" value="default"/>
         <field name="htmlpossiblevalues" value='{"default":"По умолчанию", "deny":"Не запрашивать", "required":"Запрашивать"}'/>
@@ -139,7 +139,7 @@
         <field name="active" value="1"/>
     </object>
     <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="phone_required"/>
+        <field name="name" value="data-phone-required"/>
         <field name="htmltype" value="select"/>
         <field name="htmlvalue" value="default"/>
         <field name="htmlpossiblevalues" value='{"default":"По умолчанию", "deny":"Не запрашивать", "required":"Запрашивать"}'/>
@@ -147,7 +147,7 @@
         <field name="active" value="1"/>
     </object>
     <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="email_required"/>
+        <field name="name" value="data-email-required"/>
         <field name="htmltype" value="select"/>
         <field name="htmlvalue" value="default"/>
         <field name="htmlpossiblevalues" value='{"default":"По умолчанию", "deny":"Не запрашивать", "required":"Запрашивать"}'/>
@@ -155,7 +155,7 @@
         <field name="active" value="1"/>
     </object>
     <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="delivery_required"/>
+        <field name="name" value="data-delivery-required"/>
         <field name="htmltype" value="select"/>
         <field name="htmlvalue" value="default"/>
         <field name="htmlpossiblevalues" value='{"default":"По умолчанию", "deny":"Не запрашивать", "required":"Запрашивать", "nonrequired":"Запросить после оплаты"}'/>
@@ -163,7 +163,7 @@
         <field name="active" value="1"/>
     </object>
     <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="deliverycases_required"/>
+        <field name="name" value="data-deliverycases-required"/>
         <field name="htmltype" value="select"/>
         <field name="htmlvalue" value="default"/>
         <field name="htmlpossiblevalues" value='{"default":"По умолчанию", "deny":"Не запрашивать", "required":"Запрашивать"}'/>
@@ -171,7 +171,7 @@
         <field name="active" value="1"/>
     </object>
     <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="pickpoints_required"/>
+        <field name="name" value="data-pickpoints-required"/>
         <field name="htmltype" value="select"/>
         <field name="htmlvalue" value="default"/>
         <field name="htmlpossiblevalues" value='{"default":"По умолчанию", "deny":"Не запрашивать", "required":"Запрашивать"}'/>
@@ -179,7 +179,7 @@
         <field name="active" value="1"/>
     </object>
     <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="promocode_required"/>
+        <field name="name" value="data-promocode-required"/>
         <field name="htmltype" value="select"/>
         <field name="htmlvalue" value="default"/>
         <field name="htmlpossiblevalues" value='{"default":"По умолчанию", "deny":"Не запрашивать", "nonrequired":"Запросить после оплаты"}'/>
@@ -187,7 +187,7 @@
         <field name="active" value="1"/>
     </object>
     <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="promocard_required"/>
+        <field name="name" value="data-promocard-required"/>
         <field name="htmltype" value="select"/>
         <field name="htmlvalue" value="default"/>
         <field name="htmlpossiblevalues" value='{"default":"По умолчанию", "deny":"Не запрашивать", "nonrequired":"Запросить после оплаты"}'/>

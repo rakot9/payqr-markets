@@ -174,17 +174,31 @@ class Button extends \yii\base\Model{
                     //проверяем соответсвие
                     foreach ($filter as $filtered_value)
                     {
-                        if(strpos($key, $filtered_value) !== false)
+                        if(strpos($key, $filtered_value ) !== false)
                         {
-                            $key = $filtered_value == $place? str_replace($place, "", $key) : $key;
-                            $key = str_replace("_", "-", $key);
-                            $key = "data-" . $key;
-                            $buttonSettings[ $key ] = $setting;
+                            if($filtered_value == $place)
+                            {
+                                $key = str_replace($place, "", $key);
+
+                                if(strpos($key, "button_width")!== false || strpos($key, "button_height")!== false)
+                                {
+                                    $buttonSettings["style"][] = str_replace("button_", "", $key) . ":" . $setting;
+                                }
+                                else
+                                {
+                                    $buttonSettings["class"][] = $key . "-" . $setting;
+                                }
+                            }
+                            else
+                            {
+                                $buttonSettings["attr"][$key] = $setting;
+                            }
                             break;
                         }
                     }
                 }
             }
+            
             return $buttonSettings;
         }
         
