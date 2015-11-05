@@ -33,4 +33,13 @@ class PayqrConfig
     private function  __construct()
     {
     }
+    
+    public static function init($merchantId, $secretKeyIn, $secretKeyOut)
+    {
+        self::$merchantID = $merchantId;
+        
+        self::$secretKeyIn = $secretKeyIn;
+        
+        self::$secretKeyOut = $secretKeyOut;
+    }
 }
