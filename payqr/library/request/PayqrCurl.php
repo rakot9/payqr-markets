@@ -171,9 +171,9 @@ class PayqrCurl extends PayqrRequest
     {
         $this->error = '';
         $this->request = curl_init();
-        if (is_array($vars)) {
-            $vars = http_build_query($vars, '', '&');
-        }
+//        if (is_array($vars)) {
+//            $vars = http_build_query($vars, '', '&');
+//        }
 
         $this->set_request_method($method);
         $this->set_request_options($url, $vars, $data);
@@ -199,7 +199,8 @@ class PayqrCurl extends PayqrRequest
 //        foreach ($this->headers as $key => $value) {
 //            $headers[] = $key . ': ' . $value;
 //        }
-        curl_setopt($this->request, CURLOPT_HTTPHEADER, $headers);
+        //curl_setopt($this->request, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($this->request, CURLOPT_HTTPHEADER, $vars);
     }
 
     /**
