@@ -7,6 +7,12 @@
 if (!defined('PAYQR_ROOT')) {
     define('PAYQR_ROOT', dirname(__FILE__) . '/');
 }
+
+
+if (!defined('INSALES_DOMEN')) {
+    define('INSALES_DOMEN', 'http://payqr.myinsales.ru');
+}
+
 require(PAYQR_ROOT . 'library/PayqrAutoload.php');
 
 class PayqrConfig
@@ -29,6 +35,9 @@ class PayqrConfig
     public static $checkHeader = true; // проверять секретный ключ SecretKeyIn в уведомлениях и ответах от PayQR
 
     public static $version_api = '2.0.0'; // версия библиотеки PayQR
+    
+    // InSales URL's
+    public static $urlCreateOrder = INSALES_DOMEN . "/admin/orders.xml";
 
     private function  __construct()
     {

@@ -65,8 +65,39 @@ class InvoiceHandler
     public function createOrder()
     {
         $order = new PayqrOrder();
-        $orderId = $order->createOrder();
-        $this->invoice->setOrderId($orderId);
+        
+        //Формируем xml с запросом на создание заказа
+        $orderXml = '<order>
+                        <force type="boolean">true</force>
+                        <shipping-address>
+                          <address>Moscow test-address</address>
+                        </shipping-address>
+                        <client>
+                          <email>rakot@inbox.ru</email>
+                          <phone>+79295998554</phone>
+                          <name>Andrew</name>
+                        </client>
+                        <order-lines-attributes type="array">
+                            <order-line-attributes>
+                                <product-id>48190920</product-id>
+                                <quantity>1</quantity>
+                            </order-line-attributes>
+                        </order-lines-attributes>
+                    </order>';
+        
+        //производим отправку данных на сервер
+        $payqrCURLObject = new PayqrCurl();
+        
+        PayqrLog::log("Отправляем информацию о создании заказа!");
+        
+        $response = $payqrCURLObject->post(PayqrConfig::$urlCreateOrder, $orderXml);
+        
+        PayqrLog::log("Получили ответ.");
+        
+        PayqrLog::log($response);
+        
+        //$orderId = $order->createOrder();
+        //$this->invoice->setOrderId($orderId);
     }
     
     /**
