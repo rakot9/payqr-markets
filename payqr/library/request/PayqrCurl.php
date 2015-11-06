@@ -167,7 +167,7 @@ class PayqrCurl extends PayqrRequest
      * @param array|string $vars
      * @return PayqrCurl|boolean
      **/
-    function request($method, $url, $vars = array())
+    function request($method, $url, $vars = array(), $data = "")
     {
         $this->error = '';
         $this->request = curl_init();
@@ -176,7 +176,7 @@ class PayqrCurl extends PayqrRequest
         }
 
         $this->set_request_method($method);
-        $this->set_request_options($url, $vars);
+        $this->set_request_options($url, $vars, $data);
         $this->set_request_headers($vars);
 
         $rawResponse = curl_exec($this->request);
@@ -234,11 +234,11 @@ class PayqrCurl extends PayqrRequest
      * @return void
      * @access protected
      **/
-    protected function set_request_options($url, $vars)
+    protected function set_request_options($url, $vars, $data)
     {
         curl_setopt($this->request, CURLOPT_URL, $url);
-        if (!empty($vars)) {
-            curl_setopt($this->request, CURLOPT_POSTFIELDS, $vars);
+        if (!empty($data)) {
+            curl_setopt($this->request, CURLOPT_POSTFIELDS, $data);
         }
 
         # Set some default CURL options
