@@ -80,7 +80,7 @@ class InvoiceHandler
                         </client>
                         <order-lines-attributes type="array">
                             <order-line-attributes>
-                                <variant-id>48458651</variant-id>
+                                <product-id>48458651</product-id>
                                 <quantity>1</quantity>
                             </order-line-attributes>
                         </order-lines-attributes>
