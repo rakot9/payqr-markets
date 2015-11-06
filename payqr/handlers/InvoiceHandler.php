@@ -92,7 +92,7 @@ class InvoiceHandler
         
         PayqrLog::log("Отправляем информацию о создании заказа!");
         
-        $response = $payqrCURLObject->post(PayqrConfig::$urlCreateOrder, $orderXml);
+        $response = $payqrCURLObject->sendPOSTXMLFile(PayqrConfig::$urlCreateOrder, array('Content-Type: text/xml'));
         
         PayqrLog::log("Получили ответ.");
         
