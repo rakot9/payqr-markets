@@ -65,23 +65,44 @@ class InvoiceHandler
     public function createOrder()
     {
         $order = new PayqrOrder();
+        $xmlOrder = new PayqrXmlOrder($this->invoice);
+        
+        $customer = $this->invoice->getCustomer();
+        $shipping = $this->invoice->getDeliveryCasesSelected();
         
         //Формируем xml с запросом на создание заказа
         $orderXml = '<?xml version="1.0" encoding="UTF-8"?>
                     <order>
                         <force type="boolean">true</force>
                         <shipping-address>
-                          <address>Moscow test-address</address>
+                            <address>'.(isset($shipping->city)?           $shipping->city.' ':'').
+                                       (isset($shipping->street)?   'Ул. '.$shipping->street.' ':'').
+                                       (isset($shipping->house)?    'Д. '.$shipping->house.' ':'').
+                                       (isset($shipping->unit)?     'Корп. '.$shipping->unit.' ':'').
+                                       (isset($shipping->building)? 'Стр. '.$shipping->building.' ':'').
+                                       (isset($shipping->flat)?     'Кв. '.$shipping->flat.' ':'').
+                                       (isset($shipping->hallway)?  'Под. '.$shipping->hallway.' ':'').
+                                       (isset($shipping->floor)?    'Эт. ' .$shipping->floor.' ':'').
+                                       (isset($shipping->intercom)? 'Дмфн.' . $shipping->intercom.' ':'').
+                                       (isset($shipping->comment)?  $shipping->comment.' ':'').
+                            '</address>
+                            <country>RU</country>
+                        '. (isset($shipping->city)? '<city>'.$shipping->city.'</city>' : '') .'
+                        '. (isset($shipping->zip)? '<zip>'.$shipping->zip.'</zip>' : '<zip nil="true"/>') .'
+                        '. (isset($customer->firstName)? '<name>'.$customer->firstName.'</name>':'<name nil="true"/>') .'
+                        '. (isset($customer->phone)? '<phone>'.$customer->phone.'</phone>':'<phone nil="true"/>') .'
+                            <state nil="true"/>
                         </shipping-address>
                         <client>
-                          <email>rakot@inbox.ru</email>
-                          <phone>+79295998554</phone>
-                          <name>Andrew</name>
+                        '. (isset($customer->email)? '<email>'.$customer->email.'</email>':'') .'
+                        '. (isset($customer->phone)? '<phone>'.$customer->phone.'</phone>':'') .'
+                        '. (isset($customer->firstName)? '<name>'.$customer->firstName.'</name>':'') .'
+                        '. (isset($customer->middleName)? '<middlename>'.$customer->middleName.'</middlename>':'') .'
+                        '. (isset($customer->lastName)? '<surname>'.$customer->lastName.'</surname>':'') .'
                         </client>
                         <order-lines-attributes type="array">
                             <order-line-attributes>
-                                <product-id>48458651</product-id>
-                                <quantity>1</quantity>
+                                '.$xmlOrder->getXmlProduct().'
                             </order-line-attributes>
                         </order-lines-attributes>
                     </order>';
@@ -92,11 +113,16 @@ class InvoiceHandler
         PayqrLog::log("Отправляем информацию о создании заказа!");
         
         $response = $payqrCURLObject->sendPOSTXMLFile(PayqrConfig::$urlCreateOrder, $orderXml);
-        //$response = $payqrCURLObject->post(PayqrConfig::$urlCreateOrder, array('Content-Type: application/xml') /*array('Content-Type: application/xml', 'Content-length: ' . strlen($orderXml))*/, $orderXml);
-        
+
         PayqrLog::log("Получили ответ.");
         
         PayqrLog::log($response);
+        
+        //производм разбор xml
+        $xmlObject = simplexml_load_string($response);
+        
+        PayqrLog::log("Обработанный xml-файл");
+        PayqrLog::log($xmlObject);
         
         //$orderId = $order->createOrder();
         //$this->invoice->setOrderId($orderId);
