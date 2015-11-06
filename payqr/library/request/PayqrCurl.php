@@ -196,9 +196,9 @@ class PayqrCurl extends PayqrRequest
     {      
         $this->headers['Content-Length'] = strlen($vars);
         $headers = array();
-        foreach ($this->headers as $key => $value) {
-            $headers[] = $key . ': ' . $value;
-        }
+//        foreach ($this->headers as $key => $value) {
+//            $headers[] = $key . ': ' . $value;
+//        }
         curl_setopt($this->request, CURLOPT_HTTPHEADER, $headers);
     }
 
