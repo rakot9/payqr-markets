@@ -138,9 +138,9 @@ class PayqrCurl extends PayqrRequest
      * @param array|string $vars
      * @return PayqrCurl|boolean
      **/
-    function post($url, $vars = array(), $data = "")
+    function post($url, $vars = array())
     {
-      return $this->request('POST', $url, $vars, $data);
+      return $this->request('POST', $url, $vars);
     }
 
     /**
@@ -167,16 +167,16 @@ class PayqrCurl extends PayqrRequest
      * @param array|string $vars
      * @return PayqrCurl|boolean
      **/
-    function request($method, $url, $vars = array(), $data = "")
+    function request($method, $url, $vars = array())
     {
         $this->error = '';
         $this->request = curl_init();
-//        if (is_array($vars)) {
-//            $vars = http_build_query($vars, '', '&');
-//        }
+        if (is_array($vars)) {
+            $vars = http_build_query($vars, '', '&');
+        }
 
         $this->set_request_method($method);
-        $this->set_request_options($url, $vars, $data);
+        $this->set_request_options($url, $vars);
         $this->set_request_headers($vars);
 
         $rawResponse = curl_exec($this->request);
@@ -196,11 +196,10 @@ class PayqrCurl extends PayqrRequest
     {      
         $this->headers['Content-Length'] = strlen($vars);
         $headers = array();
-//        foreach ($this->headers as $key => $value) {
-//            $headers[] = $key . ': ' . $value;
-//        }
-        //curl_setopt($this->request, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($this->request, CURLOPT_HTTPHEADER, $vars);
+        foreach ($this->headers as $key => $value) {
+            $headers[] = $key . ': ' . $value;
+        }
+        curl_setopt($this->request, CURLOPT_HTTPHEADER, $headers);
     }
 
     /**
@@ -235,11 +234,11 @@ class PayqrCurl extends PayqrRequest
      * @return void
      * @access protected
      **/
-    protected function set_request_options($url, $vars, $data="")
+    protected function set_request_options($url, $vars)
     {
         curl_setopt($this->request, CURLOPT_URL, $url);
-        if (!empty($data)) {
-            curl_setopt($this->request, CURLOPT_POSTFIELDS, $data);
+        if (!empty($vars)) {
+            curl_setopt($this->request, CURLOPT_POSTFIELDS, $vars);
         }
 
         # Set some default CURL options
