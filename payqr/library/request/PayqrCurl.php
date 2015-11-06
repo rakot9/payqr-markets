@@ -140,7 +140,7 @@ class PayqrCurl extends PayqrRequest
      **/
     function post($url, $vars = array(), $data = "")
     {
-      return $this->request('POST', $url, $vars, $data="");
+      return $this->request('POST', $url, $vars, $data);
     }
 
     /**
@@ -234,7 +234,7 @@ class PayqrCurl extends PayqrRequest
      * @return void
      * @access protected
      **/
-    protected function set_request_options($url, $vars, $data)
+    protected function set_request_options($url, $vars, $data="")
     {
         curl_setopt($this->request, CURLOPT_URL, $url);
         if (!empty($data)) {
