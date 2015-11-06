@@ -80,7 +80,7 @@ class InvoiceHandler
                         </client>
                         <order-lines-attributes type="array">
                             <order-line-attributes>
-                                <product-id>48190920</product-id>
+                                <variant-id>48458651</variant-id>
                                 <quantity>1</quantity>
                             </order-line-attributes>
                         </order-lines-attributes>
@@ -92,7 +92,7 @@ class InvoiceHandler
         PayqrLog::log("Отправляем информацию о создании заказа!");
         
         //$response = $payqrCURLObject->sendPOSTXMLFile(PayqrConfig::$urlCreateOrder, array('Content-Type: text/xml'));
-        $response = $payqrCURLObject->post(PayqrConfig::$urlCreateOrder, array('Content-Type: text/xml', 'Content-length: ' . strlen($orderXml)), $orderXml);
+        $response = $payqrCURLObject->post(PayqrConfig::$urlCreateOrder, array('Content-Type: application/xml', 'Content-length: ' . strlen($orderXml)), $orderXml);
         
         PayqrLog::log("Получили ответ.");
         
