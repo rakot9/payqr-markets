@@ -67,7 +67,9 @@ class InvoiceHandler
         $order = new PayqrOrder();
         
         //Формируем xml с запросом на создание заказа
-        $orderXml = '<order>
+        $orderXml = '
+                    <?xml version="1.0" encoding="UTF-8"?>
+                    <order>
                         <force type="boolean">true</force>
                         <shipping-address>
                           <address>Moscow test-address</address>
