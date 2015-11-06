@@ -37,7 +37,7 @@ class PayqrConfig
     public static $version_api = '2.0.0'; // версия библиотеки PayQR
     
     // InSales URL's
-    public static $urlCreateOrder = "http://payqr.myinsales.ru/admin/orders.xml";
+    public static $urlCreateOrder = "http://f92ee81902e7be44f4f929250580caca:b33ab29af7dac760202ffea745e63cb3@payqr.myinsales.ru/admin/orders.xml";
 
     private function  __construct()
     {
