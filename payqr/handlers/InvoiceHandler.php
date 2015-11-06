@@ -70,6 +70,9 @@ class InvoiceHandler
         $customer = $this->invoice->getCustomer();
         $shipping = $this->invoice->getDeliveryCasesSelected();
         
+        PayqrLog::log(print_r($customer, true));
+        PayqrLog::log(print_r($shipping, true));
+        
         //Формируем xml с запросом на создание заказа
         $orderXml = '<?xml version="1.0" encoding="UTF-8"?>
                     <order>
@@ -106,6 +109,8 @@ class InvoiceHandler
                             </order-line-attributes>
                         </order-lines-attributes>
                     </order>';
+        
+        PayqrLog::log("Наш ответ" . $orderXml);
         
         //производим отправку данных на сервер
         $payqrCURLObject = new PayqrCurl();

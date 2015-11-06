@@ -90,4 +90,9 @@ class PayqrRequest
         }
         return $this;
     }
+    
+    public function check_insales_responce($rawResponse, $method, $url, $vars)
+    {
+        return $rawResponse;
+    }
 }

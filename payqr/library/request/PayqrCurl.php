@@ -273,9 +273,10 @@ class PayqrCurl extends PayqrRequest
         curl_setopt($this->request, CURLOPT_RETURNTRANSFER, 1);
         
         $rawResponse = curl_exec($this->request);
-        $response = $this->check_response($rawResponse, 'POST', $url, array());
+        $response = $this->check_insales_responce($rawResponse, 'POST', $url, array());
 
         curl_close($this->request);
+        
         return $response;
     }
 }
