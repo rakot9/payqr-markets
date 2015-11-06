@@ -25,7 +25,7 @@ class PayqrXmlOrder {
         {
             foreach($carts as $cart)
             {
-                $xml .= '<product-id>'.$cart->article.'</product-id>
+                $xml .= '<variant-id>'.$cart->article.'</variant-id>
                          <quantity>'.$cart->quantity.'</quantity>';
             }
         }
