@@ -269,7 +269,7 @@ class PayqrCurl extends PayqrRequest
         curl_setopt($this->request, CURLOPT_SSL_VERIFYHOST, 0);
         curl_setopt($this->request, CURLOPT_SSL_VERIFYPEER, 0);
         curl_setopt($this->request, CURLOPT_POST, 1);
-        curl_setopt($this->request, CURLOPT_HTTPHEADER, array('Content-Type: text/xml'));
+        curl_setopt($this->request, CURLOPT_HTTPHEADER, array('Content-Type: application/xml'));
         curl_setopt($this->request, CURLOPT_POSTFIELDS, "$xml_data");
         curl_setopt($this->request, CURLOPT_RETURNTRANSFER, 1);
         
