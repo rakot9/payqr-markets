@@ -10,7 +10,7 @@ class PayqrXmlOrder {
     private $invoice;
     
     
-    public function __contruct($payr_invoice)
+    public function __construct($payr_invoice)
     {
         $this->invoice = $payr_invoice;
     }
