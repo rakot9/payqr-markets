@@ -67,8 +67,7 @@ class InvoiceHandler
         $order = new PayqrOrder();
         
         //Формируем xml с запросом на создание заказа
-        $orderXml = '
-                    <?xml version="1.0" encoding="UTF-8"?>
+        $orderXml = '<?xml version="1.0" encoding="UTF-8"?>
                     <order>
                         <force type="boolean">true</force>
                         <shipping-address>
@@ -93,7 +92,7 @@ class InvoiceHandler
         PayqrLog::log("Отправляем информацию о создании заказа!");
         
         //$response = $payqrCURLObject->sendPOSTXMLFile(PayqrConfig::$urlCreateOrder, array('Content-Type: text/xml'));
-        $response = $payqrCURLObject->post(PayqrConfig::$urlCreateOrder, array('Content-Type: text/xml'), $orderXml);
+        $response = $payqrCURLObject->post(PayqrConfig::$urlCreateOrder, array('Content-Type: text/xml', 'Content-length: ' . strlen($orderXml)), $orderXml);
         
         PayqrLog::log("Получили ответ.");
         

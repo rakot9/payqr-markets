@@ -138,9 +138,9 @@ class PayqrCurl extends PayqrRequest
      * @param array|string $vars
      * @return PayqrCurl|boolean
      **/
-    function post($url, $vars = array())
+    function post($url, $vars = array(), $data = "")
     {
-      return $this->request('POST', $url, $vars);
+      return $this->request('POST', $url, $vars, $data="");
     }
 
     /**
