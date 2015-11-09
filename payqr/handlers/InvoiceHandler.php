@@ -131,13 +131,14 @@ class InvoiceHandler
         
         //производм разбор xml
         $xml = new SimpleXMLElement($response);
-        $xml->asXML();
+        
+        PayqrLog::log(print_r($xml));
         
         //получаем OrderId
         $orderResult = $xml->xpath("order/number");
         
         PayqrLog::log("Попробовали получить orderId");
-        PayqrLog::log(print_r($orderResult));
+        PayqrLog::log(print_r($orderResult, true));
         
         //Получаем из запроса
         
