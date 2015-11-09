@@ -171,7 +171,13 @@ class InvoiceHandler
 
         $this->invoice->setAmount($totalPrice);
         
-        $this->invoice->setUserData(array("orderId" => $orderIdInternal));
+        $userData = $this->invoice->getUserData();
+        
+        PayqrLog::log(print_r($userData ,true));
+        
+        $userData->orderId = $orderIdInternal;
+        
+        //$this->invoice->setUserData(array("orderId" => $orderIdInternal));
     }
     
     /**
@@ -196,6 +202,8 @@ class InvoiceHandler
         if(empty($statusPayXml))
         {
             //производим возврат денежных средств
+            PayqrLog::log("Не смогли получить xml-файл");
+            
             return false;
         }
         
