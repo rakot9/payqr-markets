@@ -37,15 +37,15 @@ class PayqrXmlOrder {
     {
         $userData = $this->invoice->getUserData();
         
-        PayqrLog::log("changeOrderPayStatus()");
-        PayqrLog::log(print_r($this->invoice, true));
+        $userData = json_decode($userData);
+        
         PayqrLog::log( "userData:" . print_r($userData, true));
         
-        if(isset($userData->orderId) && !empty($userData->orderId))
+        if(isset($userData["orderId"]) && !empty($userData["orderId"]))
         {
             $xml = '<?xml version="1.0" encoding="UTF-8"?>
                     <order>
-                        <id type="integer">'.(int)$userData->orderId.'</id>
+                        <id type="integer">'.(int)$userData["orderId"].'</id>
                         <financial-status>paid</financial-status>
                         <fulfillment-status>accepted</fulfillment-status>
                     </order>';
