@@ -172,10 +172,11 @@ class InvoiceHandler
         $this->invoice->setAmount($totalPrice);
         
         $userData = $this->invoice->getUserData();
+        $userData = json_decode($userData);
         
         PayqrLog::log(print_r($userData ,true));
         
-        $userData->orderId = $orderIdInternal;
+        $this->invoice->userData->orderId = $orderIdInternal;
         
         //$this->invoice->setUserData(array("orderId" => $orderIdInternal));
     }
