@@ -121,13 +121,25 @@ class InvoiceHandler
 
         PayqrLog::log("Получили ответ.");
         
+        if(!$response)
+        {
+            PayqrLog::log("Ответ от сервера InSales не в формате xml");
+            return false;
+        }
+        
         PayqrLog::log($response);
         
         //производм разбор xml
-        $xmlObject = simplexml_load_string($response);
+        $xml = new SimpleXMLElement($response);
+        $xml->asXML();
         
-        PayqrLog::log("Обработанный xml-файл");
-        PayqrLog::log($xmlObject);
+        //получаем OrderId
+        $orderResult = $xml->xpath("order/number");
+        
+        PayqrLog::log("Попробовали получить orderId");
+        PayqrLog::log(print_r($orderResult));
+        
+        //Получаем из запроса
         
         //$orderId = $order->createOrder();
         //$this->invoice->setOrderId($orderId);

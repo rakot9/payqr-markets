@@ -93,6 +93,19 @@ class PayqrRequest
     
     public function check_insales_responce($rawResponse, $method, $url, $vars)
     {
-        return $rawResponse;
+        libxml_use_internal_errors(true);
+        
+        $elem = simplexml_load_string($rawResponse);
+        
+        if($elem !== false)
+        {
+            return $rawResponse;
+        }
+        else
+        {
+            PayqrLog::log("Возникли ошибки при обработке поступившего ответа от сервера!");
+            PayqrLog::log(print_r(libxml_get_errors()));
+            return false;
+        }
     }
 }
