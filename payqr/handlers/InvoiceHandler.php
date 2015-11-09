@@ -135,15 +135,21 @@ class InvoiceHandler
         PayqrLog::log(print_r($xml));
         
         //получаем OrderId
-        $orderResult = $xml->xpath("order/number");
+        $orderResult = $xml->xpath("/order/number");
         
-        PayqrLog::log("Попробовали получить orderId");
-        PayqrLog::log(print_r($orderResult, true));
+        PayqrLog::log("Попробовали получить orderId:");
+        
+        if(!isset($orderResult[0]))
+        {
+            return false;
+        }
+        
+        $orderId = (int)$orderResult[0];
+        
+        PayqrLog::log($orderId);
         
         //Получаем из запроса
-        
-        //$orderId = $order->createOrder();
-        //$this->invoice->setOrderId($orderId);
+        $this->invoice->setOrderId($orderId);
     }
     
     /**
