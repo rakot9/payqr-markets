@@ -264,7 +264,7 @@ class PayqrCurl extends PayqrRequest
     {
         $this->request = curl_init();
         curl_setopt($this->request, CURLOPT_URL, $url);
-        curl_setopt($this->request, CURLOPT_MUTE, 1);
+        //curl_setopt($this->request, CURLOPT_MUTE, 1);
         curl_setopt($this->request, CURLOPT_SSL_VERIFYHOST, 0);
         curl_setopt($this->request, CURLOPT_SSL_VERIFYPEER, 0);
         curl_setopt($this->request, CURLOPT_POST, 1);

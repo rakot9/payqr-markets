@@ -132,8 +132,6 @@ class InvoiceHandler
         //производм разбор xml
         $xml = new SimpleXMLElement($response);
         
-        PayqrLog::log(print_r($xml));
-        
         //получаем OrderId
         $orderResult = $xml->xpath("/order/number");
         
