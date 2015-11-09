@@ -64,7 +64,6 @@ class InvoiceHandler
     */
     public function createOrder()
     {
-        $order = new PayqrOrder();
         $xmlOrder = new PayqrXmlOrder($this->invoice);
         
         $customer = $this->invoice->getCustomer();
@@ -197,6 +196,8 @@ class InvoiceHandler
     {
         //отправляем сообщение об успешности оплаты заказ
         $xmlOrder = new PayqrXmlOrder($this->invoice);
+        
+        PayqrLog::log($this->invoice);
         
         $statusPayXml = $xmlOrder->changeOrderPayStatus();
         
