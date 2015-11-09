@@ -148,8 +148,8 @@ class PayqrInvoice extends PayqrEvent
         {
             $userData_ = array();
             
-            foreach ($userDataArray as $userData) {
-                $userData_[] = json_decode(json_encode($userData), false);
+            foreach ($userDataArray as $key => $userData) {
+                $userData_[] = json_decode(json_encode(array($key => $userData)), false);
             }
             
             $this->data->userData = $userData_;
