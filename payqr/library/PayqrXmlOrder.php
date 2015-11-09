@@ -37,7 +37,8 @@ class PayqrXmlOrder {
     {
         $userData = $this->invoice->userData;
         
-        PayqrLog::log(print_r($userData, true));
+        PayqrLog::log("changeOrderPayStatus()");
+        PayqrLog::log(print_r($this->invoice, true));
         
         if(isset($userData->orderId) && !empty($userData->orderId))
         {
