@@ -210,7 +210,7 @@ class InvoiceHandler
         
         if(isset($userData->orderId) && !empty($userData->orderId))
         {
-            $response = $payqrCURLObject->sendPOSTXMLFile(PayqrConfig::$urlCreateOrder . "/" . $userData->orderId . ".xml", $statusPayXml);
+            $response = $payqrCURLObject->sendPOSTXMLFile(PayqrConfig::$urlCreateOrder . "/" . $userData->orderId . ".xml", $statusPayXml, 'PUT');
         
             PayqrLog::log("Получили ответ после изменения статуса оплаты заказа");
         
