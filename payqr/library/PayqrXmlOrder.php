@@ -35,14 +35,19 @@ class PayqrXmlOrder {
     
     public function changeOrderPayStatus()
     {
-        $orderId = $this->invoice->getOrderId();
+        $userData = $this->invoice->getUserData();
         
-        $xml = '<?xml version="1.0" encoding="UTF-8"?>
-                <order>
-                    <id type="integer">'.$orderId.'</id>
-                    <financial-status>paid</financial-status>
-                </order>';
-        
-        return $xml;
+        if(isset($userData->orderId) && !empty($userData->orderId))
+        {
+            $xml = '<?xml version="1.0" encoding="UTF-8"?>
+                    <order>
+                        <id type="integer">'.(int)$userData->orderId.'</id>
+                        <financial-status>paid</financial-status>
+                        <fulfillment-status>accepted</fulfillment-status>
+                    </order>';
+
+            return $xml;
+        }
+        return null;
     }
 }
