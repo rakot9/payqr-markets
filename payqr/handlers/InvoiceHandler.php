@@ -197,7 +197,7 @@ class InvoiceHandler
         //отправляем сообщение об успешности оплаты заказ
         $xmlOrder = new PayqrXmlOrder($this->invoice);
         
-        PayqrLog::log($this->invoice);
+        PayqrLog::log(print_r($this->invoice, true));
         
         $statusPayXml = $xmlOrder->changeOrderPayStatus();
         
