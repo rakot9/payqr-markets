@@ -148,8 +148,20 @@ class InvoiceHandler
         
         PayqrLog::log($orderId);
         
-        //Получаем из запроса
+        //Устанавливаем номер заказ
         $this->invoice->setOrderId($orderId);
+        
+        //Устаналиваем стоимость заказа
+        $orderAmountResult = $xml->xpath("/order/order-lines/order-line/total-price");
+
+        $totalPrice = 0;
+
+        while(list(, $price) = each($orderAmountResult))
+        {
+            $totalPrice += round((float)$price,2);
+        }
+
+        $this->invoice->setAmount($totalPrice);
     }
     
     /**
