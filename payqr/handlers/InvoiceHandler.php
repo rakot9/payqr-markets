@@ -117,7 +117,7 @@ class InvoiceHandler
         
         PayqrLog::log("Отправляем информацию о создании заказа!");
         
-        $response = $payqrCURLObject->sendPOSTXMLFile(PayqrConfig::$urlCreateOrder, $orderXml);
+        $response = $payqrCURLObject->sendPOSTXMLFile(PayqrConfig::$urlCreateOrder . ".xml", $orderXml);
 
         PayqrLog::log("Получили ответ.");
         
@@ -176,7 +176,25 @@ class InvoiceHandler
     */
     public function payOrder()
     {
+        //отправляем сообщение об успешности оплаты заказ
+        $xmlOrder = new PayqrXmlOrder($this->invoice);
         
+        $statusPayXml = $xmlOrder->changeOrderPayStatus();
+        
+        PayqrLog::log("Изменяем статус заказа. Отправялем xml файл");
+        
+        PayqrLog::log($statusPayXml);
+        
+        //производим отправку данных на сервер
+        $payqrCURLObject = new PayqrCurl();
+        
+        $orderId = $this->invoice->getOrderId();
+        
+        $response = $payqrCURLObject->sendPOSTXMLFile(PayqrConfig::$urlCreateOrder . "/#" . $orderId . ".xml", $statusPayXml);
+        
+        PayqrLog::log("Получили ответ после изменения статуса оплаты заказа");
+        
+        PayqrLog::log(print_r($response, true));
     }
     
     /*
@@ -250,6 +268,7 @@ class InvoiceHandler
     */
     public function setDeliveryCases()
     {
+        //Получаем способы доставки
         
     }
     

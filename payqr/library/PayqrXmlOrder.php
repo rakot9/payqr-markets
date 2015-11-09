@@ -32,4 +32,17 @@ class PayqrXmlOrder {
         
         return $xml;
     }
+    
+    public function changeOrderPayStatus()
+    {
+        $orderId = $this->invoice->getOrderId();
+        
+        $xml = '<?xml version="1.0" encoding="UTF-8"?>
+                <order>
+                    <id type="integer">'.$orderId.'</id>
+                    <financial-status>paid</financial-status>
+                </order>';
+        
+        return $xml;
+    }
 }
