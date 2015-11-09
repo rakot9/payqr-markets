@@ -171,7 +171,7 @@ class InvoiceHandler
 
         $this->invoice->setAmount($totalPrice);
         
-        $this->invoice->userData= json_encode(array("orderId" => $orderIdInternal));
+        $this->invoice->setUserData(array("orderId" => $orderIdInternal));
     }
     
     /**

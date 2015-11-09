@@ -136,6 +136,27 @@ class PayqrInvoice extends PayqrEvent
     {
         return isset($this->data->delivery) ? $this->data->delivery : false;
     }
+    
+    public function getUserData() 
+    {
+        return parent::getUserData();
+    }
+    
+    public function setUserData($userDataArray)
+    {
+        if(isset($this->data->userData) && count($userDataArray) > 0)
+        {
+            $userData_ = array();
+            
+            foreach ($userDataArray as $userData) {
+                $userData_[] = json_decode(json_encode($userData), false);
+            }
+            
+            $this->data->userData = $userData_;
+        }
+        
+        return false;
+    }
 
     /**
      * Передает список способов доставки интернет-сайта в объект PayQR "Счет на оплату"
