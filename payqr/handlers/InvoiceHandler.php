@@ -126,8 +126,6 @@ class InvoiceHandler
             return false;
         }
         
-        PayqrLog::log($response);
-        
         //производм разбор xml
         $xml = new SimpleXMLElement($response);
         
@@ -217,6 +215,8 @@ class InvoiceHandler
         $payqrCURLObject = new PayqrCurl();
         
         $userData = $this->invoice->getUserData();
+        
+        $userData = json_decode($userData);
         
         if(isset($userData->orderId) && !empty($userData->orderId))
         {
