@@ -37,6 +37,8 @@ class PayqrXmlOrder {
     {
         $userData = $this->invoice->userData;
         
+        PayqrLog::log(print_r($userData, true));
+        
         if(isset($userData->orderId) && !empty($userData->orderId))
         {
             $xml = '<?xml version="1.0" encoding="UTF-8"?>
