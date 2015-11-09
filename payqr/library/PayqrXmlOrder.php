@@ -35,7 +35,7 @@ class PayqrXmlOrder {
     
     public function changeOrderPayStatus()
     {
-        $userData = $this->invoice->userData();
+        $userData = $this->invoice->userData;
         
         if(isset($userData->orderId) && !empty($userData->orderId))
         {
