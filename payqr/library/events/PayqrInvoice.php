@@ -142,20 +142,10 @@ class PayqrInvoice extends PayqrEvent
         return parent::getUserData();
     }
     
-    public function setUserData($userDataArray)
+    public function setUserData($userData)
     {
-        if(isset($this->data->userData) && count($userDataArray) > 0)
-        {
-            $userData_ = array();
-            
-            foreach ($userDataArray as $key => $userData) {
-                $userData_[] = json_decode(json_encode(array($key => $userData)), false);
-            }
-            
-            $this->data->userData = $userData_;
-        }
-        
-        return false;
+        PayqrLog::log('payqr_invoice::setUserData()');
+        $this->data->userData = $userData;
     }
 
     /**
