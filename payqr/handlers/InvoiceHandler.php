@@ -124,7 +124,7 @@ class InvoiceHandler
             return false;
         }
         
-        PayqrLog::log("Получили ответ ответ от сервера в виде XML-файла");
+        PayqrLog::log("Получили ответ от сервера в виде XML-файла");
         
         //производм разбор xml
         $xml = new SimpleXMLElement($response);
@@ -174,10 +174,10 @@ class InvoiceHandler
         //отправляем сообщение пользователю
         if(true)
         {
-            $this->invoice->data->message->article = 1;
-            $this->invoice->data->message->text = "Проверочный текст события invoice.order.creating";
-            $this->invoice->data->message->url = "http://yandex.ru";
-            $this->invoice->data->message->imageUrl = "https://payqr.ru/web/images/logo.png";
+            $this->invoice->message->article = 1;
+            $this->invoice->message->text = "Проверочный текст события invoice.order.creating";
+            $this->invoice->message->url = "http://yandex.ru";
+            $this->invoice->message->imageUrl = "https://payqr.ru/web/images/logo.png";
         }
     }
     
