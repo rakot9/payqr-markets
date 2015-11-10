@@ -147,6 +147,12 @@ class PayqrInvoice extends PayqrEvent
         PayqrLog::log('payqr_invoice::setUserData()');
         $this->data->userData = $userData;
     }
+    
+    public function setUserMessage($userMessage)
+    {
+        PayqrLog::log('payqr_invoice::setUserMessage()');
+        $this->data->message = $userMessage;
+    }
 
     /**
      * Передает список способов доставки интернет-сайта в объект PayQR "Счет на оплату"

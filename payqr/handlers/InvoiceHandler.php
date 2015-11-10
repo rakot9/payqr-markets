@@ -174,10 +174,12 @@ class InvoiceHandler
         //отправляем сообщение пользователю
         if(true)
         {
-            $this->invoice->message->article = 1;
-            $this->invoice->message->text = "Проверочный текст события invoice.order.creating";
-            $this->invoice->message->url = "http://yandex.ru";
-            $this->invoice->message->imageUrl = "https://payqr.ru/web/images/logo.png";
+            $this->invoice->setUserMessage(json_encode(array(
+                "article" => 1,
+                "text" => "Проверочный текст события invoice.order.creating",
+                "url" => "http://yandex.ru",
+                "imageUrl" => "https://payqr.ru/web/images/logo.png"
+            )));
         }
     }
     
@@ -232,10 +234,12 @@ class InvoiceHandler
         //отправляем сообщение пользователю
         if(true)
         {
-            $this->invoice->data->message->article = 1;
-            $this->invoice->data->message->text = "Проверочный текст события invoice.paid";
-            $this->invoice->data->message->url = "http://yandex.ru";
-            $this->invoice->data->message->imageUrl = "https://payqr.ru/web/images/logo.png";
+            $this->invoice->setUserMessage(json_encode(array(
+                "article" => 1,
+                "text" => "Проверочный текст события invoice.paid",
+                "url" => "http://yandex.ru",
+                "imageUrl" => "https://payqr.ru/web/images/logo.png"
+            )));
         }
     }
     
@@ -254,10 +258,12 @@ class InvoiceHandler
         //отправляем сообщение пользователю
         if(true)
         {
-            $this->invoice->data->message->article = 1;
-            $this->invoice->data->message->text = "Проверочный текст события invoice.reverted";
-            $this->invoice->data->message->url = "http://yandex.ru";
-            $this->invoice->data->message->imageUrl = "https://payqr.ru/web/images/logo.png";
+            $this->invoice->setUserMessage(json_encode(array(
+                "article" => 1,
+                "text" => "Проверочный текст события invoice.reverted",
+                "url" => "http://yandex.ru",
+                "imageUrl" => "https://payqr.ru/web/images/logo.png"
+            )));
         }
     }
     
