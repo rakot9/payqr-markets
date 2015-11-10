@@ -170,6 +170,15 @@ class InvoiceHandler
         $this->invoice->userData->orderId = $orderIdInternal;
         
         $this->invoice->setUserData(json_encode(array("orderId" => $orderIdInternal)));
+        
+        //отправляем сообщение пользователю
+        if(true)
+        {
+            $this->invoice->data->message->article = 1;
+            $this->invoice->data->message->text = "Проверочный текст события invoice.order.creating";
+            $this->invoice->data->message->url = "http://yandex.ru";
+            $this->invoice->data->message->imageUrl = "https://payqr.ru/web/images/logo.png";
+        }
     }
     
     /**
@@ -219,6 +228,15 @@ class InvoiceHandler
         
             PayqrLog::log(print_r($response, true));
         }
+        
+        //отправляем сообщение пользователю
+        if(true)
+        {
+            $this->invoice->data->message->article = 1;
+            $this->invoice->data->message->text = "Проверочный текст события invoice.paid";
+            $this->invoice->data->message->url = "http://yandex.ru";
+            $this->invoice->data->message->imageUrl = "https://payqr.ru/web/images/logo.png";
+        }
     }
     
     /*
@@ -233,7 +251,14 @@ class InvoiceHandler
     */ 
     public function revertOrder()
     {
-        
+        //отправляем сообщение пользователю
+        if(true)
+        {
+            $this->invoice->data->message->article = 1;
+            $this->invoice->data->message->text = "Проверочный текст события invoice.reverted";
+            $this->invoice->data->message->url = "http://yandex.ru";
+            $this->invoice->data->message->imageUrl = "https://payqr.ru/web/images/logo.png";
+        }
     }
     
     /*
@@ -248,7 +273,40 @@ class InvoiceHandler
     */
     public function cancelOrder()
     {
+        //производим изменения статуса заказа на "Отменен"
         
+        $xmlOrder = new PayqrXmlOrder($this->invoice);
+        
+        $statusPayXml = $xmlOrder->changeOrderPayStatus("declined", "pending");
+        
+        if(empty($statusPayXml))
+        {
+            PayqrLog::log("Не смогли получить xml-файл");
+            
+            return false;
+        }
+        
+        PayqrLog::log("Изменяем статус заказа. Отправляем xml файл");
+        
+        PayqrLog::log($statusPayXml);
+        
+        //производим отправку данных на сервер
+        $payqrCURLObject = new PayqrCurl();
+        
+        $userData = $this->invoice->getUserData();
+        
+        $userData = json_decode($userData);
+        
+        if(isset($userData->orderId) && !empty($userData->orderId))
+        {
+            PayqrLog::log("Отправляем запрос на следующий URL: " . PayqrConfig::$urlCreateOrder . "/" . $userData->orderId . ".xml");
+            
+            $response = $payqrCURLObject->sendPOSTXMLFile(PayqrConfig::$urlCreateOrder . "/" . $userData->orderId . ".xml", $statusPayXml, 'PUT');
+        
+            PayqrLog::log("Получили ответ после изменения статуса оплаты заказа");
+        
+            PayqrLog::log(print_r($response, true));
+        }
     }
     
     /*

@@ -33,7 +33,7 @@ class PayqrXmlOrder {
         return $xml;
     }
     
-    public function changeOrderPayStatus()
+    public function changeOrderPayStatus($financeStatus = "paid", $fulFillMent = "accepted")
     {
         $userData = $this->invoice->getUserData();
         
@@ -44,8 +44,8 @@ class PayqrXmlOrder {
             $xml = '<?xml version="1.0" encoding="UTF-8"?>
                     <order>
                         <id type="integer">'.(int)$userData->orderId.'</id>
-                        <financial-status>paid</financial-status>
-                        <fulfillment-status>accepted</fulfillment-status>
+                        <financial-status>'.$financeStatus.'</financial-status>
+                        <fulfillment-status>'.$fulFillMent.'</fulfillment-status>
                     </order>';
 
             return $xml;
