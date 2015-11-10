@@ -109,30 +109,28 @@ class InvoiceHandler
                         </order-lines-attributes>
                     </order>';
         
-        PayqrLog::log("Наш ответ" . $orderXml);
+        //PayqrLog::log("Наш ответ" . $orderXml);
         
         //производим отправку данных на сервер
         $payqrCURLObject = new PayqrCurl();
         
-        PayqrLog::log("Отправляем информацию о создании заказа!");
+        //PayqrLog::log("Отправляем информацию о создании заказа!");
         
         $response = $payqrCURLObject->sendPOSTXMLFile(PayqrConfig::$urlCreateOrder . ".xml", $orderXml);
 
-        PayqrLog::log("Получили ответ.");
-        
         if(!$response)
         {
             PayqrLog::log("Ответ от сервера InSales не в формате xml");
             return false;
         }
         
+        PayqrLog::log("Получили ответ ответ от сервера в виде XML-файла");
+        
         //производм разбор xml
         $xml = new SimpleXMLElement($response);
         
         //получаем OrderId-внешний идентификатор
         $orderResultExternal = $xml->xpath("/order/number");
-        
-        PayqrLog::log("Попробовали получить orderId внешний:");
         
         if(!isset($orderResultExternal[0]))
         {
@@ -142,8 +140,6 @@ class InvoiceHandler
         //получаем OrderId-внешний идентификатор
         
         $orderResultInternal = $xml->xpath("/order/id");
-        
-        PayqrLog::log("Попробовали получить orderId внутренний:");
         
         if(!isset($orderResultInternal[0]))
         {
@@ -171,8 +167,6 @@ class InvoiceHandler
         $userData = $this->invoice->getUserData();
         $userData = json_decode($userData);
         
-        PayqrLog::log(print_r($userData ,true));
-        
         $this->invoice->userData->orderId = $orderIdInternal;
         
         $this->invoice->setUserData(json_encode(array("orderId" => $orderIdInternal)));
@@ -195,19 +189,16 @@ class InvoiceHandler
         //отправляем сообщение об успешности оплаты заказ
         $xmlOrder = new PayqrXmlOrder($this->invoice);
         
-        PayqrLog::log(print_r($this->invoice, true));
-        
         $statusPayXml = $xmlOrder->changeOrderPayStatus();
         
         if(empty($statusPayXml))
         {
-            //производим возврат денежных средств
             PayqrLog::log("Не смогли получить xml-файл");
             
             return false;
         }
         
-        PayqrLog::log("Изменяем статус заказа. Отправялем xml файл");
+        PayqrLog::log("Изменяем статус заказа. Отправляем xml файл");
         
         PayqrLog::log($statusPayXml);
         
@@ -220,6 +211,8 @@ class InvoiceHandler
         
         if(isset($userData->orderId) && !empty($userData->orderId))
         {
+            PayqrLog::log("Отправляем запрос на следующий URL: " . PayqrConfig::$urlCreateOrder . "/" . $userData->orderId . ".xml");
+            
             $response = $payqrCURLObject->sendPOSTXMLFile(PayqrConfig::$urlCreateOrder . "/" . $userData->orderId . ".xml", $statusPayXml, 'PUT');
         
             PayqrLog::log("Получили ответ после изменения статуса оплаты заказа");

@@ -91,7 +91,7 @@ class PayqrRequest
         return $this;
     }
     
-    public function check_insales_responce($rawResponse, $method, $url, $vars)
+    public function check_insales_responce($rawResponse)
     {
         libxml_use_internal_errors(true);
         

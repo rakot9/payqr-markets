@@ -267,13 +267,22 @@ class PayqrCurl extends PayqrRequest
         //curl_setopt($this->request, CURLOPT_MUTE, 1);
         curl_setopt($this->request, CURLOPT_SSL_VERIFYHOST, 0);
         curl_setopt($this->request, CURLOPT_SSL_VERIFYPEER, 0);
-        curl_setopt($this->request, CURLOPT_POST, 1);
+        
         curl_setopt($this->request, CURLOPT_HTTPHEADER, array('Content-Type: application/xml'));
         curl_setopt($this->request, CURLOPT_POSTFIELDS, "$xml_data");
         curl_setopt($this->request, CURLOPT_RETURNTRANSFER, 1);
         
+        if( in_array($method, array("PUT")))
+        {
+            curl_setopt($this->request, CURLOPT_CUSTOMREQUEST, $method);
+        }
+        if( in_array($method, array("POST")))
+        {
+            curl_setopt($this->request, CURLOPT_POST, 1);
+        }
+        
         $rawResponse = curl_exec($this->request);
-        $response = $this->check_insales_responce($rawResponse, $method, $url, array());
+        $response = $this->check_insales_responce($rawResponse);
 
         curl_close($this->request);
         
