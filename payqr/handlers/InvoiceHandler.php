@@ -124,7 +124,8 @@ class InvoiceHandler
             return false;
         }
         
-        PayqrLog::log("Получили ответ от сервера в виде XML-файла");
+        PayqrLog::log("Получили ответ от сервера в виде XML-файла \r\n" . $xml);
+        
         
         //производм разбор xml
         $xml = new SimpleXMLElement($response);
@@ -163,11 +164,6 @@ class InvoiceHandler
         }
 
         $this->invoice->setAmount($totalPrice);
-        
-        $userData = $this->invoice->getUserData();
-        $userData = json_decode($userData);
-        
-        $this->invoice->userData->orderId = $orderIdInternal;
         
         $this->invoice->setUserData(json_encode(array("orderId" => $orderIdInternal)));
         

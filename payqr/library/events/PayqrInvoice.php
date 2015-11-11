@@ -89,6 +89,8 @@ class PayqrInvoice extends PayqrEvent
      */
     public function setAmount($amount)
     {
+        PayqrLog::log('payqr_invoice::setAmount()');
+
         if (isset($this->data->amount)) {
             $this->data->amount = round($amount, 2);
             return true;
