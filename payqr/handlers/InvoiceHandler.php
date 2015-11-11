@@ -248,6 +248,8 @@ class InvoiceHandler
     */ 
     public function revertOrder()
     {
+        PayqrLog::log('revertOrder()');
+        
         //в этом запросе просто производим изменение статуса заказа
         $this->cancelOrder();
         
