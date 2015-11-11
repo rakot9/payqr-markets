@@ -119,7 +119,7 @@ class InvoiceHandler
         
         //PayqrLog::log("Отправляем информацию о создании заказа!");
         
-        $response = $payqrCURLObject->sendPOSTXMLFile(PayqrConfig::$urlCreateOrder . ".xml", $orderXml);
+        $response = $payqrCURLObject->sendPOSTXMLFile(PayqrConfig::$insalesURL . ".xml", $orderXml);
 
         if(!$response)
         {
@@ -218,9 +218,9 @@ class InvoiceHandler
         
         if(isset($userData->orderId) && !empty($userData->orderId))
         {
-            PayqrLog::log("Отправляем запрос на следующий URL: " . PayqrConfig::$urlCreateOrder . "/" . $userData->orderId . ".xml");
+            PayqrLog::log("Отправляем запрос на следующий URL: " . PayqrConfig::$insalesURL . "/" . $userData->orderId . ".xml");
             
-            $response = $payqrCURLObject->sendPOSTXMLFile(PayqrConfig::$urlCreateOrder . "/" . $userData->orderId . ".xml", $statusPayXml, 'PUT');
+            $response = $payqrCURLObject->sendPOSTXMLFile(PayqrConfig::$insalesURL . "/" . $userData->orderId . ".xml", $statusPayXml, 'PUT');
         
             PayqrLog::log("Получили ответ после изменения статуса оплаты заказа");
         
@@ -298,9 +298,9 @@ class InvoiceHandler
         
         if(isset($userData->orderId) && !empty($userData->orderId))
         {
-            PayqrLog::log("Отправляем запрос на следующий URL: " . PayqrConfig::$urlCreateOrder . "/" . $userData->orderId . ".xml");
+            PayqrLog::log("Отправляем запрос на следующий URL: " . PayqrConfig::$insalesURL . "/" . $userData->orderId . ".xml");
             
-            $response = $payqrCURLObject->sendPOSTXMLFile(PayqrConfig::$urlCreateOrder . "/" . $userData->orderId . ".xml", $statusPayXml, 'PUT');
+            $response = $payqrCURLObject->sendPOSTXMLFile(PayqrConfig::$insalesURL . "/" . $userData->orderId . ".xml", $statusPayXml, 'PUT');
         
             PayqrLog::log("Получили ответ после изменения статуса оплаты заказа");
         
