@@ -29,6 +29,7 @@ class PayqrConfig
     public static $merchantID;
     public static $secretKeyIn;
     public static $secretKeyOut;
+    public static $insalesURL;
     
     public static $logKey = "123"; // Ключ доступа к логам
 
@@ -62,8 +63,8 @@ class PayqrConfig
         
         $settings = json_decode($market->getSettings(), true);
         
-        if(!isset($settings['merchant_id'], $settings['secret_key_in'], $settings['secret_key_out']) &&
-           (empty($settings['merchant_id']) || empty($settings['secret_key_in']) || empty($settings['secret_key_out']) ))
+        if(!isset($settings['merchant_id'], $settings['secret_key_in'], $settings['secret_key_out'], $settings['insales_url']) &&
+           (empty($settings['merchant_id']) || empty($settings['secret_key_in']) || empty($settings['secret_key_out']) || empty($settings['insales_url']) ))
         {
             return false;
         }
@@ -73,5 +74,7 @@ class PayqrConfig
         self::$secretKeyIn = $settings['secret_key_in'];
         
         self::$secretKeyOut = $settings['secret_key_out'];
+        
+        self::$insalesURL = $settings['insales_url'];
     }
 }

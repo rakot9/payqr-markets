@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <model package="payqr" platform="mysql" defaultEngine="MyISAM" phpdoc-package="payqr" version="1.1">
     <object class="payqr_item_rows" table="payqr_items">
+        <field name="name" value="insales_url"/>
+        <field name="htmltype" value="text"/>
+        <field name="htmlvalue" value=""/>
+        <field name="htmlpossiblevalues" value=""/>
+        <field name="description" value="Строка вида `http://Идентификатор:Пароль@ваш домен/admin/orders`"/>
+        <field name="active" value="1"/>
+    </object>
+    <object class="payqr_item_rows" table="payqr_items">
         <field name="name" value="merchant_id"/>
         <field name="htmltype" value="text"/>
         <field name="htmlvalue" value=""/>
