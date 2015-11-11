@@ -277,7 +277,7 @@ class InvoiceHandler
         //производим изменения статуса заказа на "Отменен"
         $xmlOrder = new PayqrXmlOrder($this->invoice);
         
-        $statusPayXml = $xmlOrder->changeOrderPayStatus("declined", "pending");
+        $statusPayXml = $xmlOrder->changeOrderPayStatus("pending", "declined");
         
         if(empty($statusPayXml))
         {
