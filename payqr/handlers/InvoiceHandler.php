@@ -59,11 +59,9 @@ class InvoiceHandler
         $marketObj = new Market();
         $this->market = $marketObj->getMarket(PayqrConfig::$merchantID);
         
-        PayqrLog::log(print_r($this->market, true));
-        PayqrLog::log(print_r($this->market->getSettings(), true));
-        
         if(!isset($this->market->settings))
         {
+            PayqrLog::log("Не смогли получить настройки кнопки, прекращаем работу!");
             return false;
         }
         
