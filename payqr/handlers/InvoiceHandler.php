@@ -1,5 +1,6 @@
 <?php
 use frontend\modules\Payqr\models\Market;
+use frontend\models\Market;
 
 class InvoiceHandler 
 {
@@ -59,7 +60,7 @@ class InvoiceHandler
         $this->market = $marketObj->getMarket(PayqrConfig::$merchantID);
         
         PayqrLog::log(print_r($this->market, true));
-        PayqrLog::log(print_r($this->market->settings, true));
+        PayqrLog::log(print_r($this->market->getSettings(), true));
         
         if(!isset($this->market->settings))
         {
