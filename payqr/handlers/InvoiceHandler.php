@@ -124,7 +124,7 @@ class InvoiceHandler
             return false;
         }
         
-        PayqrLog::log("Получили ответ от сервера в виде XML-файла \r\n" . $xml);
+        PayqrLog::log("Получили ответ от сервера в виде XML-файла \r\n" . $response);
         
         
         //производм разбор xml

@@ -51,7 +51,6 @@ class PayqrReceiver
             throw new PayqrExeption("В уведомлении отстутствуют обязательные параметры object, id, type", 1, $json);
         }
         PayqrLog::log("Тип события: " . $this->event . "\nИдентификатор события: " . $this->objectEvent->data->id);
-
         
         $this->event = $this->objectEvent->type;
         $this->type = $this->objectEvent->data->object;
