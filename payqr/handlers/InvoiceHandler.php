@@ -1,7 +1,5 @@
 <?php
-use Yii;
 use frontend\modules\Payqr\models\Market;
-use frontend\modules\Payqr\models\Button;
 
 class InvoiceHandler 
 {
@@ -57,9 +55,13 @@ class InvoiceHandler
     public function createOrder()
     {
         //получаем информацию о настройках кнопки
-        $marketObj = \frontend\models\Market::find()->select(['id','settings'])->where("settings LIKE '%".PayqrConfig::$merchantID."%'")->one();
+        $marketObj = new Market();
+        $this->market = $marketObj->getMarket(PayqrConfig::$merchantID);
         
-        if(!isset($marketObj->settings))
+        PayqrLog::log(print_r($this->market, true));
+        PayqrLog::log(print_r($this->market->settings, true));
+        
+        if(!isset($this->market->settings))
         {
             return false;
         }
