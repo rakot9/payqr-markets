@@ -13,7 +13,7 @@ class MarketController extends Controller
         
         return $this->render('index', [
             'dataProvider' => new \yii\data\ActiveDataProvider([
-                'query' => $markets->getMarkets(),
+                'query' => $markets->getUserMarkets(),
                 'pagination' => [
                     'pageSize' => 10,
                 ]

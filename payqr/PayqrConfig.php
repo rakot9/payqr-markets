@@ -53,7 +53,7 @@ class PayqrConfig
         //получаем информацию о настройках кнопки
         $marketObj = new Market();
         
-        $market = $marketObj->getUserMarkets(DEFAULT_USER_ID);
+        $market = $marketObj->getUserMarkets(DEFAULT_USER_ID)->one();
         
         if(!isset($market->settings))
         {

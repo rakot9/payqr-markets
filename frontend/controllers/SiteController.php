@@ -12,6 +12,7 @@ use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use frontend\modules\Payqr\models\Market;
 
 /**
  * Site controller
@@ -72,6 +73,17 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        $markets = new Market();
+        
+        return $this->render('index', [
+            'dataProvider' => new \yii\data\ActiveDataProvider([
+                'query' => $markets->getUserMarkets(),
+                'pagination' => [
+                    'pageSize' => 10,
+                ]
+            ])
+        ]);
+        
         return $this->render('index');
     }
 

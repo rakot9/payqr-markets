@@ -8,7 +8,7 @@ class Market extends \yii\base\Model {
     
     public function getUserMarkets($user_id = null)
     {
-        return \frontend\models\Market::find(['user_id' => $user_id? $user_id : \Yii::$app->getUser()->id])->one();
+        return \frontend\models\Market::find(['user_id' => $user_id? $user_id : \Yii::$app->getUser()->id]);
     }
     
     public function getMarket($merchant_id = null)
