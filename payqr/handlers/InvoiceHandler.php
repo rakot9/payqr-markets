@@ -248,6 +248,9 @@ class InvoiceHandler
     */ 
     public function revertOrder()
     {
+        //в этом запросе просто производим изменение статуса заказа
+        $this->cancelOrder();
+        
         //отправляем сообщение пользователю
         $this->invoice->setUserMessage((object)array(
             "article" => 1,
@@ -270,15 +273,13 @@ class InvoiceHandler
     public function cancelOrder()
     {
         //производим изменения статуса заказа на "Отменен"
-        
         $xmlOrder = new PayqrXmlOrder($this->invoice);
         
         $statusPayXml = $xmlOrder->changeOrderPayStatus("declined", "pending");
         
         if(empty($statusPayXml))
         {
-            PayqrLog::log("Не смогли получить xml-файл");
-            
+            PayqrLog::log("Не смогли получить xml-файл");            
             return false;
         }
         
