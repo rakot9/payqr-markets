@@ -1,0 +1,43 @@
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2015-11-11 16:28:21
+REQUEST
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2015-11-11 16:28:21
+C:\Apache24\htdocs\payqrmarket.com\www\payqr\library\PayqrAuth.php
+PayqrAuth::checkHeader
+ L:42
+ Входящий секретный ключ из headers не совпадает с входящим ключом из файла конфигурации 
+ Текущее значение SecretKeyIn из вашего PayqrConfig.php: bWIFWbzN3RZG4VXbv38Y 
+ Содержание headers полученного уведомления от PayQR: Array
+(
+    [Host] => payqrmarket.com
+    [Connection] => keep-alive
+    [Cache-Control] => max-age=0
+    [Accept] => text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+    [Upgrade-Insecure-Requests] => 1
+    [User-Agent] => Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.80 Safari/537.36
+    [Accept-Encoding] => gzip, deflate, sdch
+    [Accept-Language] => ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4
+    [Cookie] => _csrf=a32797527dd97bd8658c4f208ef7a7c1c896a5c72a3c335e0cf24ca4c9ca8ef4a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22Y7wh3Jdk1RTPh5Yx2sLcJ_cUUiYNRjzt%22%3B%7D; PHPSESSID=dmjtlto17prockttu0dof3cgl4; _identity=c53c0c9652dcf44dd7c897eb3b36556d9b4cdb56bc49579c719ebda0e2e2519aa%3A2%3A%7Bi%3A0%3Bs%3A9%3A%22_identity%22%3Bi%3A1%3Bs%3A46%3A%22%5B1%2C%22gOGp7TjSh_I-yWSazL7K6snaLvXmG2ta%22%2C2592000%5D%22%3B%7D
+    [host] => payqrmarket.com
+    [connection] => keep-alive
+    [cache-control] => max-age=0
+    [accept] => text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+    [upgrade-insecure-requests] => 1
+    [user-agent] => Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.80 Safari/537.36
+    [accept-encoding] => gzip, deflate, sdch
+    [accept-language] => ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4
+    [cookie] => _csrf=a32797527dd97bd8658c4f208ef7a7c1c896a5c72a3c335e0cf24ca4c9ca8ef4a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22Y7wh3Jdk1RTPh5Yx2sLcJ_cUUiYNRjzt%22%3B%7D; PHPSESSID=dmjtlto17prockttu0dof3cgl4; _identity=c53c0c9652dcf44dd7c897eb3b36556d9b4cdb56bc49579c719ebda0e2e2519aa%3A2%3A%7Bi%3A0%3Bs%3A9%3A%22_identity%22%3Bi%3A1%3Bs%3A46%3A%22%5B1%2C%22gOGp7TjSh_I-yWSazL7K6snaLvXmG2ta%22%2C2592000%5D%22%3B%7D
+)
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2015-11-11 16:28:21
+Вызвано исключение : Error on line 46 in C:\Apache24\htdocs\payqrmarket.com\www\payqr\library\PayqrReceiver.php: <b>Неверный параметр ['PQRSecretKey'] в header уведомления</b>
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2015-11-11 16:28:44
+Вызвано исключение : Error on line 12 in C:\Apache24\htdocs\payqrmarket.com\www\payqr\library\PayqrBase.php: <b>Поле PayqrConfig::secretKeyIn не может быть пустым, проверьте конфигурацию библиотеки PayQR</b>
+

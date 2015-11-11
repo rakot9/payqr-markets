@@ -21,6 +21,13 @@ $application = new yii\console\Application($config);
 $exitCode = $application->run();
 
 require_once __DIR__ . "/PayqrConfig.php"; // подключаем основной класс
+
+//инициализируем данными нашу библиотеку
+if(PayqrConfig::init())
+{
+    exit("Error init PayQR market!");
+}
+
 try
 {
     $receiver = new PayqrReceiver();

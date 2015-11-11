@@ -6,9 +6,9 @@ use yii\base\Model;
 
 class Market extends \yii\base\Model {
     
-    public function geUsertMarkets()
+    public function getUserMarkets($user_id = null)
     {
-        return \frontend\models\Market::find(['user_id' => \Yii::$app->getUser()->id]);
+        return \frontend\models\Market::find(['user_id' => $user_id? $user_id : \Yii::$app->getUser()->id])->one();
     }
     
     public function getMarket($merchant_id = null)
