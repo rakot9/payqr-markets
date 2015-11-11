@@ -1,16 +1,8 @@
 <?php
+use Yii;
+use frontend\modules\Payqr\models\Market;
+use frontend\modules\Payqr\models\Button;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- * Description of InvoiceHandler
- *
- * @author 1
- */
 class InvoiceHandler 
 {
     private $invoice;
@@ -64,6 +56,18 @@ class InvoiceHandler
     */
     public function createOrder()
     {
+        //получаем информацию о настройках кнопки
+        $marketObj = \frontend\models\Market::find()->select(['id','settings'])->where("settings LIKE '%".PayqrConfig::$merchantID."%'")->one();
+        
+        if(!isset($marketObj->settings))
+        {
+            return false;
+        }
+        
+        $settings = json_decode($market->settings, true);
+        
+        PayqrLog::log(print_r($settings, true));
+        
         $xmlOrder = new PayqrXmlOrder($this->invoice);
         
         $customer = $this->invoice->getCustomer();
@@ -124,7 +128,7 @@ class InvoiceHandler
             return false;
         }
         
-        PayqrLog::log("Получили ответ от сервера в виде XML-файла \r\n" . $response);
+        PayqrLog::log("Получили ответ от сервера в виде XML-файла \r\n");
         
         
         //производм разбор xml
