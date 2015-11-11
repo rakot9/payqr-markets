@@ -1,6 +1,6 @@
 <?php
 use frontend\modules\Payqr\models\Market;
-use frontend\models\Market;
+use frontend\models\Market as frModelmarket;
 
 class InvoiceHandler 
 {
@@ -67,9 +67,7 @@ class InvoiceHandler
             return false;
         }
         
-        $settings = json_decode($market->settings, true);
-        
-        PayqrLog::log(print_r($settings, true));
+        $settings = json_decode($this->market->getSettings(), true);
         
         $xmlOrder = new PayqrXmlOrder($this->invoice);
         
@@ -175,7 +173,7 @@ class InvoiceHandler
         $this->invoice->setUserData(json_encode(array("orderId" => $orderIdInternal)));
         
         //отправляем сообщение пользователю
-        if(true)
+        if(isset($settings['']))
         {
             $this->invoice->setUserMessage((object)array(
                 "article" => 1,
