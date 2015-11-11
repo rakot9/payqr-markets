@@ -3,8 +3,9 @@
 
 use frontend\modules\Payqr;
 use yii\grid\GridView;
+use yii\helpers\Html;
 
-$this->title = 'My Yii Application';
+$this->title = 'PayQR редактор кнопок';
 ?>
 <div class="site-index">
 
@@ -29,10 +30,14 @@ $this->title = 'My Yii Application';
                     [
                         'class' => yii\grid\ActionColumn::className(),
                         'template' => '{update} {delete}',
-            //            'buttons' =>[ 
-            //                'update' => function(){return "";},
-            //                'delete' => function(){return "";},
-            //            ]
+                        'buttons' =>[ 
+                            'update' => function ($url, $model, $key) {
+                                return Html::a('<span class="glyphicon glyphicon-pencil"></span>', '?r=payqr/button/edit&market_id='.$key);
+                            },
+                            'delete' => function ($url, $model, $key) {
+                                return Html::a('<span class="glyphicon glyphicon-trash"></span>', '?r=payqr/button/delete&market_id='.$key);
+                            },
+                        ]
                     ]
                 ],
             ]) ?>

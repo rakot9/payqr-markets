@@ -27,6 +27,13 @@ class ButtonController extends Controller
             'button' => $button
         ]);
     }
+    
+    public function actionDelete($market_id)
+    {
+        Market::findOne($market_id)->delete();
+        
+        $this->redirect('/');
+    }
 
     /**
      * Метод обновляет/создает параметр кнопки
