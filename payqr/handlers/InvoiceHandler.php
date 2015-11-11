@@ -173,15 +173,12 @@ class InvoiceHandler
         $this->invoice->setUserData(json_encode(array("orderId" => $orderIdInternal)));
         
         //отправляем сообщение пользователю
-        if(isset($settings['']))
-        {
-            $this->invoice->setUserMessage((object)array(
-                "article" => 1,
-                "text" => "Проверочный текст события invoice.order.creating",
-                "url" => "http://yandex.ru",
-                "imageUrl" => "https://payqr.ru/web/images/logo.png"
-            ));            
-        }
+        $this->invoice->setUserMessage((object)array(
+            "article" => 1,
+            "text" => isset($settings['user_message_order_creating_text'])? $settings['user_message_order_creating_text'] : "",
+            "url" => isset($settings['user_message_order_creating_url'])? $settings['user_message_order_creating_url'] : "",
+            "imageUrl" => isset($settings['user_message_order_creating_imageurl'])? $settings['user_message_order_creating_imageurl'] : ""
+        ));
     }
     
     /**
@@ -233,15 +230,12 @@ class InvoiceHandler
         }
         
         //отправляем сообщение пользователю
-        if(true)
-        {
-            $this->invoice->setUserMessage((object)array(
-                "article" => 1,
-                "text" => "Проверочный текст события invoice.paid",
-                "url" => "http://yandex.ru",
-                "imageUrl" => "https://payqr.ru/web/images/logo.png"
-            ));
-        }
+        $this->invoice->setUserMessage((object)array(
+            "article" => 1,
+            "text" => isset($settings['user_message_order_paid_text'])? $settings['user_message_order_paid_text'] : "",
+            "url" => isset($settings['user_message_order_paid_url'])? $settings['user_message_order_paid_url'] : "",
+            "imageUrl" => isset($settings['user_message_order_paid_imageurl'])? $settings['user_message_order_paid_imageurl'] : ""
+        ));
     }
     
     /*
@@ -257,15 +251,12 @@ class InvoiceHandler
     public function revertOrder()
     {
         //отправляем сообщение пользователю
-        if(true)
-        {
-            $this->invoice->setUserMessage((object)array(
-                "article" => 1,
-                "text" => "Проверочный текст события invoice.reverted",
-                "url" => "http://yandex.ru",
-                "imageUrl" => "https://payqr.ru/web/images/logo.png"
-            ));
-        }
+        $this->invoice->setUserMessage((object)array(
+            "article" => 1,
+            "text" => isset($settings['user_message_order_revert_text'])? $settings['user_message_order_revert_text'] : "",
+            "url" => isset($settings['user_message_order_revert_url'])? $settings['user_message_order_revert_url'] : "",
+            "imageUrl" => isset($settings['user_message_order_revert_imageurl'])? $settings['user_message_order_revert_imageurl'] : ""
+        ));
     }
     
     /*
