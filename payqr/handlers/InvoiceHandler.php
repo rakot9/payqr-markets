@@ -174,7 +174,7 @@ class InvoiceHandler
         //отправляем сообщение пользователю
         if(true)
         {
-            $this->invoice->setUserData((object)array(
+            $this->invoice->setUserMessage((object)array(
                 "article" => 1,
                 "text" => "Проверочный текст события invoice.order.creating",
                 "url" => "http://yandex.ru",
