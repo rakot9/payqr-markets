@@ -202,31 +202,6 @@
         <field name="description" value="Текстовое название промо-идентификатора"/>
         <field name="active" value="1"/>
     </object>
-    <!-- -->
-    <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="user_message_text"/>
-        <field name="htmltype" value="text"/>
-        <field name="htmlvalue" value=""/>
-        <field name="htmlpossiblevalues" value=""/>
-        <field name="description" value="Сообщение в покупке после ее совершения"/>
-        <field name="active" value="1"/>
-    </object>
-    <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="user_message_imageurl"/>
-        <field name="htmltype" value="text"/>
-        <field name="htmlvalue" value=""/>
-        <field name="htmlpossiblevalues" value=""/>
-        <field name="description" value="URL изображения в покупке после ее совершения"/>
-        <field name="active" value="1"/>
-    </object>
-    <object class="payqr_item_rows" table="payqr_items">
-        <field name="name" value="user_message_url"/>
-        <field name="htmltype" value="text"/>
-        <field name="htmlvalue" value=""/>
-        <field name="htmlpossiblevalues" value=""/>
-        <field name="description" value="URL ссылка на сайта продавца в покупке после ее совершения"/>
-        <field name="active" value="1"/>
-    </object>
     <!-- сообщение на событие создания заказа -->
     <object class="payqr_item_rows" table="payqr_items">
         <field name="name" value="user_message_order_creating_text"/>
