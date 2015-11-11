@@ -47,4 +47,9 @@ class Market extends \yii\db\ActiveRecord
             'settings' => 'Settings',
         ];
     }
+    
+    public function getSettings()
+    {
+        return $this->settings;
+    }
 }
