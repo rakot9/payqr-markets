@@ -376,7 +376,7 @@ class InvoiceHandler
         //получаем OrderId-внешний идентификатор
         $deliveryVariants = $xml->xpath("/delivery-variant-fixeds/delivery-variant-fixed");
         
-        if(!empty($deliveryVariants))
+        if(empty($deliveryVariants))
         {
             //не смогли получить варианты доставок
             PayqrLog::log("Не смогли получить варианты доставок");
