@@ -349,29 +349,67 @@ class InvoiceHandler
     */
     public function setDeliveryCases()
     {
-        $api_query = "payment_gateways.xml";
-        
-        //Получаем способы доставки через запрос к API InSales
-        $payqrCurl = new PayqrCurl();
-        
-        $response = $payqrCurl->sendXMLFile(PayqrConfig::$insalesURL . "delivery_variants.xml", "", "GET");
-        
-        PayqrLog::log(print_r($response, true));
-        
         //проверяем xml на валидность
         libxml_use_internal_errors(true);
         
-        $elem = simplexml_load_string($response);
+
+        //Получаем способы доставки через запрос к API InSales
+        $payqrCurl = new PayqrCurl();
+        
+        //вначале производим получение всех способов оплаты, которые присутствуют в системе
+        $responsePayqmetsXML = $payqrCurl->sendXMLFile(PayqrConfig::$insalesURL . "payment_gateways.xml", "", "GET");
+        PayqrLog::log(print_r($responsePayqmetsXML, true));
+        
+        $elem = simplexml_load_string($responsePayqmetsXML);
         
         if($elem == false)
         {
             //Не смогли получить информацию о способах доставки
-            PayqrLog::log("Не смогли получить информацию о способах доставки \r\n" . $response);
+            PayqrLog::log("Не смогли получить информацию о способах доставки \r\n" . $responsePayqmetsXML);
+            return [];
+        }
+        
+        PayqrLog::log(print_r( $responsePayqmetsXML, true));
+        
+        //производм разбор xml
+        $xml = new SimpleXMLElement($responsedeliveriesXML);
+        
+        $paymentsVariants = $xml->xpath("/payment-gateways/payment-gateway");
+        
+        if(empty($paymentsVariants))
+        {
+            //не смогли получить варианты доставок
+            PayqrLog::log("Не смогли получить способы оплаты");
+            return false;
+        }
+        
+        $is_payqr_payment = false;
+        foreach($paymentsVariants as $payment)
+        {
+            if( strpos(strtolower((string)$payment->title), "payqr") !== false)
+            {
+                $is_payqr_payment = true;
+                break;
+            }
+        }
+        
+        
+        //получаем способы доставки
+        $responsedeliveriesXML = $payqrCurl->sendXMLFile(PayqrConfig::$insalesURL . "delivery_variants.xml", "", "GET");
+        
+        PayqrLog::log(print_r($responsedeliveriesXML, true));
+        
+        $elem = simplexml_load_string($responsedeliveriesXML);
+        
+        if($elem == false)
+        {
+            //Не смогли получить информацию о способах доставки
+            PayqrLog::log("Не смогли получить информацию о способах доставки \r\n" . $responsedeliveriesXML);
             return [];
         }
         
         //производм разбор xml
-        $xml = new SimpleXMLElement($response);
+        $xml = new SimpleXMLElement($responsedeliveriesXML);
         
         //получаем OrderId-внешний идентификатор
         $deliveryVariants = $xml->xpath("/delivery-variant-fixeds/delivery-variant-fixed");
