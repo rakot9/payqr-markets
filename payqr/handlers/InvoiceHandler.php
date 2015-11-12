@@ -387,19 +387,19 @@ class InvoiceHandler
         foreach($deliveryVariants as $delivery)
         {
             $delivery_cases[] = array(
-                'article' => $delivery->id,
+                'article' => (int)$delivery->id,
                 'number' => $i++,
-                'name' => $delivery->title,
-                'description' => $delivery->description,
-                'amountFrom' => $delivery->price,
-                'amountTo' => $delivery->price
+                'name' => (string)$delivery->title,
+                'description' => strip_tags((string)$delivery->description),
+                'amountFrom' => round((float)$delivery->price, 2),
+                'amountTo' => round((float)$delivery->price, 2)
             );
         }
         
         PayqrLog::log("Передаем варианты доставок");
         PayqrLog::log(print_r($delivery_cases, true));
         
-        
+        $this->invoice->setDeliveryCases($delivery_cases);
     }
     
     /*
