@@ -112,12 +112,12 @@ class InvoiceHandler
                         </order-lines-attributes>
                     </order>';
         
-        //PayqrLog::log("Наш ответ" . $orderXml);
+        PayqrLog::log("Наш ответ\r\n" . $orderXml);
         
         //производим отправку данных на сервер
         $payqrCURLObject = new PayqrCurl();
         
-        //PayqrLog::log("Отправляем информацию о создании заказа!");
+        PayqrLog::log("Отправляем информацию о создании заказа! " . PayqrConfig::$insalesURL . "orders.xml");
         
         $response = $payqrCURLObject->sendPOSTXMLFile(PayqrConfig::$insalesURL . "orders.xml", $orderXml);
 
