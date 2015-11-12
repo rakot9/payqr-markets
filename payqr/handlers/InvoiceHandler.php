@@ -119,7 +119,7 @@ class InvoiceHandler
         
         PayqrLog::log("Отправляем информацию о создании заказа! " . PayqrConfig::$insalesURL . "orders.xml");
         
-        $response = $payqrCURLObject->sendPOSTXMLFile(PayqrConfig::$insalesURL . "orders.xml", $orderXml);
+        $response = $payqrCURLObject->sendXMLFile(PayqrConfig::$insalesURL . "orders.xml", $orderXml);
 
         if(!$response)
         {
@@ -220,7 +220,7 @@ class InvoiceHandler
         {
             PayqrLog::log("Отправляем запрос на следующий URL: " . PayqrConfig::$insalesURL . "orders/" . $userData->orderId . ".xml");
             
-            $response = $payqrCURLObject->sendPOSTXMLFile(PayqrConfig::$insalesURL . "orders/" . $userData->orderId . ".xml", $statusPayXml, 'PUT');
+            $response = $payqrCURLObject->sendXMLFile(PayqrConfig::$insalesURL . "orders/" . $userData->orderId . ".xml", $statusPayXml, 'PUT');
         
             PayqrLog::log("Получили ответ после изменения статуса оплаты заказа");
         
@@ -300,7 +300,7 @@ class InvoiceHandler
         {
             PayqrLog::log("Отправляем запрос на следующий URL: " . PayqrConfig::$insalesURL . "orders/" . $userData->orderId . ".xml");
             
-            $response = $payqrCURLObject->sendPOSTXMLFile(PayqrConfig::$insalesURL . "/" . $userData->orderId . ".xml", $statusPayXml, 'PUT');
+            $response = $payqrCURLObject->sendXMLFile(PayqrConfig::$insalesURL . "/" . $userData->orderId . ".xml", $statusPayXml, 'PUT');
         
             PayqrLog::log("Получили ответ после изменения статуса оплаты заказа");
         
@@ -354,7 +354,7 @@ class InvoiceHandler
         //Получаем способы доставки через запрос к API InSales
         $payqrCurl = new PayqrCurl();
         
-        $response = $payqrCurl->get(PayqrConfig::$insalesURL . "delivery_variants.xml");
+        $response = $payqrCurl->sendXMLFile(PayqrConfig::$insalesURL . "delivery_variants.xml", "", "GET");
         
         PayqrLog::log(print_r($response, true));
         

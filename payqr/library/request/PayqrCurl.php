@@ -260,7 +260,7 @@ class PayqrCurl extends PayqrRequest
         }
     }
     
-    public function sendPOSTXMLFile($url, $xml_data, $method = 'POST')
+    public function sendXMLFile($url, $xml_data, $method = 'POST')
     {
         $this->request = curl_init();
         curl_setopt($this->request, CURLOPT_URL, $url);
