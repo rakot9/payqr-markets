@@ -354,7 +354,7 @@ class InvoiceHandler
         //Получаем способы доставки через запрос к API InSales
         $payqrCurl = new PayqrCurl();
         
-        $response = $payqrCurl->get(PayqrConfig::$insalesURL . "payment_gateways.xml");
+        $response = $payqrCurl->get(PayqrConfig::$insalesURL . "delivery_variants.xml");
         
         PayqrLog::log(print_r($response, true));
     }
