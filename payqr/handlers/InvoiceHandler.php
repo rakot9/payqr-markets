@@ -357,6 +357,47 @@ class InvoiceHandler
         $response = $payqrCurl->get(PayqrConfig::$insalesURL . "delivery_variants.xml");
         
         PayqrLog::log(print_r($response, true));
+        
+        //проверяем xml на валидность
+        $response = $payqrCurl->check_insales_responce($response);
+        
+        if(!$response)
+        {
+            //Не смогли получить информацию о способах доставки
+            PayqrLog::log("Не смогли получить информацию о способах доставки \r\n" . $response);
+            return [];
+        }
+        
+        //производм разбор xml
+        $xml = new SimpleXMLElement($response);
+        
+        //получаем OrderId-внешний идентификатор
+        $deliveryVariants = $xml->xpath("/delivery-variant-fixeds/delivery-variant-fixed");
+        
+        if(!empty($deliveryVariants))
+        {
+            //не смогли получить варианты доставок
+            PayqrLog::log("Не смогли получить варианты доставок");
+            return false;
+        }
+        
+        $i = 1;
+        foreach($deliveryVariants as $delivery)
+        {
+            $delivery_cases[] = array(
+                'article' => $delivery->id,
+                'number' => $i++,
+                'name' => $delivery->title,
+                'description' => $delivery->description,
+                'amountFrom' => $delivery->price,
+                'amountTo' => $delivery->price
+            );
+        }
+        
+        PayqrLog::log("Передаем варианты доставок");
+        PayqrLog::log(print_r($delivery_cases, true));
+        
+        
     }
     
     /*
