@@ -452,9 +452,10 @@ class InvoiceHandler
             if(!empty($deliveryPayqments))
             {
                 PayqrLog::log("Нашли варианты оплаты для данной доставки");
+                
                 foreach ($deliveryPayqments as $deliveryPayment)
                 {
-                    if((int)$deliveryPayment->payment-gateway-id == $id_payqr_payment)
+                    if((int)$deliveryPayment->{"payment-gateway-id"} == $id_payqr_payment)
                     {
                         $delivery_cases[] = array(
                             'article' => (int)$delivery->id,
