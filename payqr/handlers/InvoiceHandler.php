@@ -349,6 +349,8 @@ class InvoiceHandler
     */
     public function setDeliveryCases()
     {
+        $payqrDelivery = $this->invoice->getDelivery();
+        
         //проверяем xml на валидность
         libxml_use_internal_errors(true);
         
@@ -457,14 +459,38 @@ class InvoiceHandler
                 {
                     if((int)$deliveryPayment->{"payment-gateway-id"} == $id_payqr_payment)
                     {
-                        $delivery_cases[] = array(
-                            'article' => (int)$delivery->id,
-                            'number' => $i++,
-                            'name' => (string)$delivery->title,
-                            'description' => strip_tags((string)$delivery->description),
-                            'amountFrom' => round((float)$delivery->price, 2),
-                            'amountTo' => round((float)$delivery->price, 2)
-                        );
+                        //Проверяем теперь город, для которого разрешена доставка
+                        $deliveryLocations = $delivery->xpath("delivery-locations/delivery-location");
+                        
+                        if(!empty($deliveryLocations))
+                        {
+                            foreach($deliveryLocations as $deliveryLocation)
+                            {
+                                if(!empty($payqrDelivery) && 
+                                        (isset($payqrDelivery->city) && !empty($payqrDelivery->city) && strtolower((string)$deliveryLocation->city) == strtolower($payqrDelivery->city)) )
+                                {
+                                    $delivery_cases[] = array(
+                                        'article' => (int)$delivery->id,
+                                        'number' => $i++,
+                                        'name' => (string)$delivery->title,
+                                        'description' => strip_tags((string)$delivery->description),
+                                        'amountFrom' => round((float)$delivery->price, 2),
+                                        'amountTo' => round((float)$delivery->price, 2)
+                                    );
+                                }
+                            }
+                        }
+                        else
+                        {
+                            $delivery_cases[] = array(
+                                'article' => (int)$delivery->id,
+                                'number' => $i++,
+                                'name' => (string)$delivery->title,
+                                'description' => strip_tags((string)$delivery->description),
+                                'amountFrom' => round((float)$delivery->price, 2),
+                                'amountTo' => round((float)$delivery->price, 2)
+                            );
+                        }
                     }
                 }
             }
