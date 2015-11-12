@@ -372,7 +372,7 @@ class InvoiceHandler
         //производм разбор xml
         $xml = new SimpleXMLElement($responsedeliveriesXML);
         
-        $paymentsVariants = $xml->xpath("/payment-gateways/payment-gateway");
+        $paymentsVariants = $xml->xpath("/payment-gateway-customs/payment-gateway-custom");
         $paymentsVariants1 = $xml->xpath("/objects/object");
         
         if(empty($paymentsVariants1) || empty($paymentsVariants))
@@ -412,6 +412,8 @@ class InvoiceHandler
             return false;
         }
         
+        PayqrLog::log("Получили id способы оплаты " . $id_payqr_payment);
+        
         //получаем способы доставки
         $responsedeliveriesXML = $payqrCurl->sendXMLFile(PayqrConfig::$insalesURL . "delivery_variants.xml", "", "GET");
         
@@ -442,14 +444,26 @@ class InvoiceHandler
         $i = 1;
         foreach($deliveryVariants as $delivery)
         {
-            $delivery_cases[] = array(
-                'article' => (int)$delivery->id,
-                'number' => $i++,
-                'name' => (string)$delivery->title,
-                'description' => strip_tags((string)$delivery->description),
-                'amountFrom' => round((float)$delivery->price, 2),
-                'amountTo' => round((float)$delivery->price, 2)
-            );
+            // получаем 
+            $deliveryPayqments = $delivery->xpath("payment-delivery-variants/payment-delivery-variant");
+            
+            if(!empty($deliveryPayqments))
+            {
+                foreach ($deliveryPayqments as $deliveryPayment)
+                {
+                    if((int)$deliveryPayment->payment-gateway-id == $id_payqr_payment)
+                    {
+                        $delivery_cases[] = array(
+                            'article' => (int)$delivery->id,
+                            'number' => $i++,
+                            'name' => (string)$delivery->title,
+                            'description' => strip_tags((string)$delivery->description),
+                            'amountFrom' => round((float)$delivery->price, 2),
+                            'amountTo' => round((float)$delivery->price, 2)
+                        );
+                    }
+                }
+            }
         }
         
         PayqrLog::log("Передаем варианты доставок");
