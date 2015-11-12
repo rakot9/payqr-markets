@@ -445,10 +445,13 @@ class InvoiceHandler
         foreach($deliveryVariants as $delivery)
         {
             // получаем 
+            PayqrLog::log(print_r($delivery, true));
             $deliveryPayqments = $delivery->xpath("payment-delivery-variants/payment-delivery-variant");
+            PayqrLog::log(print_r($deliveryPayqments, true));
             
             if(!empty($deliveryPayqments))
             {
+                PayqrLog::log("Нашли варианты оплаты для данной доставки");
                 foreach ($deliveryPayqments as $deliveryPayment)
                 {
                     if((int)$deliveryPayment->payment-gateway-id == $id_payqr_payment)
