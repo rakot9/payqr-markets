@@ -350,8 +350,13 @@ class InvoiceHandler
     public function setDeliveryCases()
     {
         $api_query = "payment_gateways.xml";
-        //Получаем способы доставки через запрос к API InSales
         
+        //Получаем способы доставки через запрос к API InSales
+        $payqrCurl = new PayqrCurl();
+        
+        $response = $payqrCurl->get(PayqrConfig::$insalesURL . "payment_gateways.xml");
+        
+        PayqrLog::log(print_r($response, true));
     }
     
     /*
