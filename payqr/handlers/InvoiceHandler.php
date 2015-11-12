@@ -366,11 +366,11 @@ class InvoiceHandler
         {
             //Не смогли получить информацию о способах доставки
             PayqrLog::log("Не смогли получить информацию о способах доставки \r\n" . $responsePayqmetsXML);
-            return [];
+            return array();
         }
         
         //производм разбор xml
-        $xml = new SimpleXMLElement($responsedeliveriesXML);
+        $xml = new SimpleXMLElement($responsePayqmetsXML);
         
         $paymentsVariants = $xml->xpath("/payment-gateway-customs/payment-gateway-custom");
         $paymentsVariants1 = $xml->xpath("/objects/object");
@@ -379,7 +379,7 @@ class InvoiceHandler
         {
             //не смогли получить варианты доставок
             PayqrLog::log("Не смогли получить способы оплаты");
-            return false;
+            return array();
         }
         
         $id_payqr_payment = 0;
@@ -409,7 +409,7 @@ class InvoiceHandler
         {
             //не смогли получить платежную систему
             PayqrLog::log("Не смогли получить способы оплаты");
-            return false;
+            return array();
         }
         
         PayqrLog::log("Получили id способы оплаты " . $id_payqr_payment);
@@ -425,7 +425,7 @@ class InvoiceHandler
         {
             //Не смогли получить информацию о способах доставки
             PayqrLog::log("Не смогли получить информацию о способах доставки \r\n" . $responsedeliveriesXML);
-            return [];
+            return array();
         }
         
         //производм разбор xml
