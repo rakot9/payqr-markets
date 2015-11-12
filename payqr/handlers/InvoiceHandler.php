@@ -369,30 +369,48 @@ class InvoiceHandler
             return [];
         }
         
-        PayqrLog::log(print_r( $responsePayqmetsXML, true));
-        
         //производм разбор xml
         $xml = new SimpleXMLElement($responsedeliveriesXML);
         
         $paymentsVariants = $xml->xpath("/payment-gateways/payment-gateway");
+        $paymentsVariants1 = $xml->xpath("/objects/object");
         
-        if(empty($paymentsVariants))
+        if(empty($paymentsVariants1) || empty($paymentsVariants))
         {
             //не смогли получить варианты доставок
             PayqrLog::log("Не смогли получить способы оплаты");
             return false;
         }
         
-        $is_payqr_payment = false;
-        foreach($paymentsVariants as $payment)
+        $id_payqr_payment = 0;
+        
+        foreach($paymentsVariants1 as $payment)
         {
             if( strpos(strtolower((string)$payment->title), "payqr") !== false)
             {
-                $is_payqr_payment = true;
+                $id_payqr_payment = (int)$payment->id;
                 break;
             }
         }
         
+        if(!$id_payqr_payment)
+        {
+            foreach($paymentsVariants as $payment)
+            {
+                if( strpos(strtolower((string)$payment->title), "payqr") !== false)
+                {
+                    $id_payqr_payment = (int)$payment->id;
+                    break;
+                }
+            }
+        }
+        
+        if(!$id_payqr_payment)
+        {
+            //не смогли получить платежную систему
+            PayqrLog::log("Не смогли получить способы оплаты");
+            return false;
+        }
         
         //получаем способы доставки
         $responsedeliveriesXML = $payqrCurl->sendXMLFile(PayqrConfig::$insalesURL . "delivery_variants.xml", "", "GET");
