@@ -359,9 +359,11 @@ class InvoiceHandler
         PayqrLog::log(print_r($response, true));
         
         //проверяем xml на валидность
-        $response = $payqrCurl->check_insales_responce($response);
+        libxml_use_internal_errors(true);
         
-        if(!$response)
+        $elem = simplexml_load_string($response);
+        
+        if($elem == false)
         {
             //Не смогли получить информацию о способах доставки
             PayqrLog::log("Не смогли получить информацию о способах доставки \r\n" . $response);
