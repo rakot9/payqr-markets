@@ -5,7 +5,7 @@
         <field name="htmltype" value="text"/>
         <field name="htmlvalue" value=""/>
         <field name="htmlpossiblevalues" value=""/>
-        <field name="description" value="Строка вида `http://Идентификатор:Пароль@ваш домен/admin/orders`"/>
+        <field name="description" value="Строка вида `http://Идентификатор:Пароль@ваш домен/admin/`"/>
         <field name="active" value="1"/>
     </object>
     <object class="payqr_item_rows" table="payqr_items">

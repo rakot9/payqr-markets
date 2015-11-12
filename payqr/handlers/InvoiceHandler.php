@@ -119,7 +119,7 @@ class InvoiceHandler
         
         //PayqrLog::log("Отправляем информацию о создании заказа!");
         
-        $response = $payqrCURLObject->sendPOSTXMLFile(PayqrConfig::$insalesURL . ".xml", $orderXml);
+        $response = $payqrCURLObject->sendPOSTXMLFile(PayqrConfig::$insalesURL . "orders.xml", $orderXml);
 
         if(!$response)
         {
@@ -127,7 +127,7 @@ class InvoiceHandler
             return false;
         }
         
-        PayqrLog::log("Получили ответ от сервера в виде XML-файла \r\n");
+        PayqrLog::log("Получили ответ от сервера в виде XML-файла \r\n".$response);
         
         
         //производм разбор xml
@@ -218,9 +218,9 @@ class InvoiceHandler
         
         if(isset($userData->orderId) && !empty($userData->orderId))
         {
-            PayqrLog::log("Отправляем запрос на следующий URL: " . PayqrConfig::$insalesURL . "/" . $userData->orderId . ".xml");
+            PayqrLog::log("Отправляем запрос на следующий URL: " . PayqrConfig::$insalesURL . "orders/" . $userData->orderId . ".xml");
             
-            $response = $payqrCURLObject->sendPOSTXMLFile(PayqrConfig::$insalesURL . "/" . $userData->orderId . ".xml", $statusPayXml, 'PUT');
+            $response = $payqrCURLObject->sendPOSTXMLFile(PayqrConfig::$insalesURL . "orders/" . $userData->orderId . ".xml", $statusPayXml, 'PUT');
         
             PayqrLog::log("Получили ответ после изменения статуса оплаты заказа");
         
@@ -298,7 +298,7 @@ class InvoiceHandler
         
         if(isset($userData->orderId) && !empty($userData->orderId))
         {
-            PayqrLog::log("Отправляем запрос на следующий URL: " . PayqrConfig::$insalesURL . "/" . $userData->orderId . ".xml");
+            PayqrLog::log("Отправляем запрос на следующий URL: " . PayqrConfig::$insalesURL . "orders/" . $userData->orderId . ".xml");
             
             $response = $payqrCURLObject->sendPOSTXMLFile(PayqrConfig::$insalesURL . "/" . $userData->orderId . ".xml", $statusPayXml, 'PUT');
         
@@ -349,7 +349,8 @@ class InvoiceHandler
     */
     public function setDeliveryCases()
     {
-        //Получаем способы доставки
+        $api_query = "payment_gateways.xml";
+        //Получаем способы доставки через запрос к API InSales
         
     }
     
