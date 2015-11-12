@@ -375,7 +375,7 @@ class InvoiceHandler
         $paymentsVariants = $xml->xpath("/payment-gateway-customs/payment-gateway-custom");
         $paymentsVariants1 = $xml->xpath("/objects/object");
         
-        if(empty($paymentsVariants1) || empty($paymentsVariants))
+        if(empty($paymentsVariants1) && empty($paymentsVariants))
         {
             //не смогли получить варианты доставок
             PayqrLog::log("Не смогли получить способы оплаты");
