@@ -78,7 +78,9 @@ class InvoiceHandler
         //Производим проверку на наличие invoice_id
         $invoice_id = $this->invoice->getInvoiceId();
 
-        $result = \frontend\models\InvoiceTable::find(["invoice_id" => $invoice_id])->one();
+        PayqrLog::log("Получили InvoiceId:" . $invoice_id);
+        
+        $result = \frontend\models\InvoiceTable::find()->where(["invoice_id" => $invoice_id])->one();
         
         PayqrLog::log(print_r($result, true));
         
