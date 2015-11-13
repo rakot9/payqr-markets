@@ -255,8 +255,8 @@ class InvoiceHandler
         
         $payqrCURLObject = new PayqrCurl();
         PayqrLog::log("cancel. Отправляем запрос на следующий URL: " . PayqrConfig::$insalesURL . "orders/" . $orderInternalId . ".xml");
-        $response = $payqrCURLObject->sendXMLFile(PayqrConfig::$insalesURL . "/" . $orderInternalId . ".xml", $statusPayXml, 'PUT');
-        PayqrLog::log("cancel. Получили ответ после изменения статуса оплаты заказа\r\n" . print_r($response, true));
+        $response = $payqrCURLObject->sendXMLFile(PayqrConfig::$insalesURL . "orders/" . $orderInternalId . ".xml", $statusPayXml, 'PUT');
+        PayqrLog::log("cancel. Получили ответ после изменения статуса оплаты заказа\r\n" /*. print_r($response, true)*/);
         
         return true;
     }
