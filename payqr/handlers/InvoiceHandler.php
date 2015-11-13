@@ -130,11 +130,11 @@ class InvoiceHandler
         //удаляем строку по условию
         \frontend\models\InvoiceTable::deleteAll(["invoice_id" => $this->invoice->getInvoiceId()]);
 
+        PayqrLog::log(json_encode(array("oInternal" => $orderIdInternal, "oExternal" => $orderIdExternal)));
         $invoiceTable = new \frontend\models\InvoiceTable();
         $invoiceTable->invoice_id = $this->invoice->getInvoiceId();
         $invoiceTable->order_id = json_encode(array("oInternal" => $orderIdInternal, "oExternal" => $orderIdExternal));
         $invoiceTable->amount = $totalPrice;
-        $invoiceTable->is_paid = 0;
         $invoiceTable->save();
             
         $this->invoice->setUserData(json_encode(array("orderId" => $orderIdInternal)));
