@@ -9,7 +9,7 @@ use Yii;
  *
  * @property integer $id
  * @property string $invoice_id
- * @property integer $order_id
+ * @property string $order_id
  * @property string $amount
  * @property string $data
  * @property string $datetime
@@ -32,10 +32,10 @@ class InvoiceTable extends \yii\db\ActiveRecord
     {
         return [
             [['invoice_id'], 'required'],
-            [['order_id', 'is_paid'], 'integer'],
+            [['order_id', 'data'], 'string'],
             [['amount'], 'number'],
-            [['data'], 'string'],
             [['datetime'], 'safe'],
+            [['is_paid'], 'integer'],
             [['invoice_id'], 'string', 'max' => 255],
             [['invoice_id'], 'unique']
         ];
