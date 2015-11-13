@@ -134,6 +134,7 @@ class InvoiceHandler
         $invoiceTable->invoice_id = $this->invoice->getInvoiceId();
         $invoiceTable->order_id = json_encode(array("oInternal" => $orderIdInternal, "oExternal" => $orderIdExternal));
         $invoiceTable->amount = $totalPrice;
+        $invoiceTable->is_paid = 0;
         $invoiceTable->save();
             
         $this->invoice->setUserData(json_encode(array("orderId" => $orderIdInternal)));
