@@ -272,6 +272,7 @@ class PayqrCurl extends PayqrRequest
         
         if( in_array($method, array("PUT")))
         {
+            curl_setopt($this->request, CURLOPT_HTTPHEADER, array('Content-Type: application/xml'));
             curl_setopt($this->request, CURLOPT_CUSTOMREQUEST, $method);
         }
         if( in_array($method, array("POST")))
