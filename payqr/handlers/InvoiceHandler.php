@@ -80,6 +80,8 @@ class InvoiceHandler
 
         $result = \frontend\models\InvoiceTable::find(["invoice_id" => $invoice_id])->one();
         
+        PayqrLog::log(print_r($result, true));
+        
         if($result && isset($result->order_id, $result->amount) && !empty($result->order_id) && !empty($result->amount))
         {
             $this->invoice->setOrderId($result->order_id);
