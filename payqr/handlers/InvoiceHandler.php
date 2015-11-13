@@ -77,9 +77,8 @@ class InvoiceHandler
         
         //Производим проверку на наличие invoice_id
         $invoice_id = $this->invoice->getInvoiceId();
-        $invoiceTable = new \frontend\models\InvoiceTable();
-        
-        $result = $invoiceTable->find(["invoice_id" => $invoice_id])->one();
+
+        $result = \frontend\models\InvoiceTable::find(["invoice_id" => $invoice_id])->one();
         
         if($result)
         {
@@ -183,6 +182,7 @@ class InvoiceHandler
 
             $this->invoice->setUserData(json_encode(array("orderId" => $orderIdInternal)));
             
+            $invoiceTable = new \frontend\models\InvoiceTable();
             $invoiceTable->invoice_id = $invoice_id;
             $invoiceTable->order_id = $orderIdInternal;
             $invoiceTable->amount = $totalPrice;
