@@ -392,14 +392,16 @@ class InvoiceHandler
     public function setDeliveryCases()
     {
         $invoice_id = $this->invoice->getInvoiceId();
-
-        $result = \frontend\models\InvoiceTable::find(["invoice_id" => $invoice_id])->one();
         
-        if(!$result)
+        PayqrLog::log("Получили InvoiceId:" . $invoice_id);
+
+        $result = \frontend\models\InvoiceTable::find()->where(["invoice_id" => $invoice_id])->one();
+        
+        PayqrLog::log(print_r($result, true));
+        
+        if(isset($result->data) && !empty($result->data))
         {
-            $invoiceTable = new \frontend\models\InvoiceTable();
-            $invoiceTable->invoice_id = $invoice_id;
-            $invoiceTable->save();
+            $this->invoice->setDeliveryCases(json_decode($result->data));
         }
         
         $payqrDelivery = $this->invoice->getDelivery();
@@ -550,6 +552,11 @@ class InvoiceHandler
         
         PayqrLog::log("Передаем варианты доставок");
         PayqrLog::log(print_r($delivery_cases, true));
+        
+        $invoiceTable = new \frontend\models\InvoiceTable();
+        $invoiceTable->invoice_id = $invoice_id;
+        $invoiceTable->data = json_encode($delivery_cases);
+        $invoiceTable->save();
         
         $this->invoice->setDeliveryCases($delivery_cases);
     }
