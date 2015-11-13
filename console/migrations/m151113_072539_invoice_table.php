@@ -28,10 +28,11 @@ class m151113_072539_invoice_table extends Migration
         $this->createTable($this->tableName, [
             'id' => Schema::TYPE_PK,
             'invoice_id' => Schema::TYPE_STRING . '(255) NOT NULL',
-            'order_id' => Schema::TYPE_INTEGER . '(11) NOT NULL',
-            'amount' => Schema::TYPE_DECIMAL . '(10,2) NOT NULL',
+            'order_id' => Schema::TYPE_INTEGER . '(11) NULL',
+            'amount' => Schema::TYPE_DECIMAL . '(10,2) NULL',
             'products' => Schema::TYPE_TEXT . ' NULL',
-            'datetime' => Schema::TYPE_TIMESTAMP . ' DEFAULT CURRENT_TIMESTAMP'
+            'datetime' => Schema::TYPE_TIMESTAMP . ' DEFAULT CURRENT_TIMESTAMP',
+            'is_paid' => Schema::TYPE_BOOLEAN . ' NOT NULL DEFAULT 0'
         ], $tableOptions);
         
         $this->createIndex('invoice_id', $this->tableName , 'invoice_id', true);

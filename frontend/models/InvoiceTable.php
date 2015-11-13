@@ -13,6 +13,7 @@ use Yii;
  * @property string $amount
  * @property string $products
  * @property string $datetime
+ * @property integer $is_paid
  */
 class InvoiceTable extends \yii\db\ActiveRecord
 {
@@ -30,8 +31,8 @@ class InvoiceTable extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['invoice_id', 'order_id', 'amount'], 'required'],
-            [['order_id'], 'integer'],
+            [['invoice_id'], 'required'],
+            [['order_id', 'is_paid'], 'integer'],
             [['amount'], 'number'],
             [['products'], 'string'],
             [['datetime'], 'safe'],
@@ -52,6 +53,7 @@ class InvoiceTable extends \yii\db\ActiveRecord
             'amount' => 'Amount',
             'products' => 'Products',
             'datetime' => 'Datetime',
+            'is_paid' => 'Is Paid',
         ];
     }
 }

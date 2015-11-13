@@ -80,7 +80,7 @@ class InvoiceHandler
 
         $result = \frontend\models\InvoiceTable::find(["invoice_id" => $invoice_id])->one();
         
-        if($result)
+        if($result && isset($result->order_id, $result->amount) && !empty($result->order_id) && !empty($result->amount))
         {
             $this->invoice->setOrderId($result->order_id);
             $this->invoice->setAmount($result->amount);
@@ -182,6 +182,9 @@ class InvoiceHandler
 
             $this->invoice->setUserData(json_encode(array("orderId" => $orderIdInternal)));
             
+            //удаляем строку по условию
+            \frontend\models\InvoiceTable::deleteAll(["invoice_id" => $invoice_id]);
+            
             $invoiceTable = new \frontend\models\InvoiceTable();
             $invoiceTable->invoice_id = $invoice_id;
             $invoiceTable->order_id = $orderIdInternal;
@@ -212,6 +215,20 @@ class InvoiceHandler
     */
     public function payOrder()
     {
+        $invoice_id = $this->invoice->getInvoiceId();
+
+        $result = \frontend\models\InvoiceTable::find(["invoice_id" => $invoice_id])->one();
+        
+        if(!$result)
+        {
+            return false;
+        }
+        
+        if($result && isset($result->is_paid) && !empty($result->is_paid))
+        {
+            return true;
+        }
+        
         //отправляем сообщение об успешности оплаты заказ
         $xmlOrder = new PayqrXmlOrder($this->invoice);
         
@@ -253,6 +270,8 @@ class InvoiceHandler
             "url" => isset($settings['user_message_order_paid_url'])? $settings['user_message_order_paid_url'] : "",
             "imageUrl" => isset($settings['user_message_order_paid_imageurl'])? $settings['user_message_order_paid_imageurl'] : ""
         ));
+        
+        \frontend\models\InvoiceTable::updateAll(['is_paid' => 1], 'invoice_id = :invoice_id', [':invoice_id' => $invoice_id]);
     }
     
     /*
@@ -368,11 +387,21 @@ class InvoiceHandler
     */
     public function setDeliveryCases()
     {
+        $invoice_id = $this->invoice->getInvoiceId();
+
+        $result = \frontend\models\InvoiceTable::find(["invoice_id" => $invoice_id])->one();
+        
+        if(!$result)
+        {
+            $invoiceTable = new \frontend\models\InvoiceTable();
+            $invoiceTable->invoice_id = $invoice_id;
+            $invoiceTable->save();
+        }
+        
         $payqrDelivery = $this->invoice->getDelivery();
         
         //проверяем xml на валидность
         libxml_use_internal_errors(true);
-        
 
         //Получаем способы доставки через запрос к API InSales
         $payqrCurl = new PayqrCurl();
