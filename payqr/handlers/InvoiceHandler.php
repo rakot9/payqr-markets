@@ -242,7 +242,10 @@ class InvoiceHandler
             return false;
         }
         
-        PayqrLog::log("cancel. Изменяем статус заказа. Отправляем xml файл. \r\n" . $statusPayXml);
+        if($this->isPaid()) {
+            PayqrLog::log("cancel. Не можем отменить проплаченный товар");
+            return false; 
+        }
         
         $orderInternalId = $this->getInternalOrderId();
         if(!$orderInternalId){
