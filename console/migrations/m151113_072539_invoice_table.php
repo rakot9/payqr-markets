@@ -28,7 +28,7 @@ class m151113_072539_invoice_table extends Migration
         $this->createTable($this->tableName, [
             'id' => Schema::TYPE_PK,
             'invoice_id' => Schema::TYPE_STRING . '(255) NOT NULL',
-            'order_id' => Schema::TYPE_INTEGER . '(11) NULL',
+            'order_id' => Schema::TYPE_TEXT . ' NULL',
             'amount' => Schema::TYPE_DECIMAL . '(10,2) NULL',
             'data' => Schema::TYPE_TEXT . ' NULL',
             'datetime' => Schema::TYPE_TIMESTAMP . ' DEFAULT CURRENT_TIMESTAMP',
