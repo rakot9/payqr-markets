@@ -125,6 +125,11 @@ class InvoiceHandler
             PayqrLog::log("ОШИБКА! Сумма заказа равна 0!");
             return false;
         }
+        $deliveryCased = $this->invoice->getDeliveryCasesSelected();
+        if(isset($deliveryCased->amountFrom) && !empty($deliveryCased->amountFrom) && $deliveryCased->amountFrom)
+        {
+            $totalPrice = (float)$totalPrice + (float) $deliveryCased->amountFrom;
+        }
         $this->invoice->setAmount($totalPrice);
 
         //удаляем строку по условию
