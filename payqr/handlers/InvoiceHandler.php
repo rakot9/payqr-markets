@@ -221,7 +221,7 @@ class InvoiceHandler
     {
         $invoice_id = $this->invoice->getInvoiceId();
 
-        $result = \frontend\models\InvoiceTable::find(["invoice_id" => $invoice_id])->one();
+        $result = \frontend\models\InvoiceTable::find()->where(["invoice_id" => $invoice_id])->one();
         
         if(!$result)
         {
