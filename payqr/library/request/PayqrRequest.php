@@ -103,8 +103,9 @@ class PayqrRequest
         }
         else
         {
+            PayqrLog::log(print_r($rawResponse, true));
             PayqrLog::log("Возникли ошибки при обработке поступившего ответа от сервера!");
-            PayqrLog::log(print_r(libxml_get_errors()));
+            PayqrLog::log(print_r(libxml_get_errors(), true));
             return false;
         }
     }
