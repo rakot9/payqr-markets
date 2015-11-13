@@ -5,10 +5,17 @@ use frontend\models\Market as frModelmarket;
 class InvoiceHandler 
 {
     private $invoice;
+    private $settings;
     
     public function __construct(PayqrInvoice $invoice) 
     {
         $this->invoice = $invoice;
+        
+        $marketObj = new Market();
+        
+        $this->market = $marketObj->getMarket(PayqrConfig::$merchantID);
+        
+        $this->settings = json_decode($this->market->getSettings(), true);
     }    
     
     /*
@@ -55,154 +62,81 @@ class InvoiceHandler
     */
     public function createOrder()
     {
-        //получаем информацию о настройках кнопки
-        $marketObj = new Market();
-        $this->market = $marketObj->getMarket(PayqrConfig::$merchantID);
-        
-        if(!isset($this->market->settings))
-        {
+        if(!$this->settings) {
             PayqrLog::log("Не смогли получить настройки кнопки, прекращаем работу!");
             return false;
         }
         
-        $settings = json_decode($this->market->getSettings(), true);
+        /*
+         * Отправляем сообщение пользователю
+         */
+        $this->invoice->setUserMessage((object)array(
+            "article" => 1,
+            "text" => isset($this->settings['user_message_order_creating_text'])? $this->settings['user_message_order_creating_text'] : "",
+            "url" => isset($this->settings['user_message_order_creating_url'])? $this->settings['user_message_order_creating_url'] : "",
+            "imageUrl" => isset($this->settings['user_message_order_creating_imageurl'])? $this->settings['user_message_order_creating_imageurl'] : ""
+        ));
         
-        $xmlOrder = new PayqrXmlOrder($this->invoice);
-        
-        $customer = $this->invoice->getCustomer();
-        $shipping = $this->invoice->getDeliveryCasesSelected();
-        
-        PayqrLog::log(print_r($customer, true));
-        PayqrLog::log(print_r($shipping, true));
-        
-        //Производим проверку на наличие invoice_id
-        $invoice_id = $this->invoice->getInvoiceId();
-
-        PayqrLog::log("Получили InvoiceId:" . $invoice_id);
-        
-        $result = \frontend\models\InvoiceTable::find()->where(["invoice_id" => $invoice_id])->one();
-        
-        PayqrLog::log(print_r($result, true));
+        $result = \frontend\models\InvoiceTable::find()->where(["invoice_id" => $this->invoice->getInvoiceId()])->one();
         
         if($result && isset($result->order_id, $result->amount) && !empty($result->order_id) && !empty($result->amount))
         {
-            $this->invoice->setOrderId($result->order_id);
-            $this->invoice->setAmount($result->amount);
-        }
-        else
-        {
-            //Формируем xml с запросом на создание заказа
-            $orderXml = '<?xml version="1.0" encoding="UTF-8"?>
-                        <order>
-                            <force type="boolean">true</force>
-                            <shipping-address>
-                                <address>'.(isset($shipping->city)?           $shipping->city.' ':'').
-                                           (isset($shipping->street)?   'Ул. '.$shipping->street.' ':'').
-                                           (isset($shipping->house)?    'Д. '.$shipping->house.' ':'').
-                                           (isset($shipping->unit)?     'Корп. '.$shipping->unit.' ':'').
-                                           (isset($shipping->building)? 'Стр. '.$shipping->building.' ':'').
-                                           (isset($shipping->flat)?     'Кв. '.$shipping->flat.' ':'').
-                                           (isset($shipping->hallway)?  'Под. '.$shipping->hallway.' ':'').
-                                           (isset($shipping->floor)?    'Эт. ' .$shipping->floor.' ':'').
-                                           (isset($shipping->intercom)? 'Дмфн.' . $shipping->intercom.' ':'').
-                                           (isset($shipping->comment)?  $shipping->comment.' ':'').
-                                '</address>
-                                <country>RU</country>
-                            '. (isset($shipping->city)? '<city>'.$shipping->city.'</city>' : '') .'
-                            '. (isset($shipping->zip)? '<zip>'.$shipping->zip.'</zip>' : '<zip nil="true"/>') .'
-                            '. (isset($customer->firstName)? '<name>'.$customer->firstName.'</name>':'<name nil="true"/>') .'
-                            '. (isset($customer->phone)? '<phone>'.$customer->phone.'</phone>':'<phone nil="true"/>') .'
-                                <state nil="true"/>
-                            </shipping-address>
-                            <client>
-                            '. (isset($customer->email)? '<email>'.$customer->email.'</email>':'') .'
-                            '. (isset($customer->phone)? '<phone>'.$customer->phone.'</phone>':'') .'
-                            '. (isset($customer->firstName)? '<name>'.$customer->firstName.'</name>':'') .'
-                            '. (isset($customer->middleName)? '<middlename>'.$customer->middleName.'</middlename>':'') .'
-                            '. (isset($customer->lastName)? '<surname>'.$customer->lastName.'</surname>':'') .'
-                            </client>
-                            <order-lines-attributes type="array">
-                                <order-line-attributes>
-                                    '.$xmlOrder->getXmlProduct().'
-                                </order-line-attributes>
-                            </order-lines-attributes>
-                        </order>';
-
-            PayqrLog::log("Наш ответ\r\n" . $orderXml);
-
-            //производим отправку данных на сервер
-            $payqrCURLObject = new PayqrCurl();
-
-            PayqrLog::log("Отправляем информацию о создании заказа! " . PayqrConfig::$insalesURL . "orders.xml");
-
-            $response = $payqrCURLObject->sendXMLFile(PayqrConfig::$insalesURL . "orders.xml", $orderXml);
-
-            if(!$response)
-            {
-                PayqrLog::log("Ответ от сервера InSales не в формате xml");
-                return false;
+            $ordersId = json_decode($result->order_id, true);
+            if(is_array($ordersId)) {
+                $this->invoice->setOrderId($ordersId['oExternal']);
+                $this->invoice->setAmount($result->amount);
             }
-
-            PayqrLog::log("Получили ответ от сервера в виде XML-файла \r\n".$response);
-
-
-            //производм разбор xml
-            $xml = new SimpleXMLElement($response);
-
-            //получаем OrderId-внешний идентификатор
-            $orderResultExternal = $xml->xpath("/order/number");
-
-            if(!isset($orderResultExternal[0]))
-            {
-                return false;
-            }
-
-            //получаем OrderId-внешний идентификатор
-
-            $orderResultInternal = $xml->xpath("/order/id");
-
-            if(!isset($orderResultInternal[0]))
-            {
-                return false;
-            }
-
-            $orderIdInternal = (int)$orderResultInternal[0]; PayqrLog::log("Внутренний Id:" . $orderIdInternal);
-            $orderIdExternal = (int)$orderResultExternal[0]; PayqrLog::log("Внешний Id:" . $orderIdExternal);
-
-            //Устанавливаем номер заказ
-            $this->invoice->setOrderId($orderIdExternal);
-
-            //Устаналиваем стоимость заказа
-            $orderAmountResult = $xml->xpath("/order/order-lines/order-line/total-price");
-
-            $totalPrice = 0;
-
-            while(list(, $price) = each($orderAmountResult))
-            {
-                $totalPrice += round((float)$price,2);
-            }
-
-            $this->invoice->setAmount($totalPrice);
-
-            $this->invoice->setUserData(json_encode(array("orderId" => $orderIdInternal)));
-            
-            //удаляем строку по условию
-            \frontend\models\InvoiceTable::deleteAll(["invoice_id" => $invoice_id]);
-            
-            $invoiceTable = new \frontend\models\InvoiceTable();
-            $invoiceTable->invoice_id = $invoice_id;
-            $invoiceTable->order_id = $orderIdInternal;
-            $invoiceTable->amount = $totalPrice;
-            $invoiceTable->save();
+            $this->invoice->setUserData(json_encode(array("orderId" => $ordersId['oInternal'])));
+            return true;
         }
         
-        //отправляем сообщение пользователю
-        $this->invoice->setUserMessage((object)array(
-            "article" => 1,
-            "text" => isset($settings['user_message_order_creating_text'])? $settings['user_message_order_creating_text'] : "",
-            "url" => isset($settings['user_message_order_creating_url'])? $settings['user_message_order_creating_url'] : "",
-            "imageUrl" => isset($settings['user_message_order_creating_imageurl'])? $settings['user_message_order_creating_imageurl'] : ""
-        ));
+        $xmlOrder = new PayqrXmlOrder($this->invoice);
+        $orderXml = $xmlOrder->getXMLOrder();
+
+        /*
+         * Создаем заказ, путем отправки xml
+         */
+        $payqrCURLObject = new PayqrCurl();
+        $response = $payqrCURLObject->sendXMLFile(PayqrConfig::$insalesURL . "orders.xml", $orderXml);
+        if(!$response) {
+            PayqrLog::log("Ответ от сервера InSales не в формате xml");
+            return false;
+        }
+
+        $xml = new SimpleXMLElement($response);
+        $orderResultExternal = $xml->xpath("/order/number");
+        $orderResultInternal = $xml->xpath("/order/id");
+        $orderResultAmount   = $xml->xpath("/order/order-lines/order-line/total-price");
+
+        if(!isset($orderResultExternal[0]) || !isset($orderResultInternal[0])) {
+            PayqrLog::log("Не смогли получить xml-ответ по созданному заказу!");
+            return false;
+        }
+
+        $orderIdInternal = (int)$orderResultInternal[0]; PayqrLog::log("Внутренний Id:" . $orderIdInternal);
+        $orderIdExternal = (int)$orderResultExternal[0]; PayqrLog::log("Внешний Id:" . $orderIdExternal);
+        $this->invoice->setOrderId($orderIdExternal);
+        
+        $totalPrice = 0;
+        while(list(, $price) = each($orderResultAmount)) {
+            $totalPrice += round((float)$price,2);
+        }
+        if(empty($totalPrice)) {
+            PayqrLog::log("ОШИБКА! Сумма заказа равна 0!");
+            return false;
+        }
+        $this->invoice->setAmount($totalPrice);
+
+        //удаляем строку по условию
+        \frontend\models\InvoiceTable::deleteAll(["invoice_id" => $this->invoice->getInvoiceId()]);
+
+        $invoiceTable = new \frontend\models\InvoiceTable();
+        $invoiceTable->invoice_id = $this->invoice->getInvoiceId();
+        $invoiceTable->order_id = json_encode(array("oInternal" => $orderIdInternal, "oExternal" => $orderIdExternal));
+        $invoiceTable->amount = $totalPrice;
+        $invoiceTable->save();
+            
+        $this->invoice->setUserData(json_encode(array("orderId" => $orderIdInternal)));
     }
     
     /**
