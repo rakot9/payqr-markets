@@ -167,23 +167,22 @@ class InvoiceHandler
             return false;
         }
         
-        /*
-         * Подготавливаем XML для смены статуса заказа
-         */
-        $xmlOrder = new PayqrXmlOrder($this->invoice);
-        $statusPayXml = $xmlOrder->changeOrderPayStatus();
-        if(empty($statusPayXml)) {
-            PayqrLog::log("inv_paid. Не смогли получить xml-файл");
-            return false;
+        if(!$this->isPaid()) {
+            /*
+            * Подготавливаем XML для смены статуса заказа
+            */
+            $xmlOrder = new PayqrXmlOrder($this->invoice);
+            $statusPayXml = $xmlOrder->changeOrderPayStatus();
+            if(empty($statusPayXml)) {
+               PayqrLog::log("inv_paid. Не смогли получить xml-файл");
+               return false;
+            }
+            $payqrCURLObject = new PayqrCurl();
+            PayqrLog::log("inv_paid. Изменяем статус заказа. Отправляем xml файл \r\n" . $statusPayXml);
+            PayqrLog::log("inv_paid. URL: " . PayqrConfig::$insalesURL . "orders/" . $orderIdInternal . ".xml");
+            $response = $payqrCURLObject->sendXMLFile(PayqrConfig::$insalesURL . "orders/" . $orderIdInternal . ".xml", $statusPayXml, 'PUT');
+            PayqrLog::log("Получили ответ после изменения статуса оплаты заказа \r\n" . print_r($response, true));
         }
-        
-        PayqrLog::log("inv_paid. Изменяем статус заказа. Отправляем xml файл \r\n" . $statusPayXml);
-        
-        $payqrCURLObject = new PayqrCurl();
-        PayqrLog::log("inv_paid. URL: " . PayqrConfig::$insalesURL . "orders/" . $orderIdInternal . ".xml");
-        $response = $payqrCURLObject->sendXMLFile(PayqrConfig::$insalesURL . "orders/" . $orderIdInternal . ".xml", $statusPayXml, 'PUT');
-        PayqrLog::log("Получили ответ после изменения статуса оплаты заказа \r\n" . print_r($response, true));
-        
         
         $this->invoice->setUserMessage((object)array(
             "article" => 1,
@@ -199,8 +198,13 @@ class InvoiceHandler
     
     public function revertOrder()
     {
+        if(!$this->isPaid()) {
+            PayqrLog::log("revert. Не можем осуществить возврат,не оплаченного заказа!");
+            return false;
+        }
+        
         $xmlOrder = new PayqrXmlOrder($this->invoice);
-        $statusPayXml = $xmlOrder->changeOrderPayStatus("returned", "declined");
+        $statusPayXml = $xmlOrder->changeOrderPayStatus("pending", "returned");
         if(empty($statusPayXml)) {
             PayqrLog::log("revert. Не смогли получить xml-файл");
             return false;
@@ -478,5 +482,16 @@ class InvoiceHandler
                 return $orderIdExternal;
         }
         return null;
+    }
+    
+    private function isPaid()
+    {
+        $result = \frontend\models\InvoiceTable::find()->where(["invoice_id" => $this->invoice->getInvoiceId()])->one();
+        
+        if($result && isset($result->is_paid) && !empty((int)$result->is_paid))
+        {
+            return true;
+        }
+        return false;
     }
 }
