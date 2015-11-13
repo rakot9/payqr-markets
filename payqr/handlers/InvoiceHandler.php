@@ -82,12 +82,12 @@ class InvoiceHandler
         if($result && isset($result->order_id, $result->amount) && !empty($result->order_id) && !empty($result->amount))
         {
             $ordersId = json_decode($result->order_id, true);
-            if(is_array($ordersId)) {
+            if(is_array($ordersId) && isset($ordersId['oExternal'], $ordersId['oInternal'])) {
                 $this->invoice->setOrderId($ordersId['oExternal']);
                 $this->invoice->setAmount($result->amount);
+                $this->invoice->setUserData(json_encode(array("orderId" => $ordersId['oInternal'])));
+                return true;
             }
-            $this->invoice->setUserData(json_encode(array("orderId" => $ordersId['oInternal'])));
-            return true;
         }
         
         $xmlOrder = new PayqrXmlOrder($this->invoice);
@@ -139,190 +139,124 @@ class InvoiceHandler
         $this->invoice->setUserData(json_encode(array("orderId" => $orderIdInternal)));
     }
     
-    /**
-    * Код будет выполнен, когда интернет-сайт получит уведомление от PayQR об успешной оплате конкретного заказа.
-    * Это означает, что PayQR успешно списал запрошенную интернет-сайтом сумму денежных средств с покупателя и перечислит ее интернет-сайту в ближайшее время, интернет-сайту нужно исполнять свои обязанности перед покупателем, т.е. доставлять товар или оказывать услугу. 
-    *
-    * $this->invoice содержит объект "Счет на оплату" (подробнее об объекте "Счет на оплату" на https://payqr.ru/api/ecommerce#invoice_object)
-    *
-    * Ниже можно вызвать функции своей учетной системы, чтобы особым образом отреагировать на уведомление от PayQR о событии invoice.paid.
-    *
-    * Получить orderId из объекта "Счет на оплату", по которому произошло событие, можно через $this->invoice->getOrderId();
-    *
-    * Важно: несмотря на то, что заказ создается на этапе получения уведомления о событии invoice.order.creating, крайне рекомендуется валидировать все содержание заказа и после получения уведомления о событии invoice.paid. А в случае, когда запрос адреса доставки у покупателя на уровне кнопки PayQR, настроен на рекомендательный режим (спрашивать после оплаты/спрашивать необязательно), то не просто рекомендуется, а обязательно, так как объект "Счет на оплату" на этапе invoice.paid будет содержать в себе расширенные окончательные данные, которых не было на invoice.order.creating. Если по результатам проверки данных из invoice.paid обнаружатся какие-то критичные расхождения (например, сумма заказа из объекта "Счет на оплату" не сходится с суммой из соответствующего заказа), можно сразу послать запрос в PayQR на отмену счету после его оплаты (возврат денег).
-    */
     public function payOrder()
     {
-        $invoice_id = $this->invoice->getInvoiceId();
-
-        $result = \frontend\models\InvoiceTable::find()->where(["invoice_id" => $invoice_id])->one();
-        
-        if(!$result)
-        {
+        if(!$this->settings) {
+            PayqrLog::log("inv_paid. Не смогли получить настройки кнопки, прекращаем работу!");
             return false;
         }
         
-        if($result && isset($result->is_paid) && !empty($result->is_paid))
-        {
+        $result = \frontend\models\InvoiceTable::find()->where(["invoice_id" => $this->invoice->getInvoiceId()])->one();
+        
+        if(!$result) {
+            PayqrLog::log("inv_paid. Не смогли получить информацию о заказе из таблицы invoice_table");
+            return false;
+        }
+        
+        if($result && isset($result->is_paid) && !empty((int)$result->is_paid)) {
+            PayqrLog::log("inv_paid. Повторный запрос.");
             return true;
         }
         
-        //отправляем сообщение об успешности оплаты заказ
-        $xmlOrder = new PayqrXmlOrder($this->invoice);
+        $orderIdInternal = $this->getInternalOrderId();
+        $orderIdExternal = $this->getExternalOrderId();
         
-        $statusPayXml = $xmlOrder->changeOrderPayStatus();
-        
-        if(empty($statusPayXml))
-        {
-            PayqrLog::log("Не смогли получить xml-файл");
-            
+        if(empty($orderIdInternal)){
+            PayqrLog::log("inv_paid. Не смогли получить orderIdInternal");
             return false;
         }
         
-        PayqrLog::log("Изменяем статус заказа. Отправляем xml файл");
-        
-        PayqrLog::log($statusPayXml);
-        
-        //производим отправку данных на сервер
-        $payqrCURLObject = new PayqrCurl();
-        
-        $userData = $this->invoice->getUserData();
-        
-        $userData = json_decode($userData);
-        
-        if(isset($userData->orderId) && !empty($userData->orderId))
-        {
-            PayqrLog::log("Отправляем запрос на следующий URL: " . PayqrConfig::$insalesURL . "orders/" . $userData->orderId . ".xml");
-            
-            $response = $payqrCURLObject->sendXMLFile(PayqrConfig::$insalesURL . "orders/" . $userData->orderId . ".xml", $statusPayXml, 'PUT');
-        
-            PayqrLog::log("Получили ответ после изменения статуса оплаты заказа");
-        
-            PayqrLog::log(print_r($response, true));
+        /*
+         * Подготавливаем XML для смены статуса заказа
+         */
+        $xmlOrder = new PayqrXmlOrder($this->invoice);
+        $statusPayXml = $xmlOrder->changeOrderPayStatus();
+        if(empty($statusPayXml)) {
+            PayqrLog::log("inv_paid. Не смогли получить xml-файл");
+            return false;
         }
         
-        //отправляем сообщение пользователю
+        PayqrLog::log("inv_paid. Изменяем статус заказа. Отправляем xml файл \r\n" . $statusPayXml);
+        
+        $payqrCURLObject = new PayqrCurl();
+        PayqrLog::log("inv_paid. URL: " . PayqrConfig::$insalesURL . "orders/" . $orderIdInternal . ".xml");
+        $response = $payqrCURLObject->sendXMLFile(PayqrConfig::$insalesURL . "orders/" . $orderIdInternal . ".xml", $statusPayXml, 'PUT');
+        PayqrLog::log("Получили ответ после изменения статуса оплаты заказа \r\n" . print_r($response, true));
+        
+        
         $this->invoice->setUserMessage((object)array(
             "article" => 1,
-            "text" => isset($settings['user_message_order_paid_text'])? $settings['user_message_order_paid_text'] : "",
-            "url" => isset($settings['user_message_order_paid_url'])? $settings['user_message_order_paid_url'] : "",
-            "imageUrl" => isset($settings['user_message_order_paid_imageurl'])? $settings['user_message_order_paid_imageurl'] : ""
+            "text" => isset($this->settings['user_message_order_paid_text'])? $this->settings['user_message_order_paid_text'] : "",
+            "url" => isset($this->settings['user_message_order_paid_url'])? $this->settings['user_message_order_paid_url'] : "",
+            "imageUrl" => isset($this->settings['user_message_order_paid_imageurl'])? $this->settings['user_message_order_paid_imageurl'] : ""
         ));
         
-        \frontend\models\InvoiceTable::updateAll(['is_paid' => 1], 'invoice_id = :invoice_id', [':invoice_id' => $invoice_id]);
+        \frontend\models\InvoiceTable::updateAll(['is_paid' => 1], 'invoice_id = :invoice_id', [':invoice_id' => $this->invoice->getInvoiceId()]);
+        
+        return true;
     }
     
-    /*
-    * Код будет выполнен, когда интернет-сайт получит уведомление от PayQR о полной отмене счета (заказа) после его оплаты.
-    * Это означает, что посредством запросов в PayQR интернет-сайт либо одной полной отменой, либо несколькими частичными отменами вернул всю сумму денежных средств по конкретному счету (заказу).
-    *
-    * $this->invoice содержит объект "Счет на оплату" (подробнее об объекте "Счет на оплату" на https://payqr.ru/api/ecommerce#invoice_object)
-    *
-    * Ниже можно вызвать функции своей учетной системы, чтобы особым образом отреагировать на уведомление от PayQR о событии invoice.reverted.
-    *
-    * Получить orderId из объекта "Счет на оплату", по которому произошло событие, можно через $this->invoice->getOrderId();
-    */ 
     public function revertOrder()
     {
-        PayqrLog::log('revertOrder()');
-        
-        //в этом запросе просто производим изменение статуса заказа
-        $this->cancelOrder();
-        
-        //отправляем сообщение пользователю
-        $this->invoice->setUserMessage((object)array(
-            "article" => 1,
-            "text" => isset($settings['user_message_order_revert_text'])? $settings['user_message_order_revert_text'] : "",
-            "url" => isset($settings['user_message_order_revert_url'])? $settings['user_message_order_revert_url'] : "",
-            "imageUrl" => isset($settings['user_message_order_revert_imageurl'])? $settings['user_message_order_revert_imageurl'] : ""
-        ));
-    }
-    
-    /*
-    * Код будет выполнен, когда интернет-сайт получит уведомление от PayQR об отмене счета (заказа) до его оплаты.
-    * Это означает, что либо вышел срок оплаты счета (заказа), либо покупатель отказался от оплаты счета (заказа), либо PayQR успешно обработал запрос в PayQR от интернет-сайта об отказе от счета (заказа) до его оплаты покупателем.
-    *
-    * $this->invoice содержит объект "Счет на оплату" (подробнее об объекте "Счет на оплату" на https://payqr.ru/api/ecommerce#invoice_object)
-    *
-    * Ниже можно вызвать функции своей учетной системы, чтобы особым образом отреагировать на уведомление от PayQR о событии invoice.cancelled.
-    *
-    * Получить orderId из объекта "Счет на оплату", по которому произошло событие, можно через $this->invoice->getOrderId();
-    */
-    public function cancelOrder()
-    {
-        //производим изменения статуса заказа на "Отменен"
         $xmlOrder = new PayqrXmlOrder($this->invoice);
-        
-        $statusPayXml = $xmlOrder->changeOrderPayStatus("pending", "declined");
-        
-        if(empty($statusPayXml))
-        {
-            PayqrLog::log("Не смогли получить xml-файл");            
+        $statusPayXml = $xmlOrder->changeOrderPayStatus("returned", "declined");
+        if(empty($statusPayXml)) {
+            PayqrLog::log("revert. Не смогли получить xml-файл");
             return false;
         }
         
-        PayqrLog::log("Изменяем статус заказа. Отправляем xml файл");
+        $orderInternalId = $this->getInternalOrderId();
         
-        PayqrLog::log($statusPayXml);
-        
-        //производим отправку данных на сервер
-        $payqrCURLObject = new PayqrCurl();
-        
-        $userData = $this->invoice->getUserData();
-        
-        $userData = json_decode($userData);
-        
-        if(isset($userData->orderId) && !empty($userData->orderId))
-        {
-            PayqrLog::log("Отправляем запрос на следующий URL: " . PayqrConfig::$insalesURL . "orders/" . $userData->orderId . ".xml");
-            
-            $response = $payqrCURLObject->sendXMLFile(PayqrConfig::$insalesURL . "/" . $userData->orderId . ".xml", $statusPayXml, 'PUT');
-        
-            PayqrLog::log("Получили ответ после изменения статуса оплаты заказа");
-        
-            PayqrLog::log(print_r($response, true));
+        if(!$orderInternalId){
+            PayqrLog::log("revert. Не смогли получить orderInternalId");
+            return false;
         }
+
+        $payqrCURLObject = new PayqrCurl();
+        PayqrLog::log("revert. URL: " . PayqrConfig::$insalesURL . "orders/" . $orderInternalId . ".xml");
+        $response = $payqrCURLObject->sendXMLFile(PayqrConfig::$insalesURL . "orders/" . $orderInternalId . ".xml", $statusPayXml, 'PUT');
+        PayqrLog::log("revert. Получили ответ после изменения статуса возврата заказа \r\n" . print_r($response, true));
+
+        //отправляем сообщение пользователю
+        $this->invoice->setUserMessage((object)array(
+            "article" => 1,
+            "text" => isset($this->settings['user_message_order_revert_text'])? $this->settings['user_message_order_revert_text'] : "",
+            "url" => isset($this->settings['user_message_order_revert_url'])? $this->settings['user_message_order_revert_url'] : "",
+            "imageUrl" => isset($this->settings['user_message_order_revert_imageurl'])? $this->settings['user_message_order_revert_imageurl'] : ""
+        ));
+        
+        return true;
     }
     
-    /*
-    * Код будет выполнен, когда интернет-сайт получит уведомление от PayQR о сбое в совершении покупки (завершении операции).
-    * Это означает, что что-то пошло не так в процессе совершения покупки (например, интернет-сайт не ответил во время на уведомление от PayQR), поэтому операция прекращена.
-    *
-    * $this->invoice содержит объект "Счет на оплату" (подробнее об объекте "Счет на оплату" на https://payqr.ru/api/ecommerce#invoice_object)
-    *
-    * Ниже можно вызвать функции своей учетной системы, чтобы особым образом отреагировать на уведомление от PayQR о событии invoice.failed.
-    *
-    * Получить orderId из объекта "Счет на оплату", по которому произошло событие, можно через $this->invoice->getOrderId();
-    */
+    public function cancelOrder()
+    {
+        $xmlOrder = new PayqrXmlOrder($this->invoice);
+        $statusPayXml = $xmlOrder->changeOrderPayStatus("pending", "declined");
+        if(empty($statusPayXml)){
+            PayqrLog::log("cancel. Не смогли получить xml-файл");            
+            return false;
+        }
+        
+        PayqrLog::log("cancel. Изменяем статус заказа. Отправляем xml файл. \r\n" . $statusPayXml);
+        
+        $orderInternalId = $this->getInternalOrderId();
+        if(!$orderInternalId){
+            PayqrLog::log("cancel. Не смогли получить orderInternalId");
+            return false;
+        }
+        
+        $payqrCURLObject = new PayqrCurl();
+        PayqrLog::log("cancel. Отправляем запрос на следующий URL: " . PayqrConfig::$insalesURL . "orders/" . $orderInternalId . ".xml");
+        $response = $payqrCURLObject->sendXMLFile(PayqrConfig::$insalesURL . "/" . $orderInternalId . ".xml", $statusPayXml, 'PUT');
+        PayqrLog::log("cancel. Получили ответ после изменения статуса оплаты заказа\r\n" . print_r($response, true));
+        
+        return true;
+    }
+    
     public function failOrder()
     {
-        
     }
     
-    /**
-    * Код в этом файле будет выполнен, когда интернет-сайт получит уведомление от PayQR о необходимости предоставить покупателю способы доставки конкретного заказа.
-    * Это означает, что интернет-сайт на уровне кнопки PayQR активировал этап выбора способа доставки покупателем, и сейчас покупатель дошел до этого этапа.
-    *
-    * $this->invoice содержит объект "Счет на оплату" (подробнее об объекте "Счет на оплату" на https://payqr.ru/api/ecommerce#invoice_object)
-    *
-    * Ниже можно вызвать функции своей учетной системы, чтобы особым образом отреагировать на уведомление от PayQR о событии invoice.deliverycases.updating.
-    *
-    * Важно: на уведомление от PayQR о событии invoice.deliverycases.updating нельзя реагировать как на уведомление о создании заказа, так как иногда оно будет поступать не от покупателей, а от PayQR для тестирования доступности функционала у конкретного интернет-сайта, т.е. оно никак не связано с реальным формированием заказов. Также важно, что в ответ на invoice.deliverycases.updating интернет-сайт может передать в PayQR только содержимое параметра deliveryCases объекта "Счет на оплату". Передаваемый в PayQR от интернет-сайта список способов доставки может быть многоуровневым.
-    *
-    * Пример массива способов доставки:
-    * $delivery_cases = array(
-    *          array(
-    *              'article' => '2001',
-    *               'number' => '1.1',
-    *               'name' => 'DHL',
-    *               'description' => '1-2 дня',
-    *               'amountFrom' => '0',
-    *               'amountTo' => '70',
-    *              ),
-    *          .....
-    *  );
-    * $this->invoice->setDeliveryCases($delivery_cases);
-    */
     public function setDeliveryCases()
     {
         $invoice_id = $this->invoice->getInvoiceId();
@@ -495,32 +429,53 @@ class InvoiceHandler
         $this->invoice->setDeliveryCases($delivery_cases);
     }
     
-    /*
-    * Код в этом файле будет выполнен, когда интернет-сайт получит уведомление от PayQR о необходимости предоставить покупателю пункты самовывоза конкретного заказа.
-    * Это означает, что интернет-сайт на уровне кнопки PayQR активировал этап выбора пункта самовывоза покупателем, и сейчас покупатель дошел до этого этапа.
-    *
-    * $this->invoice содержит объект "Счет на оплату" (подробнее об объекте "Счет на оплату" на https://payqr.ru/api/ecommerce#invoice_object)
-    *
-    * Ниже можно вызвать функции своей учетной системы, чтобы особым образом отреагировать на уведомление от PayQR о событии invoice.pickpoints.updating.
-    *
-    * Важно: на уведомление от PayQR о событии invoice.pickpoints.updating нельзя реагировать как на уведомление о создании заказа, так как иногда оно будет поступать не от покупателей, а от PayQR для тестирования доступности функционала у конкретного интернет-сайта, т.е. оно никак не связано с реальным формированием заказов. Также важно, что в ответ на invoice.pickpoints.updating интернет-сайт может передать в PayQR только содержимое параметра pickPoints объекта "Счет на оплату". Передаваемый в PayQR от интернет-сайта список пунктов самовывоза может быть многоуровневым.
-    *
-    * Пример массива способов доставки:
-    * $pick_points_cases = array(
-    *          array(
-    *              'article' => '1001',
-    *               'number' => '1.1',
-    *               'name' => 'Наш пункт самовывоза 1',
-    *               'description' => 'с 10:00 до 22:00',
-    *               'amountFrom' => '90',
-    *               'amountTo' => '140',
-    *              ),
-    *          .....
-    *  );
-    * $this->invoice->setPickPointsCases($pick_points_cases);
-    */
     public function setPickPoints()
     {
+    }
+    
+    private function getInternalOrderId()
+    {
+        $orderIdInternal = 0;
         
+        $result = \frontend\models\InvoiceTable::find()->where(["invoice_id" => $this->invoice->getInvoiceId()])->one();
+        
+        if($result) {
+            $ordersId = json_decode($result->order_id, true);
+            
+            if(is_array($ordersId))
+                $orderIdInternal = isset($ordersId['oInternal'])? $ordersId['oInternal'] : 0;
+
+            if(!empty($orderIdInternal))
+                return $orderIdInternal;
+        }
+
+        if(empty($orderIdInternal)) {
+            $userData = json_decode($this->invoice->getUserData());
+            if(isset($userData->orderId) && !empty($userData->orderId)) {
+                return $userData->orderId;
+            }
+            else{
+                return null;
+            }
+        }
+        return null;
+    }
+    
+    private function getExternalOrderId()
+    {
+        $orderIdExternal = 0;
+        
+        $result = \frontend\models\InvoiceTable::find()->where(["invoice_id" => $this->invoice->getInvoiceId()])->one();
+        
+        if($result) {
+            $ordersId = json_decode($result->order_id, true);
+            
+            if(is_array($ordersId))
+                $orderIdExternal = isset($ordersId['oExternal'])? $ordersId['oExternal'] : 0;
+
+            if(!empty($orderIdExternal))
+                return $orderIdExternal;
+        }
+        return null;
     }
 }
