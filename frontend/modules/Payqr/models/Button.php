@@ -74,7 +74,7 @@ class Button extends \yii\base\Model{
             }
         }
         
-        $html .= \yii\bootstrap\Html::submitButton('Создать кнопку');
+        $html .= \yii\bootstrap\Html::submitButton('Сохранить');
         $html .= \yii\bootstrap\Html::endForm();
         
         return $html;

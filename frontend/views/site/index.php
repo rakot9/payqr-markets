@@ -40,8 +40,9 @@ $this->title = 'PayQR редактор кнопок';
                         ]
                     ]
                 ],
-            ]) ?>
-            
+            ]);
+            echo \yii\bootstrap\Html::a('Создать кнопку', ['payqr/button/edit'], ['class'=>'btn btn-primary']);
+            ?>
         </div>
 
     </div>

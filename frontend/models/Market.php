@@ -41,10 +41,10 @@ class Market extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'user_id' => 'User ID',
-            'name' => 'Name',
-            'settings' => 'Settings',
+            'id' => '№ п/п',
+            'user_id' => 'Идентификатор пользователя',
+            'name' => 'Название магазина',
+            'settings' => 'Настройки',
         ];
     }
     
