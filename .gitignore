@@ -31,3 +31,5 @@ phpunit.phar
 
 #config files
 common/config/main-local.php
+
+backend/config/main-local.php
