@@ -27,22 +27,28 @@ function initButton(callback, place){
         
         jsonpCallback: callback,
         
+        complete: function()
+        {
+            console.log("complete");
+        },
+        
         success: function(response)
         {
+            console.log("success");
+            
             if(typeof response ==  "object")
             {
                 data = response;
 
-                if(typeof data.button == "undefined")
-                {
-                    console.log("Промежуточный сервер вернул данные в некорректном формате!");
-                    
-                    return false;
-                }
-                else
-                {
-                    return data.button;
-                }
+//                if(typeof data.button == "undefined")
+//                {
+//                    console.log("Промежуточный сервер вернул данные в некорректном формате!");
+//                    return false;
+//                }
+//                else
+//                {
+//                    return data.button;
+//                }
 
                 return "";
             }
@@ -69,8 +75,10 @@ function initButton(callback, place){
     });
 }
 
-function callbackBasketButton(data)
+function callbackButton(data)
 {
+    console.log("callbackButton");
+    
     if(data.data)
     {
         var button = $('button[class^=payqr-button]');
@@ -90,14 +98,19 @@ function callbackBasketButton(data)
     }
 }
     
-function setCart()
+function setCart(buttonPlace)
 {
-    var basketItems = initButton("callbackBasketButton", "cart");
+    var basketItems = initButton("callbackButton", buttonPlace);
     
     if(typeof basketItems == "Array")
     {
         console.log("Basket items ia array");
     }
+}
+
+function setProduct()
+{
+    initButton("callbackButton", "product");
 }
 
 function RefreshDataCart()
@@ -138,8 +151,17 @@ function RefreshDataCart()
 }
 
 $(function(){
-    
-    setCart();
+    if($("button[class*=payqr-button]").length > 0)
+    {
+        if($("#cartform"))
+        {
+            setCart("cart");
+        }
+        else
+        {
+            setCart("product");
+        }
+    }
     
     $(document).ajaxComplete(function(event, xhr, settings){
         
