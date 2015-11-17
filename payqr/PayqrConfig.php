@@ -37,7 +37,7 @@ class PayqrConfig
 
     public static $enabledLog = true; // разрешить библиотеке PayQR вести лог
 
-    public static $maxTimeOut = 10; // максимальное время ожидания ответа PayQR на запрос интернет-сайта в PayQR
+    public static $maxTimeOut = 30; // максимальное время ожидания ответа PayQR на запрос интернет-сайта в PayQR
 
     public static $checkHeader = true; // проверять секретный ключ SecretKeyIn в уведомлениях и ответах от PayQR
 
