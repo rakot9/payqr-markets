@@ -283,7 +283,7 @@ class InvoiceHandler
         
         PayqrLog::log(print_r($result, true));
         
-        if(isset($result->data) && !empty($result->data))
+        if(isset($result->data))
         {
             //проверяем данные в формате json, но в любом случае наличие данных говорит, о том, что запрос уже был
             if(json_decode($result->data)) {
