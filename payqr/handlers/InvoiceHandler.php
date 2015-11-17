@@ -285,8 +285,19 @@ class InvoiceHandler
         
         if(isset($result->data) && !empty($result->data))
         {
-            $this->invoice->setDeliveryCases(json_decode($result->data));
+            //проверяем данные в формате json, но в любом случае наличие данных говорит, о том, что запрос уже был
+            if(json_decode($result->data)) {
+                PayqrLog::log("setDeliveryCases. Уже иммем все необходимые данные, возвращаем их!");
+                $this->invoice->setDeliveryCases(json_decode($result->data));
+                return true;
+            }
         }
+        //
+        PayqrLog::log("setDeliveryCases. Первый  запрос, сохраняем данные!");
+        $invoiceTable = new \frontend\models\InvoiceTable();
+        $invoiceTable->invoice_id = $invoice_id;
+        $invoiceTable->data = "";
+        $invoiceTable->save();
         
         $payqrDelivery = $this->invoice->getDelivery();
         
@@ -437,10 +448,7 @@ class InvoiceHandler
         PayqrLog::log("Передаем варианты доставок");
         PayqrLog::log(print_r($delivery_cases, true));
         
-        $invoiceTable = new \frontend\models\InvoiceTable();
-        $invoiceTable->invoice_id = $invoice_id;
-        $invoiceTable->data = json_encode($delivery_cases);
-        $invoiceTable->save();
+        \frontend\models\InvoiceTable::updateAll(['data' => json_encode($delivery_cases)], 'invoice_id = :invoice_id', [':invoice_id' => $invoice_id]);
         
         $this->invoice->setDeliveryCases($delivery_cases);
     }
