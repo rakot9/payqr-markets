@@ -102,11 +102,14 @@ class InvoiceHandler
             PayqrLog::log("Ответ от сервера InSales не в формате xml");
             return false;
         }
+        PayqrLog::log("Ответ от сервера \r\n".$response);
 
         $xml = new SimpleXMLElement($response);
         $orderResultExternal = $xml->xpath("/order/number");
         $orderResultInternal = $xml->xpath("/order/id");
         $orderResultAmount   = $xml->xpath("/order/order-lines/order-line/total-price");
+        
+        PayqrLog::log("Получили обработанный XML \r\n".$xml);
 
         if(!isset($orderResultExternal[0]) || !isset($orderResultInternal[0])) {
             PayqrLog::log("Не смогли получить xml-ответ по созданному заказу!");
