@@ -1,0 +1,700 @@
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2015-11-16 12:34:40
+REQUEST
+{"object":"event","id":"evt_d1RvkxGQXA8CkA5pnHFRdC","created":"2015-11-16T15:34:41.130+03:00","livemode":false,"type":"invoice.deliverycases.updating","data":{"object":"invoice","id":"usr_inv_e12R1xZGx9vuoMi0vdPcMo","payqrNumber":"3093090430392038","created":"2015-11-16T15:34:24.280+03:00","modified":"2015-11-16T15:34:40.583+03:00","livemode":false,"payqrUserId":"665785775118","scenario":"Buy","amount":599.0000,"orderId":"","orderGroup":"","cart":[{"article":"77146447","name":"Живая подушка","imageUrl":"http://static-eu.insales.ru/images/products/1/3365/63974693/medium_935638125_686.jpg","quantity":1.0,"amount":599.0,"category":""}],"customer":{"firstName":"Test","middleName":"Тестович","lastName":"Test","phone":"+7 929 599 85 54","email":"rakot@inbox.ru"},"delivery":{"country":"Россия","region":"","city":"Москва","zip":"","street":"Дубиниская","house":"80","unit":"","building":"","flat":"","hallway":"","floor":"","intercom":"","comment":"","longitude":null,"latitude":null,"kladrId":""},"deliveryCases":[],"deliveryCasesSelected":null,"pickPoints":[],"pickPointsSelected":null,"promoCode":{"article":"","description":"","value":""},"promoCard":{"article":"","description":"","value":""},"message":{"article":"","text":"","imageUrl":"","url":""},"upSale":[],"poll":[],"pollSelected":null,"userData":"","validityInMinutes":10080,"confirmWaitingInMinutes":4320,"status":"personalized","confirmStatus":"","reverts":[],"payqrCustomerCommissionPercent":0.0,"payqrFeeAmount":0.0000}}
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2015-11-16 12:34:40
+Тип события: 
+Идентификатор события: usr_inv_e12R1xZGx9vuoMi0vdPcMo
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2015-11-16 12:34:40
+Получили InvoiceId:usr_inv_e12R1xZGx9vuoMi0vdPcMo
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2015-11-16 12:34:40
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2015-11-16 12:34:41
+<?xml version="1.0" encoding="UTF-8"?>
+<payment-gateway-customs type="array">
+  <payment-gateway-custom>
+    <created-at type="timestamp">2015-11-12 13:30:04 +0300</created-at>
+    <id type="integer">305814</id>
+    <margin type="decimal">0.0</margin>
+    <position type="integer">2</position>
+    <type>PaymentGateway::Custom</type>
+    <updated-at type="timestamp">2015-11-12 13:35:49 +0300</updated-at>
+    <title>PayQR</title>
+    <description>&lt;p&gt;Платежный сервис PayQR&lt;/p&gt;</description>
+    <payment-delivery-variants type="array">
+      <payment-delivery-variant>
+        <account-id type="integer">226384</account-id>
+        <created-at type="timestamp">2015-11-12 14:32:08 +0300</created-at>
+        <delivery-variant-id type="integer">361426</delivery-variant-id>
+        <id type="integer">713141</id>
+        <payment-gateway-id type="integer">305814</payment-gateway-id>
+      </payment-delivery-variant>
+      <payment-delivery-variant>
+        <account-id type="integer">226384</account-id>
+        <created-at type="timestamp">2015-11-12 17:42:22 +0300</created-at>
+        <delivery-variant-id type="integer">362847</delivery-variant-id>
+        <id type="integer">713954</id>
+        <payment-gateway-id type="integer">305814</payment-gateway-id>
+      </payment-delivery-variant>
+    </payment-delivery-variants>
+    <type>PaymentGateway::Custom</type>
+  </payment-gateway-custom>
+</payment-gateway-customs>
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2015-11-16 12:34:41
+Получили id способы оплаты 305814
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2015-11-16 12:34:42
+<?xml version="1.0" encoding="UTF-8"?>
+<delivery-variant-fixeds type="array">
+  <delivery-variant-fixed>
+    <charge-up-to type="decimal">1000.0</charge-up-to>
+    <created-at type="timestamp">2015-11-10 16:55:17 +0300</created-at>
+    <id type="integer">361426</id>
+    <inverted type="boolean">false</inverted>
+    <position type="integer">2</position>
+    <updated-at type="timestamp">2015-11-12 16:14:00 +0300</updated-at>
+    <title>Доставка курьером</title>
+    <description>&lt;p&gt;Доставка курьером&lt;/p&gt;</description>
+    <payment-delivery-variants type="array">
+      <payment-delivery-variant>
+        <account-id type="integer">226384</account-id>
+        <created-at type="timestamp">2015-11-12 14:32:08 +0300</created-at>
+        <delivery-variant-id type="integer">361426</delivery-variant-id>
+        <id type="integer">713141</id>
+        <payment-gateway-id type="integer">305814</payment-gateway-id>
+      </payment-delivery-variant>
+    </payment-delivery-variants>
+    <delivery-locations type="array">
+      <delivery-location>
+        <city>Москва</city>
+        <id type="integer">207420</id>
+        <region>г Москва</region>
+      </delivery-location>
+    </delivery-locations>
+    <type>DeliveryVariant::Fixed</type>
+    <price type="decimal">500.0</price>
+  </delivery-variant-fixed>
+  <delivery-variant-fixed>
+    <charge-up-to type="decimal" nil="true"/>
+    <created-at type="timestamp">2015-11-12 16:18:28 +0300</created-at>
+    <id type="integer">362847</id>
+    <inverted type="boolean">false</inverted>
+    <position type="integer">3</position>
+    <updated-at type="timestamp">2015-11-13 09:58:17 +0300</updated-at>
+    <title>Доставка курьером Чехов</title>
+    <description>&lt;p&gt;Доставка курьером Чехов&lt;/p&gt;</description>
+    <payment-delivery-variants type="array">
+      <payment-delivery-variant>
+        <account-id type="integer">226384</account-id>
+        <created-at type="timestamp">2015-11-12 17:42:22 +0300</created-at>
+        <delivery-variant-id type="integer">362847</delivery-variant-id>
+        <id type="integer">713954</id>
+        <payment-gateway-id type="integer">305814</payment-gateway-id>
+      </payment-delivery-variant>
+    </payment-delivery-variants>
+    <delivery-locations type="array">
+      <delivery-location>
+        <city>Чехов</city>
+        <id type="integer">207714</id>
+        <region>обл Московская</region>
+      </delivery-location>
+    </delivery-locations>
+    <type>DeliveryVariant::Fixed</type>
+    <price type="decimal">100.0</price>
+  </delivery-variant-fixed>
+</delivery-variant-fixeds>
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2015-11-16 12:34:42
+SimpleXMLElement Object
+(
+    [charge-up-to] => 1000.0
+    [created-at] => 2015-11-10 16:55:17 +0300
+    [id] => 361426
+    [inverted] => false
+    [position] => 2
+    [updated-at] => 2015-11-12 16:14:00 +0300
+    [title] => Доставка курьером
+    [description] => <p>Доставка курьером</p>
+    [payment-delivery-variants] => SimpleXMLElement Object
+        (
+            [@attributes] => Array
+                (
+                    [type] => array
+                )
+
+            [payment-delivery-variant] => SimpleXMLElement Object
+                (
+                    [account-id] => 226384
+                    [created-at] => 2015-11-12 14:32:08 +0300
+                    [delivery-variant-id] => 361426
+                    [id] => 713141
+                    [payment-gateway-id] => 305814
+                )
+
+        )
+
+    [delivery-locations] => SimpleXMLElement Object
+        (
+            [@attributes] => Array
+                (
+                    [type] => array
+                )
+
+            [delivery-location] => SimpleXMLElement Object
+                (
+                    [city] => Москва
+                    [id] => 207420
+                    [region] => г Москва
+                )
+
+        )
+
+    [type] => DeliveryVariant::Fixed
+    [price] => 500.0
+)
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2015-11-16 12:34:42
+Array
+(
+    [0] => SimpleXMLElement Object
+        (
+            [account-id] => 226384
+            [created-at] => 2015-11-12 14:32:08 +0300
+            [delivery-variant-id] => 361426
+            [id] => 713141
+            [payment-gateway-id] => 305814
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2015-11-16 12:34:42
+Нашли варианты оплаты для данной доставки
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2015-11-16 12:34:42
+SimpleXMLElement Object
+(
+    [charge-up-to] => SimpleXMLElement Object
+        (
+            [@attributes] => Array
+                (
+                    [type] => decimal
+                    [nil] => true
+                )
+
+        )
+
+    [created-at] => 2015-11-12 16:18:28 +0300
+    [id] => 362847
+    [inverted] => false
+    [position] => 3
+    [updated-at] => 2015-11-13 09:58:17 +0300
+    [title] => Доставка курьером Чехов
+    [description] => <p>Доставка курьером Чехов</p>
+    [payment-delivery-variants] => SimpleXMLElement Object
+        (
+            [@attributes] => Array
+                (
+                    [type] => array
+                )
+
+            [payment-delivery-variant] => SimpleXMLElement Object
+                (
+                    [account-id] => 226384
+                    [created-at] => 2015-11-12 17:42:22 +0300
+                    [delivery-variant-id] => 362847
+                    [id] => 713954
+                    [payment-gateway-id] => 305814
+                )
+
+        )
+
+    [delivery-locations] => SimpleXMLElement Object
+        (
+            [@attributes] => Array
+                (
+                    [type] => array
+                )
+
+            [delivery-location] => SimpleXMLElement Object
+                (
+                    [city] => Чехов
+                    [id] => 207714
+                    [region] => обл Московская
+                )
+
+        )
+
+    [type] => DeliveryVariant::Fixed
+    [price] => 100.0
+)
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2015-11-16 12:34:42
+Array
+(
+    [0] => SimpleXMLElement Object
+        (
+            [account-id] => 226384
+            [created-at] => 2015-11-12 17:42:22 +0300
+            [delivery-variant-id] => 362847
+            [id] => 713954
+            [payment-gateway-id] => 305814
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2015-11-16 12:34:42
+Нашли варианты оплаты для данной доставки
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2015-11-16 12:34:42
+Передаем варианты доставок
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2015-11-16 12:34:42
+Array
+(
+    [0] => Array
+        (
+            [article] => 361426
+            [number] => 1
+            [name] => Доставка курьером
+            [description] => Доставка курьером
+            [amountFrom] => 500
+            [amountTo] => 500
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2015-11-16 12:34:42
+RESPONSE
+{"object":"event","id":"evt_d1RvkxGQXA8CkA5pnHFRdC","created":"2015-11-16T15:34:41.130+03:00","livemode":false,"type":"invoice.deliverycases.updating","data":{"object":"invoice","id":"usr_inv_e12R1xZGx9vuoMi0vdPcMo","payqrNumber":"3093090430392038","created":"2015-11-16T15:34:24.280+03:00","modified":"2015-11-16T15:34:40.583+03:00","livemode":false,"payqrUserId":"665785775118","scenario":"Buy","amount":599,"orderId":"","orderGroup":"","cart":[{"article":"77146447","name":"\u0416\u0438\u0432\u0430\u044f \u043f\u043e\u0434\u0443\u0448\u043a\u0430","imageUrl":"http:\/\/static-eu.insales.ru\/images\/products\/1\/3365\/63974693\/medium_935638125_686.jpg","quantity":1,"amount":599,"category":""}],"customer":{"firstName":"Test","middleName":"\u0422\u0435\u0441\u0442\u043e\u0432\u0438\u0447","lastName":"Test","phone":"+7 929 599 85 54","email":"rakot@inbox.ru"},"delivery":{"country":"\u0420\u043e\u0441\u0441\u0438\u044f","region":"","city":"\u041c\u043e\u0441\u043a\u0432\u0430","zip":"","street":"\u0414\u0443\u0431\u0438\u043d\u0438\u0441\u043a\u0430\u044f","house":"80","unit":"","building":"","flat":"","hallway":"","floor":"","intercom":"","comment":"","longitude":null,"latitude":null,"kladrId":""},"deliveryCases":[{"article":361426,"number":1,"name":"\u0414\u043e\u0441\u0442\u0430\u0432\u043a\u0430 \u043a\u0443\u0440\u044c\u0435\u0440\u043e\u043c","description":"\u0414\u043e\u0441\u0442\u0430\u0432\u043a\u0430 \u043a\u0443\u0440\u044c\u0435\u0440\u043e\u043c","amountFrom":500,"amountTo":500}],"deliveryCasesSelected":null,"pickPoints":[],"pickPointsSelected":null,"promoCode":{"article":"","description":"","value":""},"promoCard":{"article":"","description":"","value":""},"message":{"article":"","text":"","imageUrl":"","url":""},"upSale":[],"poll":[],"pollSelected":null,"userData":"","validityInMinutes":10080,"confirmWaitingInMinutes":4320,"status":"personalized","confirmStatus":"","reverts":[],"payqrCustomerCommissionPercent":0,"payqrFeeAmount":0}}
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2015-11-16 12:34:48
+REQUEST
+{"object":"event","id":"evt_cBiEmVnAHZhxzPbRRWSGS9","created":"2015-11-16T15:34:49.057+03:00","livemode":false,"type":"invoice.order.creating","data":{"object":"invoice","id":"usr_inv_e12R1xZGx9vuoMi0vdPcMo","payqrNumber":"3093090430392038","created":"2015-11-16T15:34:24.280+03:00","modified":"2015-11-16T15:34:48.693+03:00","livemode":false,"payqrUserId":"665785775118","scenario":"Buy","amount":599.0000,"orderId":"","orderGroup":"","cart":[{"article":"77146447","name":"Живая подушка","imageUrl":"http://static-eu.insales.ru/images/products/1/3365/63974693/medium_935638125_686.jpg","quantity":1.0,"amount":599.0,"category":""}],"customer":{"firstName":"Test","middleName":"Тестович","lastName":"Test","phone":"+7 929 599 85 54","email":"rakot@inbox.ru"},"delivery":{"country":"Россия","region":"","city":"Москва","zip":"","street":"Дубиниская","house":"80","unit":"","building":"","flat":"","hallway":"","floor":"","intercom":"","comment":"","longitude":null,"latitude":null,"kladrId":""},"deliveryCases":[{"article":"361426","name":"Доставка курьером","description":"Доставка курьером","amountFrom":500.0,"amountTo":500.0,"children":[]}],"deliveryCasesSelected":{"article":"361426","name":"Доставка курьером","description":"Доставка курьером","amountFrom":500.0,"amountTo":500.0},"pickPoints":[],"pickPointsSelected":null,"promoCode":{"article":"","description":"","value":""},"promoCard":{"article":"","description":"","value":""},"message":{"article":"","text":"","imageUrl":"","url":""},"upSale":[],"poll":[],"pollSelected":null,"userData":"","validityInMinutes":10080,"confirmWaitingInMinutes":4320,"status":"personalized","confirmStatus":"","reverts":[],"payqrCustomerCommissionPercent":0.0,"payqrFeeAmount":0.0000}}
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2015-11-16 12:34:48
+Тип события: 
+Идентификатор события: usr_inv_e12R1xZGx9vuoMi0vdPcMo
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2015-11-16 12:34:48
+payqr_invoice::setUserMessage()
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2015-11-16 12:34:49
+Внутренний Id:5870946
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2015-11-16 12:34:49
+Внешний Id:1079
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2015-11-16 12:34:49
+payqr_invoice::setAmount()
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2015-11-16 12:34:49
+{"oInternal":5870946,"oExternal":1079}
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2015-11-16 12:34:50
+payqr_invoice::setUserData()
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2015-11-16 12:34:50
+RESPONSE
+{"object":"event","id":"evt_cBiEmVnAHZhxzPbRRWSGS9","created":"2015-11-16T15:34:49.057+03:00","livemode":false,"type":"invoice.order.creating","data":{"object":"invoice","id":"usr_inv_e12R1xZGx9vuoMi0vdPcMo","payqrNumber":"3093090430392038","created":"2015-11-16T15:34:24.280+03:00","modified":"2015-11-16T15:34:48.693+03:00","livemode":false,"payqrUserId":"665785775118","scenario":"Buy","amount":1099,"orderId":1079,"orderGroup":"","cart":[{"article":"77146447","name":"\u0416\u0438\u0432\u0430\u044f \u043f\u043e\u0434\u0443\u0448\u043a\u0430","imageUrl":"http:\/\/static-eu.insales.ru\/images\/products\/1\/3365\/63974693\/medium_935638125_686.jpg","quantity":1,"amount":599,"category":""}],"customer":{"firstName":"Test","middleName":"\u0422\u0435\u0441\u0442\u043e\u0432\u0438\u0447","lastName":"Test","phone":"+7 929 599 85 54","email":"rakot@inbox.ru"},"delivery":{"country":"\u0420\u043e\u0441\u0441\u0438\u044f","region":"","city":"\u041c\u043e\u0441\u043a\u0432\u0430","zip":"","street":"\u0414\u0443\u0431\u0438\u043d\u0438\u0441\u043a\u0430\u044f","house":"80","unit":"","building":"","flat":"","hallway":"","floor":"","intercom":"","comment":"","longitude":null,"latitude":null,"kladrId":""},"deliveryCases":[{"article":"361426","name":"\u0414\u043e\u0441\u0442\u0430\u0432\u043a\u0430 \u043a\u0443\u0440\u044c\u0435\u0440\u043e\u043c","description":"\u0414\u043e\u0441\u0442\u0430\u0432\u043a\u0430 \u043a\u0443\u0440\u044c\u0435\u0440\u043e\u043c","amountFrom":500,"amountTo":500,"children":[]}],"deliveryCasesSelected":{"article":"361426","name":"\u0414\u043e\u0441\u0442\u0430\u0432\u043a\u0430 \u043a\u0443\u0440\u044c\u0435\u0440\u043e\u043c","description":"\u0414\u043e\u0441\u0442\u0430\u0432\u043a\u0430 \u043a\u0443\u0440\u044c\u0435\u0440\u043e\u043c","amountFrom":500,"amountTo":500},"pickPoints":[],"pickPointsSelected":null,"promoCode":{"article":"","description":"","value":""},"promoCard":{"article":"","description":"","value":""},"message":{"article":1,"text":"\u0417\u0430\u043a\u0430\u0437 \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u0441\u043e\u0437\u0434\u0430\u043d","url":"http:\/\/yandex.ru","imageUrl":"https:\/\/payqr.ru\/web\/images\/logo.png"},"upSale":[],"poll":[],"pollSelected":null,"userData":"{\"orderId\":5870946}","validityInMinutes":10080,"confirmWaitingInMinutes":4320,"status":"personalized","confirmStatus":"","reverts":[],"payqrCustomerCommissionPercent":0,"payqrFeeAmount":0}}
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2015-11-16 12:34:58
+REQUEST
+{"object":"event","id":"evt_cejwZm2unHULfQrQCqcryv","created":"2015-11-16T15:34:59.620+03:00","livemode":false,"type":"invoice.paid","data":{"object":"invoice","id":"usr_inv_e12R1xZGx9vuoMi0vdPcMo","payqrNumber":"3093090430392038","created":"2015-11-16T15:34:24.280+03:00","modified":"2015-11-16T15:34:59.270+03:00","livemode":false,"payqrUserId":"665785775118","scenario":"Buy","amount":1099.0000,"orderId":"1079","orderGroup":"","cart":[{"article":"77146447","name":"Живая подушка","imageUrl":"http://static-eu.insales.ru/images/products/1/3365/63974693/medium_935638125_686.jpg","quantity":1.0,"amount":599.0,"category":""}],"customer":{"firstName":"Test","middleName":"Тестович","lastName":"Test","phone":"+7 929 599 85 54","email":"rakot@inbox.ru"},"delivery":{"country":"Россия","region":"","city":"Москва","zip":"","street":"Дубиниская","house":"80","unit":"","building":"","flat":"","hallway":"","floor":"","intercom":"","comment":"","longitude":null,"latitude":null,"kladrId":""},"deliveryCases":[{"article":"361426","name":"Доставка курьером","description":"Доставка курьером","amountFrom":500.0,"amountTo":500.0,"children":[]}],"deliveryCasesSelected":{"article":"361426","name":"Доставка курьером","description":"Доставка курьером","amountFrom":500.0,"amountTo":500.0},"pickPoints":[],"pickPointsSelected":null,"promoCode":{"article":"","description":"","value":""},"promoCard":{"article":"","description":"","value":""},"message":{"article":"1","text":"Заказ успешно создан","imageUrl":"https://payqr.ru/web/images/logo.png","url":"http://yandex.ru"},"upSale":[],"poll":[],"pollSelected":null,"userData":"{\"orderId\":5870946}","validityInMinutes":10080,"confirmWaitingInMinutes":4320,"status":"paid","confirmStatus":"waiting","reverts":[],"payqrCustomerCommissionPercent":0.0,"payqrFeeAmount":0.0000}}
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2015-11-16 12:34:58
+Тип события: 
+Идентификатор события: usr_inv_e12R1xZGx9vuoMi0vdPcMo
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2015-11-16 12:34:58
+inv_paid. Изменяем статус заказа. Отправляем xml файл 
+<?xml version="1.0" encoding="UTF-8"?>
+                    <order>
+                        <id type="integer">5870946</id>
+                        <financial-status>paid</financial-status>
+                        <fulfillment-status>accepted</fulfillment-status>
+                    </order>
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2015-11-16 12:34:58
+inv_paid. URL: http://f92ee81902e7be44f4f929250580caca:b33ab29af7dac760202ffea745e63cb3@payqr.myinsales.ru/admin/orders/5870946.xml
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2015-11-16 12:34:59
+Получили ответ после изменения статуса оплаты заказа 
+<?xml version="1.0" encoding="UTF-8"?>
+<order>
+  <accepted-at type="timestamp">2015-11-16 15:35:00 +0300</accepted-at>
+  <account-id type="integer">226384</account-id>
+  <comment nil="true"/>
+  <created-at type="timestamp">2015-11-16 15:34:51 +0300</created-at>
+  <current-location nil="true"/>
+  <delivered-at type="timestamp" nil="true"/>
+  <delivery-date type="date" nil="true"/>
+  <delivery-description>Доставка курьером (Доставка курьером)</delivery-description>
+  <delivery-from-hour type="integer" nil="true"/>
+  <delivery-price type="decimal">500.0</delivery-price>
+  <delivery-title>Доставка курьером</delivery-title>
+  <delivery-to-hour type="integer" nil="true"/>
+  <delivery-variant-id type="integer">361426</delivery-variant-id>
+  <financial-status>paid</financial-status>
+  <first-current-location nil="true"/>
+  <first-referer nil="true"/>
+  <fulfillment-status>accepted</fulfillment-status>
+  <id type="integer">5870946</id>
+  <key>f7f920c42326ab40751e26b8f3be3b6c</key>
+  <manager-comment nil="true"/>
+  <margin type="decimal">0.0</margin>
+  <number type="integer">1079</number>
+  <paid-at type="timestamp">2015-11-16 15:35:00 +0300</paid-at>
+  <payment-description>&lt;p&gt;Платежный сервис PayQR&lt;/p&gt;</payment-description>
+  <payment-gateway-id type="integer">305814</payment-gateway-id>
+  <payment-title>PayQR</payment-title>
+  <referer>app:f92ee81902e7be44f4f929250580caca</referer>
+  <updated-at type="timestamp">2015-11-16 15:35:00 +0300</updated-at>
+  <currency-code>RUR</currency-code>
+  <fields-values type="array"/>
+  <shipping-address>
+    <address nil="true"/>
+    <city></city>
+    <country>RU</country>
+    <id type="integer">6993057</id>
+    <middlename>Тестович</middlename>
+    <name>Test</name>
+    <phone>+79295998554</phone>
+    <state nil="true"/>
+    <surname>Test</surname>
+    <zip nil="true"/>
+    <full-delivery-address>Россия</full-delivery-address>
+    <full-name>Test Test Тестович</full-name>
+    <fields-values type="array"/>
+  </shipping-address>
+  <discounts type="array"/>
+  <client>
+    <bonus-points type="integer">0</bonus-points>
+    <client-group-id type="integer" nil="true"/>
+    <created-at type="timestamp">2015-11-16 15:34:51 +0300</created-at>
+    <email>rakot@inbox.ru</email>
+    <id type="integer">5713620</id>
+    <middlename nil="true"/>
+    <name>Test</name>
+    <phone>+7 929 599 85 54</phone>
+    <registered type="boolean">false</registered>
+    <subscribe type="boolean">true</subscribe>
+    <surname nil="true"/>
+    <updated-at type="timestamp">2015-11-16 15:35:00 +0300</updated-at>
+    <fields-values type="array"/>
+    <ip_addr/>
+  </client>
+  <order-lines type="array">
+    <order-line>
+      <barcode nil="true"/>
+      <comment nil="true"/>
+      <created-at type="timestamp">2015-11-16 15:34:51 +0300</created-at>
+      <discounts-amount type="decimal">0.0</discounts-amount>
+      <id type="integer">19820169</id>
+      <order-id type="integer">5870946</order-id>
+      <product-id type="integer">48190920</product-id>
+      <sale-price type="decimal">599.0</sale-price>
+      <sku nil="true"/>
+      <title>Живая подушка</title>
+      <updated-at type="timestamp">2015-11-16 15:34:51 +0300</updated-at>
+      <variant-id type="integer">77146447</variant-id>
+      <weight type="decimal" nil="true"/>
+      <quantity type="integer">1</quantity>
+      <reserved-quantity type="integer">0</reserved-quantity>
+      <full-sale-price type="decimal">599.0</full-sale-price>
+      <total-price type="decimal">599.0</total-price>
+      <full-total-price type="decimal">599.0</full-total-price>
+    </order-line>
+  </order-lines>
+  <cookies>
+  </cookies>
+  <items-price type="decimal">599.0</items-price>
+  <total-price type="decimal">1099.0</total-price>
+  <full-delivery-price type="decimal">500.0</full-delivery-price>
+<order-changes type="array">
+  <order-change>
+    <action>financial_status_changed</action>
+    <created-at type="datetime">2015-11-16T15:35:00+03:00</created-at>
+    <id type="integer">23180198</id>
+    <user-name>Application: f92ee8</user-name>
+    <value-is>paid</value-is>
+    <value-was>pending</value-was>
+  </order-change>
+  <order-change>
+    <action>fulfillment_status_changed</action>
+    <created-at type="datetime">2015-11-16T15:35:00+03:00</created-at>
+    <id type="integer">23180197</id>
+    <user-name>Application: f92ee8</user-name>
+    <value-is>accepted</value-is>
+    <value-was>new</value-was>
+  </order-change>
+  <order-change>
+    <action>custom_status_changed</action>
+    <created-at type="datetime">2015-11-16T15:35:00+03:00</created-at>
+    <id type="integer">23180196</id>
+    <user-name>Application: f92ee8</user-name>
+    <value-is>В обработке</value-is>
+    <value-was>Новый</value-was>
+  </order-change>
+  <order-change>
+    <action>order_created</action>
+    <created-at type="datetime">2015-11-16T15:34:50+03:00</created-at>
+    <id type="integer">23180190</id>
+    <user-name>Application: f92ee8</user-name>
+    <value-is nil="true"/>
+    <value-was nil="true"/>
+  </order-change>
+</order-changes>
+<custom-status>
+  <permalink>accepted</permalink>
+  <title>В обработке</title>
+</custom-status>
+</order>
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2015-11-16 12:34:59
+payqr_invoice::setUserMessage()
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2015-11-16 12:34:59
+RESPONSE
+{"object":"event","id":"evt_cejwZm2unHULfQrQCqcryv","created":"2015-11-16T15:34:59.620+03:00","livemode":false,"type":"invoice.paid","data":{"object":"invoice","id":"usr_inv_e12R1xZGx9vuoMi0vdPcMo","payqrNumber":"3093090430392038","created":"2015-11-16T15:34:24.280+03:00","modified":"2015-11-16T15:34:59.270+03:00","livemode":false,"payqrUserId":"665785775118","scenario":"Buy","amount":1099,"orderId":"1079","orderGroup":"","cart":[{"article":"77146447","name":"\u0416\u0438\u0432\u0430\u044f \u043f\u043e\u0434\u0443\u0448\u043a\u0430","imageUrl":"http:\/\/static-eu.insales.ru\/images\/products\/1\/3365\/63974693\/medium_935638125_686.jpg","quantity":1,"amount":599,"category":""}],"customer":{"firstName":"Test","middleName":"\u0422\u0435\u0441\u0442\u043e\u0432\u0438\u0447","lastName":"Test","phone":"+7 929 599 85 54","email":"rakot@inbox.ru"},"delivery":{"country":"\u0420\u043e\u0441\u0441\u0438\u044f","region":"","city":"\u041c\u043e\u0441\u043a\u0432\u0430","zip":"","street":"\u0414\u0443\u0431\u0438\u043d\u0438\u0441\u043a\u0430\u044f","house":"80","unit":"","building":"","flat":"","hallway":"","floor":"","intercom":"","comment":"","longitude":null,"latitude":null,"kladrId":""},"deliveryCases":[{"article":"361426","name":"\u0414\u043e\u0441\u0442\u0430\u0432\u043a\u0430 \u043a\u0443\u0440\u044c\u0435\u0440\u043e\u043c","description":"\u0414\u043e\u0441\u0442\u0430\u0432\u043a\u0430 \u043a\u0443\u0440\u044c\u0435\u0440\u043e\u043c","amountFrom":500,"amountTo":500,"children":[]}],"deliveryCasesSelected":{"article":"361426","name":"\u0414\u043e\u0441\u0442\u0430\u0432\u043a\u0430 \u043a\u0443\u0440\u044c\u0435\u0440\u043e\u043c","description":"\u0414\u043e\u0441\u0442\u0430\u0432\u043a\u0430 \u043a\u0443\u0440\u044c\u0435\u0440\u043e\u043c","amountFrom":500,"amountTo":500},"pickPoints":[],"pickPointsSelected":null,"promoCode":{"article":"","description":"","value":""},"promoCard":{"article":"","description":"","value":""},"message":{"article":1,"text":"\u0417\u0430\u043a\u0430\u0437 \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u043e\u043f\u043b\u0430\u0447\u0435\u043d","url":"http:\/\/yandex.ru","imageUrl":"https:\/\/payqr.ru\/web\/images\/logo.png"},"upSale":[],"poll":[],"pollSelected":null,"userData":"{\"orderId\":5870946}","validityInMinutes":10080,"confirmWaitingInMinutes":4320,"status":"paid","confirmStatus":"waiting","reverts":[],"payqrCustomerCommissionPercent":0,"payqrFeeAmount":0}}
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2015-11-16 12:35:04
+REQUEST
+{"object":"event","id":"evt_f9IBVIt4hEf6UHNRAN6vWV","created":"2015-11-16T15:35:04.766+03:00","livemode":false,"type":"revert.succeeded","data":{"object":"revert","id":"rvt_g3lxLt5bEktUMpwQc6fQhR","created":"2015-11-16T15:35:04.285+03:00","modified":"2015-11-16T15:35:04.426+03:00","invoiceId":"usr_inv_e12R1xZGx9vuoMi0vdPcMo","revertedAmount":1099.0000,"status":"succeedeed"}}
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2015-11-16 12:35:04
+Тип события: 
+Идентификатор события: rvt_g3lxLt5bEktUMpwQc6fQhR
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2015-11-16 12:35:04
+RESPONSE
+{"object":"event","id":"evt_f9IBVIt4hEf6UHNRAN6vWV","created":"2015-11-16T15:35:04.766+03:00","livemode":false,"type":"revert.succeeded","data":{"object":"revert","id":"rvt_g3lxLt5bEktUMpwQc6fQhR","created":"2015-11-16T15:35:04.285+03:00","modified":"2015-11-16T15:35:04.426+03:00","invoiceId":"usr_inv_e12R1xZGx9vuoMi0vdPcMo","revertedAmount":1099,"status":"succeedeed"}}
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2015-11-16 12:35:04
+REQUEST
+{"object":"event","id":"evt_eRr77d3tFxkyTYLnyhcmFD","created":"2015-11-16T15:35:04.802+03:00","livemode":false,"type":"invoice.reverted","data":{"object":"invoice","id":"usr_inv_e12R1xZGx9vuoMi0vdPcMo","payqrNumber":"3093090430392038","created":"2015-11-16T15:34:24.280+03:00","modified":"2015-11-16T15:35:04.457+03:00","livemode":false,"payqrUserId":"665785775118","scenario":"Buy","amount":1099.0000,"orderId":"1079","orderGroup":"","cart":[{"article":"77146447","name":"Живая подушка","imageUrl":"http://static-eu.insales.ru/images/products/1/3365/63974693/medium_935638125_686.jpg","quantity":1.0,"amount":599.0,"category":""}],"customer":{"firstName":"Test","middleName":"Тестович","lastName":"Test","phone":"+7 929 599 85 54","email":"rakot@inbox.ru"},"delivery":{"country":"Россия","region":"","city":"Москва","zip":"","street":"Дубиниская","house":"80","unit":"","building":"","flat":"","hallway":"","floor":"","intercom":"","comment":"","longitude":null,"latitude":null,"kladrId":""},"deliveryCases":[{"article":"361426","name":"Доставка курьером","description":"Доставка курьером","amountFrom":500.0,"amountTo":500.0,"children":[]}],"deliveryCasesSelected":{"article":"361426","name":"Доставка курьером","description":"Доставка курьером","amountFrom":500.0,"amountTo":500.0},"pickPoints":[],"pickPointsSelected":null,"promoCode":{"article":"","description":"","value":""},"promoCard":{"article":"","description":"","value":""},"message":{"article":"1","text":"Заказ успешно оплачен","imageUrl":"https://payqr.ru/web/images/logo.png","url":"http://yandex.ru"},"upSale":[],"poll":[],"pollSelected":null,"userData":"{\"orderId\":5870946}","validityInMinutes":10080,"confirmWaitingInMinutes":4320,"status":"reverted","confirmStatus":"","reverts":[{"id":"rvt_g3lxLt5bEktUMpwQc6fQhR","created":"2015-11-16T15:35:04.285+03:00","revertedAmount":1099.0000,"status":"succeedeed"}],"payqrCustomerCommissionPercent":0.0,"payqrFeeAmount":0.0000}}
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2015-11-16 12:35:04
+Тип события: 
+Идентификатор события: usr_inv_e12R1xZGx9vuoMi0vdPcMo
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2015-11-16 12:35:04
+revert. URL: http://f92ee81902e7be44f4f929250580caca:b33ab29af7dac760202ffea745e63cb3@payqr.myinsales.ru/admin/orders/5870946.xml
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2015-11-16 12:35:04
+revert. Получили ответ после изменения статуса возврата заказа 
+<?xml version="1.0" encoding="UTF-8"?>
+<order>
+  <accepted-at type="timestamp">2015-11-16 15:35:01 +0300</accepted-at>
+  <account-id type="integer">226384</account-id>
+  <comment nil="true"/>
+  <created-at type="timestamp">2015-11-16 15:34:51 +0300</created-at>
+  <current-location nil="true"/>
+  <delivered-at type="timestamp" nil="true"/>
+  <delivery-date type="date" nil="true"/>
+  <delivery-description>Доставка курьером (Доставка курьером)</delivery-description>
+  <delivery-from-hour type="integer" nil="true"/>
+  <delivery-price type="decimal">500.0</delivery-price>
+  <delivery-title>Доставка курьером</delivery-title>
+  <delivery-to-hour type="integer" nil="true"/>
+  <delivery-variant-id type="integer">361426</delivery-variant-id>
+  <financial-status>pending</financial-status>
+  <first-current-location nil="true"/>
+  <first-referer nil="true"/>
+  <fulfillment-status>returned</fulfillment-status>
+  <id type="integer">5870946</id>
+  <key>f7f920c42326ab40751e26b8f3be3b6c</key>
+  <manager-comment nil="true"/>
+  <margin type="decimal">0.0</margin>
+  <number type="integer">1079</number>
+  <paid-at type="timestamp" nil="true"/>
+  <payment-description>&lt;p&gt;Платежный сервис PayQR&lt;/p&gt;</payment-description>
+  <payment-gateway-id type="integer">305814</payment-gateway-id>
+  <payment-title>PayQR</payment-title>
+  <referer>app:f92ee81902e7be44f4f929250580caca</referer>
+  <updated-at type="timestamp">2015-11-16 15:35:06 +0300</updated-at>
+  <currency-code>RUR</currency-code>
+  <fields-values type="array"/>
+  <shipping-address>
+    <address nil="true"/>
+    <city></city>
+    <country>RU</country>
+    <id type="integer">6993057</id>
+    <middlename>Тестович</middlename>
+    <name>Test</name>
+    <phone>+79295998554</phone>
+    <state nil="true"/>
+    <surname>Test</surname>
+    <zip nil="true"/>
+    <full-delivery-address>Россия</full-delivery-address>
+    <full-name>Test Test Тестович</full-name>
+    <fields-values type="array"/>
+  </shipping-address>
+  <discounts type="array"/>
+  <client>
+    <bonus-points type="integer">0</bonus-points>
+    <client-group-id type="integer" nil="true"/>
+    <created-at type="timestamp">2015-11-16 15:34:51 +0300</created-at>
+    <email>rakot@inbox.ru</email>
+    <id type="integer">5713620</id>
+    <middlename nil="true"/>
+    <name>Test</name>
+    <phone>+7 929 599 85 54</phone>
+    <registered type="boolean">false</registered>
+    <subscribe type="boolean">true</subscribe>
+    <surname nil="true"/>
+    <updated-at type="timestamp">2015-11-16 15:35:06 +0300</updated-at>
+    <fields-values type="array"/>
+    <ip_addr/>
+  </client>
+  <order-lines type="array">
+    <order-line>
+      <barcode nil="true"/>
+      <comment nil="true"/>
+      <created-at type="timestamp">2015-11-16 15:34:51 +0300</created-at>
+      <discounts-amount type="decimal">0.0</discounts-amount>
+      <id type="integer">19820169</id>
+      <order-id type="integer">5870946</order-id>
+      <product-id type="integer">48190920</product-id>
+      <sale-price type="decimal">599.0</sale-price>
+      <sku nil="true"/>
+      <title>Живая подушка</title>
+      <updated-at type="timestamp">2015-11-16 15:34:51 +0300</updated-at>
+      <variant-id type="integer">77146447</variant-id>
+      <weight type="decimal" nil="true"/>
+      <quantity type="integer">1</quantity>
+      <reserved-quantity type="integer">0</reserved-quantity>
+      <full-sale-price type="decimal">599.0</full-sale-price>
+      <total-price type="decimal">599.0</total-price>
+      <full-total-price type="decimal">599.0</full-total-price>
+    </order-line>
+  </order-lines>
+  <cookies>
+  </cookies>
+  <items-price type="decimal">599.0</items-price>
+  <total-price type="decimal">1099.0</total-price>
+  <full-delivery-price type="decimal">500.0</full-delivery-price>
+<order-changes type="array">
+  <order-change>
+    <action>financial_status_changed</action>
+    <created-at type="datetime">2015-11-16T15:35:06+03:00</created-at>
+    <id type="integer">23180203</id>
+    <user-name>Application: f92ee8</user-name>
+    <value-is>pending</value-is>
+    <value-was>paid</value-was>
+  </order-change>
+  <order-change>
+    <action>fulfillment_status_changed</action>
+    <created-at type="datetime">2015-11-16T15:35:06+03:00</created-at>
+    <id type="integer">23180202</id>
+    <user-name>Application: f92ee8</user-name>
+    <value-is>returned</value-is>
+    <value-was>accepted</value-was>
+  </order-change>
+  <order-change>
+    <action>custom_status_changed</action>
+    <created-at type="datetime">2015-11-16T15:35:06+03:00</created-at>
+    <id type="integer">23180201</id>
+    <user-name>Application: f92ee8</user-name>
+    <value-is>Возврат</value-is>
+    <value-was>В обработке</value-was>
+  </order-change>
+  <order-change>
+    <action>financial_status_changed</action>
+    <created-at type="datetime">2015-11-16T15:35:00+03:00</created-at>
+    <id type="integer">23180198</id>
+    <user-name>Application: f92ee8</user-name>
+    <value-is>paid</value-is>
+    <value-was>pending</value-was>
+  </order-change>
+  <order-change>
+    <action>fulfillment_status_changed</action>
+    <created-at type="datetime">2015-11-16T15:35:00+03:00</created-at>
+    <id type="integer">23180197</id>
+    <user-name>Application: f92ee8</user-name>
+    <value-is>accepted</value-is>
+    <value-was>new</value-was>
+  </order-change>
+  <order-change>
+    <action>custom_status_changed</action>
+    <created-at type="datetime">2015-11-16T15:35:00+03:00</created-at>
+    <id type="integer">23180196</id>
+    <user-name>Application: f92ee8</user-name>
+    <value-is>В обработке</value-is>
+    <value-was>Новый</value-was>
+  </order-change>
+  <order-change>
+    <action>order_created</action>
+    <created-at type="datetime">2015-11-16T15:34:50+03:00</created-at>
+    <id type="integer">23180190</id>
+    <user-name>Application: f92ee8</user-name>
+    <value-is nil="true"/>
+    <value-was nil="true"/>
+  </order-change>
+</order-changes>
+<custom-status>
+  <permalink>returned</permalink>
+  <title>Возврат</title>
+</custom-status>
+</order>
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2015-11-16 12:35:04
+payqr_invoice::setUserMessage()
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2015-11-16 12:35:04
+RESPONSE
+{"object":"event","id":"evt_eRr77d3tFxkyTYLnyhcmFD","created":"2015-11-16T15:35:04.802+03:00","livemode":false,"type":"invoice.reverted","data":{"object":"invoice","id":"usr_inv_e12R1xZGx9vuoMi0vdPcMo","payqrNumber":"3093090430392038","created":"2015-11-16T15:34:24.280+03:00","modified":"2015-11-16T15:35:04.457+03:00","livemode":false,"payqrUserId":"665785775118","scenario":"Buy","amount":1099,"orderId":"1079","orderGroup":"","cart":[{"article":"77146447","name":"\u0416\u0438\u0432\u0430\u044f \u043f\u043e\u0434\u0443\u0448\u043a\u0430","imageUrl":"http:\/\/static-eu.insales.ru\/images\/products\/1\/3365\/63974693\/medium_935638125_686.jpg","quantity":1,"amount":599,"category":""}],"customer":{"firstName":"Test","middleName":"\u0422\u0435\u0441\u0442\u043e\u0432\u0438\u0447","lastName":"Test","phone":"+7 929 599 85 54","email":"rakot@inbox.ru"},"delivery":{"country":"\u0420\u043e\u0441\u0441\u0438\u044f","region":"","city":"\u041c\u043e\u0441\u043a\u0432\u0430","zip":"","street":"\u0414\u0443\u0431\u0438\u043d\u0438\u0441\u043a\u0430\u044f","house":"80","unit":"","building":"","flat":"","hallway":"","floor":"","intercom":"","comment":"","longitude":null,"latitude":null,"kladrId":""},"deliveryCases":[{"article":"361426","name":"\u0414\u043e\u0441\u0442\u0430\u0432\u043a\u0430 \u043a\u0443\u0440\u044c\u0435\u0440\u043e\u043c","description":"\u0414\u043e\u0441\u0442\u0430\u0432\u043a\u0430 \u043a\u0443\u0440\u044c\u0435\u0440\u043e\u043c","amountFrom":500,"amountTo":500,"children":[]}],"deliveryCasesSelected":{"article":"361426","name":"\u0414\u043e\u0441\u0442\u0430\u0432\u043a\u0430 \u043a\u0443\u0440\u044c\u0435\u0440\u043e\u043c","description":"\u0414\u043e\u0441\u0442\u0430\u0432\u043a\u0430 \u043a\u0443\u0440\u044c\u0435\u0440\u043e\u043c","amountFrom":500,"amountTo":500},"pickPoints":[],"pickPointsSelected":null,"promoCode":{"article":"","description":"","value":""},"promoCard":{"article":"","description":"","value":""},"message":{"article":1,"text":"\u0414\u0435\u043d\u044c\u0433\u0438 \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u0432\u043e\u0437\u0432\u0440\u0430\u0449\u0435\u043d\u044b","url":"http:\/\/yandex.ru","imageUrl":"https:\/\/payqr.ru\/web\/images\/logo.png"},"upSale":[],"poll":[],"pollSelected":null,"userData":"{\"orderId\":5870946}","validityInMinutes":10080,"confirmWaitingInMinutes":4320,"status":"reverted","confirmStatus":"","reverts":[{"id":"rvt_g3lxLt5bEktUMpwQc6fQhR","created":"2015-11-16T15:35:04.285+03:00","revertedAmount":1099,"status":"succeedeed"}],"payqrCustomerCommissionPercent":0,"payqrFeeAmount":0}}
+
