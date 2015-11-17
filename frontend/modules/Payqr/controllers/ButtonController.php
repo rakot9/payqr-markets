@@ -58,8 +58,9 @@ class ButtonController extends Controller
             $market->name = "Тестовый магазин";
             $market->settings = json_encode(\Yii::$app->request->post());
             $market->save();
+            $market_id = $market->id;
         }
         
-        $this->redirect('?r=payqr/button/edit&market_id=' . $market_id);
+        $this->redirect(empty($market_id)? '/' :  '?r=payqr/button/edit&market_id=' . $market_id);
     }
 }
