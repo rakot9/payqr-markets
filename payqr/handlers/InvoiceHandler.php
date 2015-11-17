@@ -291,6 +291,9 @@ class InvoiceHandler
                 $this->invoice->setDeliveryCases(json_decode($result->data));
                 return true;
             }
+            //возвращаем пустой результат
+            PayqrLog::log("setDeliveryCases. возвращаем пустой результат!");
+            return array();
         }
         //
         PayqrLog::log("setDeliveryCases. Первый  запрос, сохраняем данные!");
