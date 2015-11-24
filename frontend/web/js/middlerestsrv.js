@@ -77,11 +77,11 @@ function initButton(callback, place){
 
 function callbackButton(data)
 {
-    console.log("callbackButton");
+    var button = $('button[class^=payqr-button]');
     
-    if(data.data)
+    if(data.data && true == data.display)
     {
-        var button = $('button[class^=payqr-button]');
+        button.show();
         
         if(typeof data.data.class != "undefined")
         {
@@ -95,6 +95,10 @@ function callbackButton(data)
         {
             button.attr(data.data.attr);
         }
+    }
+    else
+    {
+        button.hide();
     }
 }
     
