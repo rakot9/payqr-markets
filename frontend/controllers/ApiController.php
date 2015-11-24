@@ -47,11 +47,11 @@ class ApiController extends Controller
         
         if(is_array($sendData))
         {
-            $this->_sendResponse(200, $callback . "(" . Json::encode(["data" => $sendData, "place" => \Yii::$app->request->get("place")]) . ")" );
+            $this->_sendResponse(200, $callback . "(" . Json::encode(["data" => $sendData, "place" => \Yii::$app->request->get("place"), "display" => Restget::isShowButton($this->market, \Yii::$app->request->get("place"))]) . ")" );
         }
         else
         {
-            $this->_sendResponse(200, $callback . "(" . Json::encode(["data" => $sendData, "place" => \Yii::$app->request->get("place")]) . ")" );
+            $this->_sendResponse(200, $callback . "(" . Json::encode(["data" => $sendData, "place" => \Yii::$app->request->get("place"), "display" => Restget::isShowButton($this->market, \Yii::$app->request->get("place"))]) . ")" );
         }
     }
     

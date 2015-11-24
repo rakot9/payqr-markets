@@ -41,5 +41,23 @@ class Restget extends \yii\db\ActiveRecord{
         
         return $resource;
     }
+
+    /**
+     * Метод проверяет, отображать ли кнопку на странице
+     * @var \frontend\models\Market $market
+     * @var string $place
+     * @return bool
+     */
+    static public function isShowButton(Market $market, $place = "")
+    {
+        if(empty($place) || !isset($market->settings))
+        {
+            return false;
+        }
+        
+        file_put_contents("settings.log", print_r($market->settings, true));
+
+        return true;
+    }
     
 }
