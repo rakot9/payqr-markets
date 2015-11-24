@@ -54,10 +54,15 @@ class Restget extends \yii\db\ActiveRecord{
         {
             return false;
         }
-        
-        file_put_contents("settings.log", print_r($market->settings, true));
 
-        return true;
+        $buttonSettings = json_decode($market->settings, true);
+
+        if($buttonSettings && isset($buttonSettings[ $place . "payqr-button_showinplace"]) && "yes" == $buttonSettings[ $place . "payqr-button_showinplace"])
+        {
+            return true;
+        }
+
+        return false;
     }
     
 }
