@@ -50,6 +50,14 @@
     </object>
     <!-- cart -->
     <object class="payqr_item_rows" table="payqr_items">
+        <field name="name" value="payqr-button_showinplace"/>
+        <field name="htmltype" value="select"/>
+        <field name="htmlvalue" value="yes"/>
+        <field name="htmlpossiblevalues" value='{"yes":"Да", "no":"Нет"}'/>
+        <field name="description" value="Отображать на странице #place#"/>
+        <field name="active" value="1"/>
+    </object>
+    <object class="payqr_item_rows" table="payqr_items">
         <field name="name" value="payqr-button_color"/>
         <field name="htmltype" value="select"/>
         <field name="htmlvalue" value="default"/>
