@@ -14,7 +14,7 @@ class Button extends \yii\base\Model{
      */
     private static $instance;
     
-    private $ShowInPlace = array("cart", "product", "category");
+    private $ShowInPlace = array("cart" => "Корзины", "product" => "Карточки товара", "category" => "Категории товаров");
     
     private $buttonXmlStructure = array();
     
@@ -66,11 +66,11 @@ class Button extends \yii\base\Model{
             }
         }
         //инициализиурем параметры кнопки в соответствии с местом отображения
-        foreach($this->ShowInPlace as $place)
+        foreach($this->ShowInPlace as $place => $placeTranslate)
         {
             foreach($this->buttonXmlStructure as $xmlrow)
             {
-                $html.= $this->generateHtml($xmlrow, $settings, $place);
+                $html.= $this->generateHtml($xmlrow, $settings, array( 0 => $place, 1 => $placeTranslate));
             }
         }
         
@@ -95,12 +95,12 @@ class Button extends \yii\base\Model{
             
         $html .= \yii\bootstrap\Html::beginTag("div", ['class' => 'row form-group']);
             $html .= \yii\bootstrap\Html::beginTag("div", ['class' => 'col-xs-6']);
-            $html .= $button_option[4]['@attributes']['value'];
+            $html .= isset($place[1]) ? str_replace("#place#", $place[1], $button_option[4]['@attributes']['value']) : $button_option[4]['@attributes']['value'];
             $html .= \yii\bootstrap\Html::endTag("div");
 
             $html .= \yii\bootstrap\Html::beginTag("div", ['class' => 'col-xs-6']);
 
-            $fieldName = $place ? $place . $button_option[0]['@attributes']['value'] : $button_option[0]['@attributes']['value'];
+            $fieldName = isset($place[0]) ? $place[0] . $button_option[0]['@attributes']['value'] : $button_option[0]['@attributes']['value'];
 
             switch ($button_option[1]['@attributes']['value'])
             {
