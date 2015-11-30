@@ -303,6 +303,11 @@ class InvoiceHandler
         $invoiceTable->save();
         
         $payqrDelivery = $this->invoice->getDelivery();
+
+        if(empty($payqrDelivery))
+        {
+            return array();
+        }
         
         //проверяем xml на валидность
         libxml_use_internal_errors(true);
@@ -396,53 +401,76 @@ class InvoiceHandler
         }
         
         $i = 1;
+
         foreach($deliveryVariants as $delivery)
         {
             // получаем 
+            $isIvertedCity = false;
+
             PayqrLog::log(print_r($delivery, true));
             $deliveryPayqments = $delivery->xpath("payment-delivery-variants/payment-delivery-variant");
             PayqrLog::log(print_r($deliveryPayqments, true));
             
-            if(!empty($deliveryPayqments))
+            if(empty($deliveryPayqments))
             {
-                PayqrLog::log("Нашли варианты оплаты для данной доставки");
-                
-                foreach ($deliveryPayqments as $deliveryPayment)
+                continue;
+            }
+
+            if(isset($delivery->inverted) && (bool)$delivery->inverted == true)
+            {
+                $isIvertedCity = true;
+            }
+
+            PayqrLog::log("Нашли варианты оплаты для данной доставки");
+            
+            foreach ($deliveryPayqments as $deliveryPayment)
+            {
+                if((int)$deliveryPayment->{"payment-gateway-id"} == $id_payqr_payment)
                 {
-                    if((int)$deliveryPayment->{"payment-gateway-id"} == $id_payqr_payment)
+                    //Проверяем теперь город, для которого разрешена доставка
+                    $deliveryLocations = $delivery->xpath("delivery-locations/delivery-location");
+                    
+                    if(!empty($deliveryLocations))
                     {
-                        //Проверяем теперь город, для которого разрешена доставка
-                        $deliveryLocations = $delivery->xpath("delivery-locations/delivery-location");
-                        
-                        if(!empty($deliveryLocations))
+                        foreach($deliveryLocations as $deliveryLocation)
                         {
-                            foreach($deliveryLocations as $deliveryLocation)
+                            if((isset($payqrDelivery->city) && !empty($payqrDelivery->city) && 
+                                (!$isIvertedCity && strtolower((string)$deliveryLocation->city) == strtolower($payqrDelivery->city))))
                             {
-                                if(!empty($payqrDelivery) && 
-                                        (isset($payqrDelivery->city) && !empty($payqrDelivery->city) && strtolower((string)$deliveryLocation->city) == strtolower($payqrDelivery->city)) )
-                                {
-                                    $delivery_cases[] = array(
-                                        'article' => (int)$delivery->id,
-                                        'number' => $i++,
-                                        'name' => (string)$delivery->title,
-                                        'description' => strip_tags((string)$delivery->description),
-                                        'amountFrom' => round((float)$delivery->price, 2),
-                                        'amountTo' => round((float)$delivery->price, 2)
-                                    );
-                                }
+                                $delivery_cases[] = array(
+                                    'article' => (int)$delivery->id,
+                                    'number' => $i++,
+                                    'name' => (string)$delivery->title,
+                                    'description' => strip_tags((string)$delivery->description),
+                                    'amountFrom' => round((float)$delivery->price, 2),
+                                    'amountTo' => round((float)$delivery->price, 2)
+                                );
+                            }
+
+                            if(isset($payqrDelivery->city) && !empty($payqrDelivery->city) && 
+                                ($isIvertedCity && strtolower((string)$deliveryLocation->city) != strtolower($payqrDelivery->city))))
+                            {
+                                $delivery_cases[] = array(
+                                    'article' => (int)$delivery->id,
+                                    'number' => $i++,
+                                    'name' => (string)$delivery->title,
+                                    'description' => strip_tags((string)$delivery->description),
+                                    'amountFrom' => round((float)$delivery->price, 2),
+                                    'amountTo' => round((float)$delivery->price, 2)
+                                );
                             }
                         }
-                        else
-                        {
-                            $delivery_cases[] = array(
-                                'article' => (int)$delivery->id,
-                                'number' => $i++,
-                                'name' => (string)$delivery->title,
-                                'description' => strip_tags((string)$delivery->description),
-                                'amountFrom' => round((float)$delivery->price, 2),
-                                'amountTo' => round((float)$delivery->price, 2)
-                            );
-                        }
+                    }
+                    else
+                    {
+                        $delivery_cases[] = array(
+                            'article' => (int)$delivery->id,
+                            'number' => $i++,
+                            'name' => (string)$delivery->title,
+                            'description' => strip_tags((string)$delivery->description),
+                            'amountFrom' => round((float)$delivery->price, 2),
+                            'amountTo' => round((float)$delivery->price, 2)
+                        );
                     }
                 }
             }

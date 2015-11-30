@@ -157,9 +157,13 @@ function RefreshDataCart()
 $(function(){
     if($("button[class*=payqr-button]").length > 0)
     {
-        if($("#cartform"))
+        if($("#cartform").length)
         {
             setCart("cart");
+        }
+        if($("div[class=product_preview-preview]").length)
+        {
+            setCart("category")
         }
         else
         {
