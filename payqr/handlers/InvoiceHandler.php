@@ -416,7 +416,7 @@ class InvoiceHandler
                 continue;
             }
 
-            if(isset($delivery->inverted) && (bool)$delivery->inverted == true)
+            if(isset($delivery->inverted) && $delivery->inverted == "true")
             {
                 $isIvertedCity = true;
             }
