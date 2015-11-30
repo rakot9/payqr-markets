@@ -448,7 +448,7 @@ class InvoiceHandler
                             }
 
                             if(isset($payqrDelivery->city) && !empty($payqrDelivery->city) && 
-                                ($isIvertedCity && strtolower((string)$deliveryLocation->city) != strtolower($payqrDelivery->city))))
+                                ($isIvertedCity && strtolower((string)$deliveryLocation->city) != strtolower($payqrDelivery->city)))
                             {
                                 $delivery_cases[] = array(
                                     'article' => (int)$delivery->id,
