@@ -35,18 +35,18 @@
     <object class="payqr_item_rows" table="payqr_items">
         <field name="name" value="hook_handler_url"/>
         <field name="htmltype" value="text"/>
-        <field name="htmlvalue" value=""/>
+        <field name="htmlvalue" value="#return 'http://'.$_SERVER['SERVER_NAME'].'/payqr/payqr_receiver.php';#"/>
         <field name="htmlpossiblevalues" value=""/>
         <field name="description" value="URL для уведомлений"/>
-        <field name="active" value="1"/>
+        <field name="active" value="0"/>
     </object>
     <object class="payqr_item_rows" table="payqr_items">
         <field name="name" value="log_url"/>
         <field name="htmltype" value="text"/>
-        <field name="htmlvalue" value=""/>
+        <field name="htmlvalue" value="#return 'http://'.$_SERVER['SERVER_NAME'].'/payqr/logs/payqr.log';#"/>
         <field name="htmlpossiblevalues" value=""/>
         <field name="description" value="URL PayQR логов"/>
-        <field name="active" value="1"/>
+        <field name="active" value="0"/>
     </object>
     <!-- cart -->
     <object class="payqr_item_rows" table="payqr_items">

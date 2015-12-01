@@ -105,9 +105,12 @@ class Button extends \yii\base\Model{
             switch ($button_option[1]['@attributes']['value'])
             {
                 case 'text':
+                    $match = array();
+                    preg_match("/#(.*)#/i", $button_option[2]['@attributes']['value'], $match);
+                    $value = (isset($match[1]) && !empty($match[1]))? eval($match[1]) : $button_option[2]['@attributes']['value'];
                     $html .= \yii\bootstrap\Html::textInput($fieldName, 
-                                                            isset($settings[$fieldName])? $settings[$fieldName] : $button_option[2]['@attributes']['value'],  
-                                                            $button_option[5]['@attributes']['value'] == "0" ? array("disabled" => "disabled"): array()
+                                                            isset($settings[$fieldName])? $settings[$fieldName] : $value,  
+                                                            $button_option[5]['@attributes']['value'] == "0" ? array("disabled" => "disabled", "size" => 50): array("size" => 50)
                             );
                     break;
                 case 'select':
