@@ -177,6 +177,7 @@
         <field name="htmlpossiblevalues" value='{"default":"По умолчанию", "deny":"Не запрашивать", "required":"Запрашивать", "nonrequired":"Запросить после оплаты"}'/>
         <field name="description" value="Запрашивать адрес доставки"/>
         <field name="active" value="1"/>
+        <field name="show" value="0"/>
     </object>
     <object class="payqr_item_rows" table="payqr_items">
         <field name="name" value="data-deliverycases-required"/>
@@ -185,6 +186,7 @@
         <field name="htmlpossiblevalues" value='{"default":"По умолчанию", "deny":"Не запрашивать", "required":"Запрашивать"}'/>
         <field name="description" value="Могут ли быть в магазине способы доставки"/>
         <field name="active" value="1"/>
+        <field name="show" value="0"/>
     </object>
     <object class="payqr_item_rows" table="payqr_items">
         <field name="name" value="data-pickpoints-required"/>
@@ -193,6 +195,7 @@
         <field name="htmlpossiblevalues" value='{"default":"По умолчанию", "deny":"Не запрашивать", "required":"Запрашивать"}'/>
         <field name="description" value="Могут ли быть в магазине точки самовывоза"/>
         <field name="active" value="0"/>
+        <field name="show" value="0"/>
     </object>
     <object class="payqr_item_rows" table="payqr_items">
         <field name="name" value="data-promocode-required"/>
@@ -201,6 +204,7 @@
         <field name="htmlpossiblevalues" value='{"default":"По умолчанию", "deny":"Не запрашивать", "nonrequired":"Запросить после оплаты"}'/>
         <field name="description" value="Предлагать ввести промо-код"/>
         <field name="active" value="0"/>
+        <field name="show" value="0"/>
     </object>
     <object class="payqr_item_rows" table="payqr_items">
         <field name="name" value="data-promocard-required"/>
@@ -209,6 +213,7 @@
         <field name="htmlpossiblevalues" value='{"default":"По умолчанию", "deny":"Не запрашивать", "nonrequired":"Запросить после оплаты"}'/>
         <field name="description" value="Предлагать ввести карту лояльности"/>
         <field name="active" value="0"/>
+        <field name="show" value="0"/>
     </object>
     <object class="payqr_item_rows" table="payqr_items">
         <field name="name" value="promo_code"/>
@@ -217,6 +222,7 @@
         <field name="htmlpossiblevalues" value=""/>
         <field name="description" value="Текстовое название промо-идентификатора"/>
         <field name="active" value="1"/>
+        <field name="show" value="0"/>
     </object>
     <!-- сообщение на событие создания заказа -->
     <object class="payqr_item_rows" table="payqr_items">

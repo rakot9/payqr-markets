@@ -92,7 +92,13 @@ class Button extends \yii\base\Model{
         $html = "";
         
         $button_option = $xmlRow['field'];
-            
+        
+        //Проверка "отображать" или нет элемент
+        if(isset($button_option[6]['@attributes']['value']) && $button_option[6]['@attributes']['value'] == "0")
+        {
+            return $html;
+        }
+        
         $html .= \yii\bootstrap\Html::beginTag("div", ['class' => 'row form-group']);
             $html .= \yii\bootstrap\Html::beginTag("div", ['class' => 'col-xs-6']);
             $html .= isset($place[1]) ? str_replace("#place#", $place[1], $button_option[4]['@attributes']['value']) : $button_option[4]['@attributes']['value'];
@@ -101,7 +107,25 @@ class Button extends \yii\base\Model{
             $html .= \yii\bootstrap\Html::beginTag("div", ['class' => 'col-xs-6']);
 
             $fieldName = isset($place[0]) ? $place[0] . $button_option[0]['@attributes']['value'] : $button_option[0]['@attributes']['value'];
-
+            
+            $elProperty = array();
+            
+            //Проверка "разрешить" редактирование или нет
+            if($button_option[5]['@attributes']['value'] == "0")
+            {
+                $elProperty["disabled"] = "disabled";
+            }
+            //Проверка "отображать" или нет элемент
+            if(isset($button_option[6]['@attributes']['value']) && $button_option[6]['@attributes']['value'] == "0")
+            {
+                $elProperty["style"] = "display:none";
+            }
+            //Дополнительные атрибуты
+            if($button_option[1]['@attributes']['value']=="text")
+            {
+                $elProperty["size"] = 50;
+            }
+            
             switch ($button_option[1]['@attributes']['value'])
             {
                 case 'text':
@@ -110,7 +134,8 @@ class Button extends \yii\base\Model{
                     $value = (isset($match[1]) && !empty($match[1]))? eval($match[1]) : $button_option[2]['@attributes']['value'];
                     $html .= \yii\bootstrap\Html::textInput($fieldName, 
                                                             isset($settings[$fieldName])? $settings[$fieldName] : $value,  
-                                                            $button_option[5]['@attributes']['value'] == "0" ? array("disabled" => "disabled", "size" => 50): array("size" => 50)
+                                                            /*$button_option[5]['@attributes']['value'] == "0" ? array("disabled" => "disabled", "size" => 50): array("size" => 50)*/
+                                                            $elProperty
                             );
                     break;
                 case 'select':
@@ -118,7 +143,8 @@ class Button extends \yii\base\Model{
                     $html .= \yii\bootstrap\Html::dropDownList($fieldName, 
                                                                isset($settings[$fieldName])? $settings[$fieldName] : $button_option[2]['@attributes']['value'], 
                                                                $select, 
-                                                               $button_option[5]['@attributes']['value'] == "0" ? array("disabled" => "disabled"): array()
+                                                               /*$button_option[5]['@attributes']['value'] == "0" ? array("disabled" => "disabled"): array()*/
+                                                               $elProperty
                         );
                     break;
             }
