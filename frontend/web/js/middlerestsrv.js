@@ -161,11 +161,11 @@ $(function(){
         {
             setCart("cart");
         }
-        if($("div[class=product_preview-preview]").length)
+        else if($("div[class=product_preview-preview]").length)
         {
             setCart("category")
         }
-        else
+        else if($("div[class=product_preview-preview]").length==0 && $("div[class=product_preview-preview]").length ==0)
         {
             setCart("product");
         }
