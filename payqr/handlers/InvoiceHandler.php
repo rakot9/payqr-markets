@@ -176,6 +176,8 @@ class InvoiceHandler
         }
         
         if(!$this->isPaid()) {
+            //!!! Перенесено из конца функции т.к. возможно долго приходит ответ от InSales
+            \frontend\models\InvoiceTable::updateAll(['is_paid' => 1], 'invoice_id = :invoice_id', [':invoice_id' => $this->invoice->getInvoiceId()]);
             /*
             * Подготавливаем XML для смены статуса заказа
             */
@@ -199,7 +201,7 @@ class InvoiceHandler
             "imageUrl" => isset($this->settings['user_message_order_paid_imageurl'])? $this->settings['user_message_order_paid_imageurl'] : ""
         ));
         
-        \frontend\models\InvoiceTable::updateAll(['is_paid' => 1], 'invoice_id = :invoice_id', [':invoice_id' => $this->invoice->getInvoiceId()]);
+        //\frontend\models\InvoiceTable::updateAll(['is_paid' => 1], 'invoice_id = :invoice_id', [':invoice_id' => $this->invoice->getInvoiceId()]);
         
         return true;
     }
