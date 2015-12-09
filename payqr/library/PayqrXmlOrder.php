@@ -4,7 +4,6 @@
 class PayqrXmlOrder {
     
     /**
-     *
      * @var class PayqrInvoice
      */
     private $invoice;
