@@ -25,10 +25,10 @@ class PayqrXmlOrder {
         {
             foreach($carts as $cart)
             {
-                $xml .= '<order-line-attributes>'
-                        . '<variant-id>'.$cart->article.'</variant-id>
-                         <quantity>'.$cart->quantity.'</quantity>'
-                        . '</order-line-attributes>';
+                $xml .= '<order-line-attributes>' . PHP_EOL . 
+                        '<variant-id>'.$cart->article.'</variant-id>' . PHP_EOL . 
+                        '<quantity>'.$cart->quantity.'</quantity>' . PHP_EOL . 
+                        '</order-line-attributes>';
             }
         }
         
