@@ -25,8 +25,10 @@ class PayqrXmlOrder {
         {
             foreach($carts as $cart)
             {
-                $xml .= '<variant-id>'.$cart->article.'</variant-id>
-                         <quantity>'.$cart->quantity.'</quantity>';
+                $xml .= '<order-line-attributes>'
+                        . '<variant-id>'.$cart->article.'</variant-id>
+                         <quantity>'.$cart->quantity.'</quantity>'
+                        . '</order-line-attributes>';
             }
         }
         
@@ -88,9 +90,7 @@ class PayqrXmlOrder {
                         '. (isset($customer->lastName)? '<surname>'.$customer->lastName.'</surname>':'') .'
                         </client>
                         <order-lines-attributes type="array">
-                            <order-line-attributes>
                                 '.$this->getXmlProduct().'
-                            </order-line-attributes>
                         </order-lines-attributes>
                     </order>';
     }
