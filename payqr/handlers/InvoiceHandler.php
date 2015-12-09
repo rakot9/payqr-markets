@@ -54,7 +54,7 @@ class InvoiceHandler
         
         $xmlOrder = new PayqrXmlOrder($this->invoice);
         $orderXml = $xmlOrder->getXMLOrder();
-
+        PayqrLog::log($orderXml);
         /*
          * Создаем заказ через API InSales (отправляем xml)
          */
