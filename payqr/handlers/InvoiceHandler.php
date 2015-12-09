@@ -7,6 +7,8 @@ class InvoiceHandler
     private $invoice;
     private $settings;
     
+    const INSALESFORMAT = "JSON";
+
     public function __construct(PayqrInvoice $invoice) 
     {
         $this->invoice = $invoice;
@@ -18,54 +20,14 @@ class InvoiceHandler
         $this->settings = json_decode($this->market->getSettings(), true);
     }    
     
-    /*
-    * Код выполнен, когда интернет-сайт получит уведомление от PayQR о необходимости создания заказа в учетной системе интернет-сайта.
-    * Это означает, что покупатель приблизился к этапу оплаты, а, значит, интернет-сайту нужно создать заказ в своей учетной системе, если такой заказ еще не создан, и вернуть в ответе PayQR значение orderId в объекте "Счет на оплату", если orderId там еще отсутствует.
-    *
-    * $this->invoice содержит объект "Счет на оплату" (подробнее об объекте "Счет на оплату" на https://payqr.ru/api/ecommerce#invoice_object)
-    *
-    * Ниже можно вызвать функции своей учетной системы, чтобы особым образом отреагировать на уведомление от PayQR о событии invoice.order.creating.
-    *
-    * Важно: после уведомления от PayQR об invoice.order.creating в содержании конкретного объекта "Счет на оплату" должен быть обязательно заполнен параметр orderId (если он не заполнялся на уровне кнопки PayQR). По правилам PayQR оплата заказа не может быть начата до тех пор, пока в счете не появится номер заказа (orderId). Если интернет-сайт не ведет учет заказов по orderId, то на данном этапе можно заполнить параметр orderId любым случайным значением, например, текущими датой и временем. Также важно, что invoice.order.creating является первым и последним этапом, когда интернет-сайт может внести коррективы в параметры заказа (например, откорректировать названия позиций заказа).
-    *
-    * Часто используемые методы на этапе invoice.order.creating:
-    *
-    * * Получаем объект адреса доставки из "Счета на оплату"
-    * $this->invoice->getDelivery();
-    * * вернет:
-    * "delivery": { "country": "Россия", "region": "Москва", "city": "Москва", "zip": "115093", "street": "Дубининская ул.", "house": "80", "comment": "У входа в автосалон Хонда", }
-    *
-    * * Получаем объект содержания корзины из "Счета на оплату"
-    * $this->invoice->getCart();
-    * * вернет:
-    * [{ "article": "5675657", "name": "Товар 1", "imageUrl": "http://goods.ru/item1.jpg", "quantity": 5, "amount": 19752.25 }, { "article": "0", "name": "PROMO акция", "imageUrl": "http://goods.ru/promo.jpg", }]
-    *
-    * * Обновляем содержимое корзины в объекте "Счет на оплату" в PayQR
-    * $this->invoice->setCart($cartObject);
-    *
-    * * Получаем объект информации о покупателе из "Счета на оплату"
-    * $this->invoice->getCustomer();
-    * * вернет:
-    * { "firstName": "Иван", "lastName": "Иванов", "phone": "+79111111111", "email": "test@user.com" }
-    *
-    * * Устанавливаем orderId из учетной системы интернет-сайта в объекте "Счет на оплату" в PayQR
-    * $this->invoice->setOrderId($orderId);
-    *
-    * * Получаем сумму заказа из "Счета на оплату"
-    * $this->invoice->getAmount();
-    *
-    * * Изменяем сумму заказа в объекте "Счет на оплату" в PayQR (например, уменьшаем сумму, чтобы применить скидку)
-    * $this->invoice->setAmount($amount);
-    *
-    * * Если по каким-то причинам нам нужно отменить этот заказ сейчас (работает только при обработке события invoice.order.creating)
-    * $this->invoice->cancelOrder(); вызов этого метода отменит заказ
-    */
     public function createOrder()
     {
         if(!$this->settings) {
             PayqrLog::log("Не смогли получить настройки кнопки, прекращаем работу!");
             return false;
         }
+        
+        $invoiceId = $this->invoice->getInvoiceId();
         
         /*
          * Отправляем сообщение пользователю
@@ -77,7 +39,7 @@ class InvoiceHandler
             "imageUrl" => isset($this->settings['user_message_order_creating_imageurl'])? $this->settings['user_message_order_creating_imageurl'] : ""
         ));
         
-        $result = \frontend\models\InvoiceTable::find()->where(["invoice_id" => $this->invoice->getInvoiceId()])->one();
+        $result = \frontend\models\InvoiceTable::find()->where(["invoice_id" => $invoiceId])->one();
         
         if($result && isset($result->order_id, $result->amount) && !empty($result->order_id) && !empty($result->amount))
         {
@@ -94,7 +56,7 @@ class InvoiceHandler
         $orderXml = $xmlOrder->getXMLOrder();
 
         /*
-         * Создаем заказ, путем отправки xml
+         * Создаем заказ через API InSales (отправляем xml)
          */
         $payqrCURLObject = new PayqrCurl();
         $response = $payqrCURLObject->sendXMLFile(PayqrConfig::$insalesURL . "orders.xml", $orderXml);
@@ -136,16 +98,18 @@ class InvoiceHandler
         $this->invoice->setAmount($totalPrice);
 
         //удаляем строку по условию
-        \frontend\models\InvoiceTable::deleteAll(["invoice_id" => $this->invoice->getInvoiceId()]);
+        \frontend\models\InvoiceTable::deleteAll(["invoice_id" => $invoiceId]);
 
         PayqrLog::log(json_encode(array("oInternal" => $orderIdInternal, "oExternal" => $orderIdExternal)));
         $invoiceTable = new \frontend\models\InvoiceTable();
-        $invoiceTable->invoice_id = $this->invoice->getInvoiceId();
+        $invoiceTable->invoice_id = $invoiceId;
         $invoiceTable->order_id = json_encode(array("oInternal" => $orderIdInternal, "oExternal" => $orderIdExternal));
         $invoiceTable->amount = $totalPrice;
         $invoiceTable->save();
             
         $this->invoice->setUserData(json_encode(array("orderId" => $orderIdInternal)));
+        
+        return;
     }
     
     public function payOrder()
@@ -283,19 +247,14 @@ class InvoiceHandler
 
         $result = \frontend\models\InvoiceTable::find()->where(["invoice_id" => $invoice_id])->one();
         
-        PayqrLog::log(print_r($result, true));
+        $deliveryData = json_decode($result->data);
         
-        if(isset($result->data))
+        if($deliveryData)
         {
             //проверяем данные в формате json, но в любом случае наличие данных говорит, о том, что запрос уже был
-            if(json_decode($result->data)) {
-                PayqrLog::log("setDeliveryCases. Уже иммем все необходимые данные, возвращаем их!");
-                $this->invoice->setDeliveryCases(json_decode($result->data));
-                return true;
-            }
-            //возвращаем пустой результат
-            PayqrLog::log("setDeliveryCases. возвращаем пустой результат!");
-            return array();
+            PayqrLog::log("setDeliveryCases. Уже иммем все необходимые данные, возвращаем их!");
+            $this->invoice->setDeliveryCases($deliveryData);
+            return true;
         }
         //
         PayqrLog::log("setDeliveryCases. Первый  запрос, сохраняем данные!");
@@ -332,16 +291,8 @@ class InvoiceHandler
         
         //производм разбор xml
         $xml = new SimpleXMLElement($responsePayqmetsXML);
-        
-        $paymentsVariants = $xml->xpath("/payment-gateway-customs/payment-gateway-custom");
         $paymentsVariants1 = $xml->xpath("/objects/object");
         
-        if(empty($paymentsVariants1) && empty($paymentsVariants))
-        {
-            //не смогли получить варианты доставок
-            PayqrLog::log("Не смогли получить способы оплаты");
-            return array();
-        }
         
         $id_payqr_payment = 0;
         
@@ -356,6 +307,8 @@ class InvoiceHandler
         
         if(!$id_payqr_payment)
         {
+            $paymentsVariants = $xml->xpath("/payment-gateway-customs/payment-gateway-custom");
+            
             foreach($paymentsVariants as $payment)
             {
                 if( strpos(strtolower((string)$payment->title), "payqr") !== false)
@@ -409,9 +362,9 @@ class InvoiceHandler
             // получаем 
             $isIvertedCity = false;
 
-            PayqrLog::log(print_r($delivery, true));
+            //PayqrLog::log(print_r($delivery, true));
             $deliveryPayqments = $delivery->xpath("payment-delivery-variants/payment-delivery-variant");
-            PayqrLog::log(print_r($deliveryPayqments, true));
+            //PayqrLog::log(print_r($deliveryPayqments, true));
             
             if(empty($deliveryPayqments))
             {
@@ -423,7 +376,7 @@ class InvoiceHandler
                 $isIvertedCity = true;
             }
 
-            PayqrLog::log("Нашли варианты оплаты для данной доставки");
+            //PayqrLog::log("Нашли варианты оплаты для данной доставки");
             
             foreach ($deliveryPayqments as $deliveryPayment)
             {
@@ -478,8 +431,8 @@ class InvoiceHandler
             }
         }
         
-        PayqrLog::log("Передаем варианты доставок");
-        PayqrLog::log(print_r($delivery_cases, true));
+        //PayqrLog::log("Передаем варианты доставок");
+        //PayqrLog::log(print_r($delivery_cases, true));
         
         \frontend\models\InvoiceTable::updateAll(['data' => json_encode($delivery_cases)], 'invoice_id = :invoice_id', [':invoice_id' => $invoice_id]);
         
