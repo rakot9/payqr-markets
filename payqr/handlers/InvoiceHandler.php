@@ -5,7 +5,7 @@ use frontend\models\Market as frModelmarket;
 class InvoiceHandler 
 {
     private $invoice;
-    private $settings;
+    public $settings;
     private $invoiceId;
     
     public function __construct(PayqrInvoice $invoice)
