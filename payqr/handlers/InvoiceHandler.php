@@ -61,13 +61,6 @@ class InvoiceHandler
         //удаляем строку по условию
         \frontend\models\InvoiceTable::deleteAll(["invoice_id" => $this->invoiceId]);
 
-//        $invoiceTable = new \frontend\models\InvoiceTable();
-//        $invoiceTable->invoice_id = $this->invoiceId;
-//        $invoiceTable->order_id = json_encode(array("oInternal" => $orderIdInternal, "oExternal" => $orderIdExternal));
-//        $invoiceTable->amount = $totalPrice;
-//        $invoiceTable->iteration = 1;
-//        $invoiceTable->order_request = 0;
-//        $invoiceTable->save();
         $invoiceTable = new \frontend\models\InvoiceTable();
         $invoiceTable->createInvoice(
                 $this->invoiceId, 
