@@ -32,7 +32,9 @@ class m151113_072539_invoice_table extends Migration
             'amount' => Schema::TYPE_DECIMAL . '(10,2) NULL',
             'data' => Schema::TYPE_TEXT . ' NULL',
             'datetime' => Schema::TYPE_TIMESTAMP . ' DEFAULT CURRENT_TIMESTAMP',
-            'is_paid' => Schema::TYPE_BOOLEAN . ' NOT NULL DEFAULT 0'
+            'is_paid' => Schema::TYPE_BOOLEAN . ' NOT NULL DEFAULT 0',
+            'iteration' => Schema::TYPE_SMALLINT . ' NOT NULL DEFAULT 0',
+            'order_requesr' => Schema::TYPE_SMALLINT . ' NOT NULL DEFAULT 0'
         ], $tableOptions);
         
         $this->createIndex('invoice_id', $this->tableName , 'invoice_id', true);
