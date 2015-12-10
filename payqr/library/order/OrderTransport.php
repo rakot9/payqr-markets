@@ -42,7 +42,7 @@ class OrderTransport {
 
             return false;
         }
-        PayqrLog::log("Ответ от сервера \r\n" . $responceXML);
+        //PayqrLog::log("Ответ от сервера \r\n" . $responceXML);
         
         return $responceXML;
     }
