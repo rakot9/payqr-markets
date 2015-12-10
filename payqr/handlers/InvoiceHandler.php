@@ -35,44 +35,38 @@ class InvoiceHandler
             }
         }
         
-        //$xmlOrder = new PayqrXmlOrder($this->invoice);
-        //$orderXml = $xmlOrder->getXMLOrder();
-        $orderXml = OrderXml::getOrderXML($this->invoice);
         /*
          * Создаем заказ через API InSales (отправляем xml)
          */
-        $payqrCURLObject = new PayqrCurl();
-        $response = $payqrCURLObject->sendXMLFile(PayqrConfig::$insalesURL . "orders.xml", $orderXml);
-        if(!$response) {
-            PayqrLog::log("Ответ от сервера InSales не в формате xml");
-            return false;
-        }
-        PayqrLog::log("Ответ от сервера \r\n".$response);
-
-        $xml = new SimpleXMLElement($response);
-        $orderResultExternal = $xml->xpath("/order/number");
-        $orderResultInternal = $xml->xpath("/order/id");
-        $orderResultAmount   = $xml->xpath("/order/order-lines/order-line/total-price");
+        $orderXml = OrderXml::getOrderXML($this->invoice);
+        $orderResult = OrderTransport::getInstance()->createOrder($orderXml);
         
-        PayqrLog::log("Получили обработанный XML \r\n".$xml);
+        $orderIdInternal = OrderXmlParser::getInstance($orderResult)->getExtId();
+        $orderIdExternal = OrderXmlParser::getInstance($orderResult)->getIntId();
+        $totalPrice = OrderXmlParser::getInstance($orderResult)->getTotal();
+//        $xml = new SimpleXMLElement($orderResult);
+//        $orderResultExternal = $xml->xpath("/order/number");
+//        $orderResultInternal = $xml->xpath("/order/id");
+//        $orderResultAmount   = $xml->xpath("/order/order-lines/order-line/total-price");
 
         if(!isset($orderResultExternal[0]) || !isset($orderResultInternal[0])) {
             PayqrLog::log("Не смогли получить xml-ответ по созданному заказу!");
             return false;
         }
 
-        $orderIdInternal = (int)$orderResultInternal[0]; PayqrLog::log("Внутренний Id:" . $orderIdInternal);
-        $orderIdExternal = (int)$orderResultExternal[0]; PayqrLog::log("Внешний Id:" . $orderIdExternal);
+//        $orderIdInternal = (int)$orderResultInternal[0]; PayqrLog::log("Внутренний Id:" . $orderIdInternal);
+//        $orderIdExternal = (int)$orderResultExternal[0]; PayqrLog::log("Внешний Id:" . $orderIdExternal);
         $this->invoice->setOrderId($orderIdExternal);
         
-        $totalPrice = 0;
-        while(list(, $price) = each($orderResultAmount)) {
-            $totalPrice += round((float)$price,2);
-        }
-        if(empty($totalPrice)) {
-            PayqrLog::log("ОШИБКА! Сумма заказа равна 0!");
-            return false;
-        }
+//        $totalPrice = 0;
+//        while(list(, $price) = each($orderResultAmount)) {
+//            $totalPrice += round((float)$price,2);
+//        }
+//        if(empty($totalPrice)) {
+//            PayqrLog::log("ОШИБКА! Сумма заказа равна 0!");
+//            return false;
+//        }
+        
         $deliveryCased = $this->invoice->getDeliveryCasesSelected();
         if(isset($deliveryCased->amountFrom) && !empty($deliveryCased->amountFrom) && $deliveryCased->amountFrom)
         {
