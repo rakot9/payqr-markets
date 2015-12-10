@@ -21,7 +21,7 @@ class PayqrMessage {
         {
             return self::$instance;
         }
-        return new self();
+        return new self($settings, $invoice);
     }
     
     private function setSettings($settings)
