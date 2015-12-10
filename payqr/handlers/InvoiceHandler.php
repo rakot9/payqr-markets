@@ -204,10 +204,10 @@ class InvoiceHandler
                return false;
             }
             $payqrCURLObject = new PayqrCurl();
-            PayqrLog::log("inv_paid. Изменяем статус заказа. Отправляем xml файл \r\n" . $statusPayXml);
-            PayqrLog::log("inv_paid. URL: " . PayqrConfig::$insalesURL . "orders/" . $orderIdInternal . ".xml");
+            PayqrLog::log("inv_paid. Изменяем статус заказа. Отправляем xml файл \r\n" /*. $statusPayXml*/);
+            //PayqrLog::log("inv_paid. URL: " . PayqrConfig::$insalesURL . "orders/" . $orderIdInternal . ".xml");
             $response = $payqrCURLObject->sendXMLFile(PayqrConfig::$insalesURL . "orders/" . $orderIdInternal . ".xml", $statusPayXml, 'PUT');
-            PayqrLog::log("Получили ответ после изменения статуса оплаты заказа \r\n" . print_r($response, true));
+            //PayqrLog::log("Получили ответ после изменения статуса оплаты заказа \r\n" . print_r($response, true));
         }
         
         PayqrMessage::getInstance($this->settings, $this->invoice)->setMessage('inv.paid');
@@ -237,7 +237,7 @@ class InvoiceHandler
         $payqrCURLObject = new PayqrCurl();
         PayqrLog::log("revert. URL: " . PayqrConfig::$insalesURL . "orders/" . $orderInternalId . ".xml");
         $response = $payqrCURLObject->sendXMLFile(PayqrConfig::$insalesURL . "orders/" . $orderInternalId . ".xml", $statusPayXml, 'PUT');
-        PayqrLog::log("revert. Получили ответ после изменения статуса возврата заказа \r\n" . print_r($response, true));
+        PayqrLog::log("revert. Получили ответ после изменения статуса возврата заказа \r\n" /*. print_r($response, true)*/);
 
         PayqrMessage::getInstance($this->settings, $this->invoice)->setMessage('inv.revert');
     }
