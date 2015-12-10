@@ -6,13 +6,14 @@ class InvoiceHandler
 {
     private $invoice;
     private $settings;
+    private $invoiceId;
     
     public function __construct(PayqrInvoice $invoice)
     {
         $this->invoice = $invoice;
+        $this->invoiceId = $this->invoice->getInvoiceId();
         
         $marketObj = new Market();
-        
         $this->market = $marketObj->getMarket(PayqrConfig::$merchantID);
         
         $this->settings = json_decode($this->market->getSettings(), true);
@@ -20,23 +21,12 @@ class InvoiceHandler
     
     public function createOrder()
     {
-        if(!$this->settings) {
-            PayqrLog::log("Не смогли получить настройки кнопки, прекращаем работу!");
-            return false;
-        }
-        
-        $invoiceId = $this->invoice->getInvoiceId();
-        
-        /*
-         * Отправляем сообщение пользователю
-         */
-        PayqrMessage::getInstance($this->settings, $this->invoice)->setMessage('inv.order.creating');
-        
-        $result = \frontend\models\InvoiceTable::find()->where(["invoice_id" => $invoiceId])->one();
+        $result = \frontend\models\InvoiceTable::find()->where(["invoice_id" => $this->invoiceId])->one();
         
         if($result && isset($result->order_id, $result->amount) && !empty($result->order_id) && !empty($result->amount))
         {
             $ordersId = json_decode($result->order_id, true);
+            
             if(is_array($ordersId) && isset($ordersId['oExternal'], $ordersId['oInternal'])) {
                 $this->invoice->setOrderId($ordersId['oExternal']);
                 $this->invoice->setAmount($result->amount);
@@ -45,8 +35,9 @@ class InvoiceHandler
             }
         }
         
-        $xmlOrder = new PayqrXmlOrder($this->invoice);
-        $orderXml = $xmlOrder->getXMLOrder();
+        //$xmlOrder = new PayqrXmlOrder($this->invoice);
+        //$orderXml = $xmlOrder->getXMLOrder();
+        $orderXml = OrderXml::getOrderXML($this->invoice);
         /*
          * Создаем заказ через API InSales (отправляем xml)
          */
@@ -90,28 +81,31 @@ class InvoiceHandler
         $this->invoice->setAmount($totalPrice);
 
         //удаляем строку по условию
-        \frontend\models\InvoiceTable::deleteAll(["invoice_id" => $invoiceId]);
+        \frontend\models\InvoiceTable::deleteAll(["invoice_id" => $this->invoiceId]);
 
         PayqrLog::log(json_encode(array("oInternal" => $orderIdInternal, "oExternal" => $orderIdExternal)));
         $invoiceTable = new \frontend\models\InvoiceTable();
-        $invoiceTable->invoice_id = $invoiceId;
+        $invoiceTable->invoice_id = $this->invoiceId;
         $invoiceTable->order_id = json_encode(array("oInternal" => $orderIdInternal, "oExternal" => $orderIdExternal));
         $invoiceTable->amount = $totalPrice;
+        $invoiceTable->iteration = 1;
+        $invoiceTable->order_request = 0;
         $invoiceTable->save();
-            
+
+        /*
+         * Устанавливаем пользовательские данные
+         */
         $this->invoice->setUserData(json_encode(array("orderId" => $orderIdInternal)));
         
-        return;
+        /*
+         * Отправляем сообщение пользователю
+         */
+        PayqrMessage::getInstance($this->settings, $this->invoice)->setMessage('inv.order.creating');
     }
     
     public function payOrder()
     {
-        if(!$this->settings) {
-            PayqrLog::log("inv_paid. Не смогли получить настройки кнопки, прекращаем работу!");
-            return false;
-        }
-        
-        $result = \frontend\models\InvoiceTable::find()->where(["invoice_id" => $this->invoice->getInvoiceId()])->one();
+        $result = \frontend\models\InvoiceTable::find()->where(["invoice_id" => $this->invoiceId])->one();
         
         if(!$result) {
             PayqrLog::log("inv_paid. Не смогли получить информацию о заказе из таблицы invoice_table");
@@ -133,7 +127,7 @@ class InvoiceHandler
         
         if(!$this->isPaid()) {
             //!!! Перенесено из конца функции т.к. возможно долго приходит ответ от InSales
-            \frontend\models\InvoiceTable::updateAll(['is_paid' => 1], 'invoice_id = :invoice_id', [':invoice_id' => $this->invoice->getInvoiceId()]);
+            \frontend\models\InvoiceTable::updateAll(['is_paid' => 1], 'invoice_id = :invoice_id', [':invoice_id' => $this->invoiceId]);
             /*
             * Подготавливаем XML для смены статуса заказа
             */
@@ -210,17 +204,11 @@ class InvoiceHandler
         return true;
     }
     
-    public function failOrder()
-    {
-    }
+    public function failOrder(){}
     
     public function setDeliveryCases()
     {
-        $invoice_id = $this->invoice->getInvoiceId();
-        
-        PayqrLog::log("Получили InvoiceId:" . $invoice_id);
-
-        $result = \frontend\models\InvoiceTable::find()->where(["invoice_id" => $invoice_id])->one();
+        $result = \frontend\models\InvoiceTable::find()->where(["invoice_id" => $this->invoiceId])->one();
         
         $deliveryData = json_decode($result->data);
         
@@ -234,7 +222,7 @@ class InvoiceHandler
         //
         PayqrLog::log("setDeliveryCases. Первый  запрос, сохраняем данные!");
         $invoiceTable = new \frontend\models\InvoiceTable();
-        $invoiceTable->invoice_id = $invoice_id;
+        $invoiceTable->invoice_id = $this->invoiceId;
         $invoiceTable->data = "";
         $invoiceTable->save();
         
@@ -422,7 +410,7 @@ class InvoiceHandler
     {
         $orderIdInternal = 0;
         
-        $result = \frontend\models\InvoiceTable::find()->where(["invoice_id" => $this->invoice->getInvoiceId()])->one();
+        $result = \frontend\models\InvoiceTable::find()->where(["invoice_id" => $this->invoiceId])->one();
         
         if($result) {
             $ordersId = json_decode($result->order_id, true);
@@ -450,7 +438,7 @@ class InvoiceHandler
     {
         $orderIdExternal = 0;
         
-        $result = \frontend\models\InvoiceTable::find()->where(["invoice_id" => $this->invoice->getInvoiceId()])->one();
+        $result = \frontend\models\InvoiceTable::find()->where(["invoice_id" => $this->invoiceId])->one();
         
         if($result) {
             $ordersId = json_decode($result->order_id, true);
@@ -466,7 +454,7 @@ class InvoiceHandler
     
     private function isPaid()
     {
-        $result = \frontend\models\InvoiceTable::find()->where(["invoice_id" => $this->invoice->getInvoiceId()])->one();
+        $result = \frontend\models\InvoiceTable::find()->where(["invoice_id" => $this->invoiceId])->one();
         
         if($result && isset($result->is_paid) && !empty((int)$result->is_paid))
         {
