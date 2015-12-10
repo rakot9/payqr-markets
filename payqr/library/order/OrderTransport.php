@@ -7,16 +7,19 @@ class OrderTransport {
      * @var OrderTransport $instance
      */
     private static $instance;
+    private $invoiceId;
     
-    private function __construct() {}
+    private function __construct($invoiceId) {
+        $this->invoiceId = $invoiceId;
+    }
     
-    public static function getInstance()
+    public static function getInstance($invoiceId)
     {
         if(self::$instance instanceof OrderTransport)
         {
             return self::$instance;
         }
-        return new self();
+        return new self($invoiceId);
     }
     
     /**
@@ -33,6 +36,9 @@ class OrderTransport {
         if(!$responceXML) 
         {
             PayqrLog::log("Ответ от сервера InSales не в формате xml");
+            
+            //Помечаем ответ от InSales, как ошибочный
+            \frontend\models\InvoiceTable::updateAll(['order_request' => -1], 'invoice_id = :invoice_id', [':invoice_id' => $this->invoiceId]);
 
             return false;
         }
