@@ -49,10 +49,10 @@ class InvoiceHandler
 //        $orderResultInternal = $xml->xpath("/order/id");
 //        $orderResultAmount   = $xml->xpath("/order/order-lines/order-line/total-price");
 
-        if(!isset($orderResultExternal[0]) || !isset($orderResultInternal[0])) {
-            PayqrLog::log("Не смогли получить xml-ответ по созданному заказу!");
-            return false;
-        }
+//        if(!isset($orderResultExternal[0]) || !isset($orderResultInternal[0])) {
+//            PayqrLog::log("Не смогли получить xml-ответ по созданному заказу!");
+//            return false;
+//        }
 
 //        $orderIdInternal = (int)$orderResultInternal[0]; PayqrLog::log("Внутренний Id:" . $orderIdInternal);
 //        $orderIdExternal = (int)$orderResultExternal[0]; PayqrLog::log("Внешний Id:" . $orderIdExternal);
