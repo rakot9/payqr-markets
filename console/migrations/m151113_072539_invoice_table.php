@@ -34,7 +34,7 @@ class m151113_072539_invoice_table extends Migration
             'datetime' => Schema::TYPE_TIMESTAMP . ' DEFAULT CURRENT_TIMESTAMP',
             'is_paid' => Schema::TYPE_BOOLEAN . ' NOT NULL DEFAULT 0',
             'iteration' => Schema::TYPE_SMALLINT . ' NOT NULL DEFAULT 0',
-            'order_requesr' => Schema::TYPE_SMALLINT . ' NOT NULL DEFAULT 0'
+            'order_request' => Schema::TYPE_SMALLINT . ' NOT NULL DEFAULT 0'
         ], $tableOptions);
         
         $this->createIndex('invoice_id', $this->tableName , 'invoice_id', true);
