@@ -30,12 +30,8 @@ class InvoiceHandler
         /*
          * Отправляем сообщение пользователю
          */
-        $this->invoice->setUserMessage((object)array(
-            "article" => 1,
-            "text" => isset($this->settings['user_message_order_creating_text'])? $this->settings['user_message_order_creating_text'] : "",
-            "url" => isset($this->settings['user_message_order_creating_url'])? $this->settings['user_message_order_creating_url'] : "",
-            "imageUrl" => isset($this->settings['user_message_order_creating_imageurl'])? $this->settings['user_message_order_creating_imageurl'] : ""
-        ));
+        PayqrMessage::getInstance($this->settings, $this->invoice)->setMessage('inv.order.creating');
+        
         
         $result = \frontend\models\InvoiceTable::find()->where(["invoice_id" => $invoiceId])->one();
         
@@ -155,16 +151,7 @@ class InvoiceHandler
             PayqrLog::log("Получили ответ после изменения статуса оплаты заказа \r\n" . print_r($response, true));
         }
         
-        $this->invoice->setUserMessage((object)array(
-            "article" => 1,
-            "text" => isset($this->settings['user_message_order_paid_text'])? $this->settings['user_message_order_paid_text'] : "",
-            "url" => isset($this->settings['user_message_order_paid_url'])? $this->settings['user_message_order_paid_url'] : "",
-            "imageUrl" => isset($this->settings['user_message_order_paid_imageurl'])? $this->settings['user_message_order_paid_imageurl'] : ""
-        ));
-        
-        //\frontend\models\InvoiceTable::updateAll(['is_paid' => 1], 'invoice_id = :invoice_id', [':invoice_id' => $this->invoice->getInvoiceId()]);
-        
-        return true;
+        PayqrMessage::getInstance($this->settings, $this->invoice)->setMessage('inv.paid');
     }
     
     public function revertOrder()
@@ -193,15 +180,7 @@ class InvoiceHandler
         $response = $payqrCURLObject->sendXMLFile(PayqrConfig::$insalesURL . "orders/" . $orderInternalId . ".xml", $statusPayXml, 'PUT');
         PayqrLog::log("revert. Получили ответ после изменения статуса возврата заказа \r\n" . print_r($response, true));
 
-        //отправляем сообщение пользователю
-        $this->invoice->setUserMessage((object)array(
-            "article" => 1,
-            "text" => isset($this->settings['user_message_order_revert_text'])? $this->settings['user_message_order_revert_text'] : "",
-            "url" => isset($this->settings['user_message_order_revert_url'])? $this->settings['user_message_order_revert_url'] : "",
-            "imageUrl" => isset($this->settings['user_message_order_revert_imageurl'])? $this->settings['user_message_order_revert_imageurl'] : ""
-        ));
-        
-        return true;
+        PayqrMessage::getInstance($this->settings, $this->invoice)->setMessage('inv.revert');
     }
     
     public function cancelOrder()
