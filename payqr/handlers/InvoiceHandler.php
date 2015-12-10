@@ -32,7 +32,6 @@ class InvoiceHandler
          */
         PayqrMessage::getInstance($this->settings, $this->invoice)->setMessage('inv.order.creating');
         
-        
         $result = \frontend\models\InvoiceTable::find()->where(["invoice_id" => $invoiceId])->one();
         
         if($result && isset($result->order_id, $result->amount) && !empty($result->order_id) && !empty($result->amount))
