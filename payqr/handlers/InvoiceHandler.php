@@ -41,50 +41,38 @@ class InvoiceHandler
         $orderXml = OrderXml::getOrderXML($this->invoice);
         $orderResult = OrderTransport::getInstance()->createOrder($orderXml);
         
-        $orderIdInternal = OrderXmlParser::getInstance($orderResult)->getExtId();
-        $orderIdExternal = OrderXmlParser::getInstance($orderResult)->getIntId();
-        $totalPrice = OrderXmlParser::getInstance($orderResult)->getTotal();
-//        $xml = new SimpleXMLElement($orderResult);
-//        $orderResultExternal = $xml->xpath("/order/number");
-//        $orderResultInternal = $xml->xpath("/order/id");
-//        $orderResultAmount   = $xml->xpath("/order/order-lines/order-line/total-price");
-
-//        if(!isset($orderResultExternal[0]) || !isset($orderResultInternal[0])) {
-//            PayqrLog::log("Не смогли получить xml-ответ по созданному заказу!");
-//            return false;
-//        }
-
-//        $orderIdInternal = (int)$orderResultInternal[0]; PayqrLog::log("Внутренний Id:" . $orderIdInternal);
-//        $orderIdExternal = (int)$orderResultExternal[0]; PayqrLog::log("Внешний Id:" . $orderIdExternal);
+        $orderIdExternal = OrderXmlParser::getInstance($orderResult)->getExtId();
+        $orderIdInternal = OrderXmlParser::getInstance($orderResult)->getIntId();
+        $totalPrice      = OrderXmlParser::getInstance($orderResult)->getTotal();
+        $this->invoice->setAmount($totalPrice);
+        
+        //устанавливаем номер заказа
         $this->invoice->setOrderId($orderIdExternal);
         
-//        $totalPrice = 0;
-//        while(list(, $price) = each($orderResultAmount)) {
-//            $totalPrice += round((float)$price,2);
-//        }
-//        if(empty($totalPrice)) {
-//            PayqrLog::log("ОШИБКА! Сумма заказа равна 0!");
-//            return false;
-//        }
-        
+        /**
+         * Обработка доставки
+         */
         $deliveryCased = $this->invoice->getDeliveryCasesSelected();
-        if(isset($deliveryCased->amountFrom) && !empty($deliveryCased->amountFrom) && $deliveryCased->amountFrom)
+        if(isset($deliveryCased->amountFrom) && !empty($deliveryCased->amountFrom))
         {
-            $totalPrice = (float)$totalPrice + (float) $deliveryCased->amountFrom;
+            $this->invoice->setAmount((float)$totalPrice + (float)$deliveryCased->amountFrom);
         }
-        $this->invoice->setAmount($totalPrice);
-
+        
         //удаляем строку по условию
         \frontend\models\InvoiceTable::deleteAll(["invoice_id" => $this->invoiceId]);
 
-        PayqrLog::log(json_encode(array("oInternal" => $orderIdInternal, "oExternal" => $orderIdExternal)));
+//        $invoiceTable = new \frontend\models\InvoiceTable();
+//        $invoiceTable->invoice_id = $this->invoiceId;
+//        $invoiceTable->order_id = json_encode(array("oInternal" => $orderIdInternal, "oExternal" => $orderIdExternal));
+//        $invoiceTable->amount = $totalPrice;
+//        $invoiceTable->iteration = 1;
+//        $invoiceTable->order_request = 0;
+//        $invoiceTable->save();
         $invoiceTable = new \frontend\models\InvoiceTable();
-        $invoiceTable->invoice_id = $this->invoiceId;
-        $invoiceTable->order_id = json_encode(array("oInternal" => $orderIdInternal, "oExternal" => $orderIdExternal));
-        $invoiceTable->amount = $totalPrice;
-        $invoiceTable->iteration = 1;
-        $invoiceTable->order_request = 0;
-        $invoiceTable->save();
+        $invoiceTable->createInvoice(
+                $this->invoiceId, 
+                json_encode(array("oInternal" => $orderIdInternal, "oExternal" => $orderIdExternal)), 
+                $totalPrice);
 
         /*
          * Устанавливаем пользовательские данные
