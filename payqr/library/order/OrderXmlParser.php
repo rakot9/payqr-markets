@@ -11,7 +11,7 @@ class OrderXmlParser {
     private $orderXML;
     
     private function __construct($orderXML) {
-        $this->$orderXML = $orderXML;
+        $this->orderXML = $orderXML;
     }
     
     /**
