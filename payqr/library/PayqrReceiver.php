@@ -106,7 +106,14 @@ class PayqrReceiver
         switch ($this->type) 
         {
             case self::INVOICE:  
-            $invoice = new InvoiceHandler($object);
+                
+                $invoice = new InvoiceHandler($object);
+                
+                if(!$invoice->settings)
+                {
+                    PayqrLog::log("PayqrInvoice. Не смогли получить информацию!");
+                    break;
+                }
                 switch ($this->event)
                 {            
                     case 'invoice.order.creating': 
