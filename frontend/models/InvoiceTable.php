@@ -56,4 +56,14 @@ class InvoiceTable extends \yii\db\ActiveRecord
             'is_paid' => 'Is Paid',
         ];
     }
+    
+    public function createInvoice($invoiceId, $orderJSON, $amount)
+    {
+        $this->invoice_id = $invoiceId;
+        $this->order_id = $orderJSON;
+        $this->amount = $amount;
+        $this->iteration = 1;
+        $this->order_request = 0;
+        $this->save();
+    }
 }
