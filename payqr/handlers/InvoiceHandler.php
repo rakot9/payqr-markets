@@ -66,6 +66,8 @@ class InvoiceHandler
                 $currentSec = 1;
                 while(true)
                 {
+                    PayqrLog::log("Ждем ответа от InSales [".$currentSec." c.]");
+                    
                     if( (((int)$result->iteration + 1) * 5) <  $currentSec)
                     {
                         break;
@@ -78,10 +80,12 @@ class InvoiceHandler
                     
                     if($iterResult && $iterResult->order_request == 0)
                     {
+                        PayqrLog::log("Ответ еще не поступил от InSales [".$currentSec." c.]");
                         continue;
                     }
                     if($iterResult && $iterResult->order_request == -1)
                     {
+                        PayqrLog::log("Ответ от InSales ошибочный [".$currentSec." c.]");
                         //Производим обновление результата
                         \frontend\models\InvoiceTable::updateAll([
                                                                 'iteration' => $result->iteration + 1,
@@ -91,6 +95,8 @@ class InvoiceHandler
                     }
                     if($iterResult && $iterResult->order_request == 1)
                     {
+                        PayqrLog::log("Ответ от InSales пришел [".$currentSec." c.]");
+                        
                         $ordersId = json_decode($iterResult->order_id, true);
             
                         if(is_array($ordersId) && isset($ordersId['oExternal'], $ordersId['oInternal'])) {
