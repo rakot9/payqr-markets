@@ -93,4 +93,9 @@ class PayqrXmlOrder {
                         </order-lines-attributes>
                     </order>';
     }
+    
+    public function createOrder()
+    {
+        
+    }
 }
