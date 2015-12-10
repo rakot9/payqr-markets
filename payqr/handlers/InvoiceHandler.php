@@ -21,25 +21,110 @@ class InvoiceHandler
     
     public function createOrder()
     {
+        /**
+         * Проверяем повторный запрос invoice от сервера
+         */
         $result = \frontend\models\InvoiceTable::find()->where(["invoice_id" => $this->invoiceId])->one();
         
-        if($result && isset($result->order_id, $result->amount) && !empty($result->order_id) && !empty($result->amount))
+        if($result)
         {
-            $ordersId = json_decode($result->order_id, true);
+            /**
+             * Проверяем ответ от InSales на создание заказа
+             */
+            if(isset($result->order_request) && $result->order_request == 1)
+            {
+               //Пришел ответ от InSales и заказ добавлен, отвечаем серверу 
+               if(isset($result->order_id, $result->amount) && !empty($result->order_id) && !empty($result->amount))
+               {
+                   $ordersId = json_decode($result->order_id, true);
             
-            if(is_array($ordersId) && isset($ordersId['oExternal'], $ordersId['oInternal'])) {
-                $this->invoice->setOrderId($ordersId['oExternal']);
-                $this->invoice->setAmount($result->amount);
-                $this->invoice->setUserData(json_encode(array("orderId" => $ordersId['oInternal'])));
-                return true;
+                    if(is_array($ordersId) && isset($ordersId['oExternal'], $ordersId['oInternal'])) {
+                        $this->invoice->setOrderId($ordersId['oExternal']);
+                        $this->invoice->setAmount($result->amount);
+                        $this->invoice->setUserData(json_encode(array("orderId" => $ordersId['oInternal'])));
+                        return true;
+                    }
+               }
+               else
+               {
+                    //@ToDo
+                    PayqrLog::log("Маловероятно, при каких условиях такое возможно???");
+                   
+                    //Производим обновление результата
+                    \frontend\models\InvoiceTable::updateAll([
+                                                            'iteration' => $result->iteration + 1,
+                                                            'order_request' => 0
+                                                        ], 'invoice_id = :invoice_id', [':invoice_id' => $this->invoiceId]);
+               }
             }
+            
+            if(isset($result->order_request) && $result->order_request == 0)
+            {
+                //ответ от сервера еще не пришел, ждем ответа
+                
+                //поскольку предыдущее соединение неактивно, то будем ждать ответа от сервера
+                $currentSec = 1;
+                while(true)
+                {
+                    if( (((int)$result->iteration + 1) * 5) <  $currentSec)
+                    {
+                        break;
+                    }
+                    
+                    sleep(1);
+                    
+                    //проверяем пришел ли ответ от сервера
+                    $iterResult = \frontend\models\InvoiceTable::find()->where(["invoice_id" => $this->invoiceId])->one();
+                    
+                    if($iterResult && $iterResult->order_request == 0)
+                    {
+                        continue;
+                    }
+                    if($iterResult && $iterResult->order_request == -1)
+                    {
+                        //Производим обновление результата
+                        \frontend\models\InvoiceTable::updateAll([
+                                                                'iteration' => $result->iteration + 1,
+                                                                'order_request' => 0
+                                                            ], 'invoice_id = :invoice_id', [':invoice_id' => $this->invoiceId]);
+                        break;
+                    }
+                    if($iterResult && $iterResult->order_request == 1)
+                    {
+                        $ordersId = json_decode($iterResult->order_id, true);
+            
+                        if(is_array($ordersId) && isset($ordersId['oExternal'], $ordersId['oInternal'])) {
+                            $this->invoice->setOrderId($ordersId['oExternal']);
+                            $this->invoice->setAmount($result->amount);
+                            $this->invoice->setUserData(json_encode(array("orderId" => $ordersId['oInternal'])));
+                            return true;
+                        }
+                    }
+                    $currentSec++;
+                }
+            }
+            
+            if(isset($result->order_request) && $result->order_request == -1)
+            {
+                //запрос завершился ошибкой, пробуем создать новый заказ
+                PayqrLog::log("Предыдущий запрос завершился ошибкой! Производим обновление состояние: iteration, order_request");
+                
+                \frontend\models\InvoiceTable::updateAll([
+                                                            'iteration' => $result->iteration + 1,
+                                                            'order_request' => 0
+                                                        ], 'invoice_id = :invoice_id', [':invoice_id' => $this->invoiceId]);
+            }
+            
+            /*
+             * 
+             */
         }
         
         /*
          * Создаем заказ через API InSales (отправляем xml)
          */
         $orderXml = OrderXml::getOrderXML($this->invoice);
-        $orderResult = OrderTransport::getInstance()->createOrder($orderXml);
+        $orderResult = OrderTransport::getInstance($this->invoice)->createOrder($orderXml);
         
         $orderIdExternal = OrderXmlParser::getInstance($orderResult)->getExtId();
         $orderIdInternal = OrderXmlParser::getInstance($orderResult)->getIntId();
