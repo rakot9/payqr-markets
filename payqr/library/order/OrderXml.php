@@ -1,10 +1,9 @@
 <?php
 
 class OrderXml {
-    
     /**
      * Создание XML-файда в формате InSales для создания заказа
-     * @var PayqrInvoice $invoice
+     * @param PayqrInvoice $invoice
      * @return string
      */
     public static function getOrderXML($invoice)
@@ -48,9 +47,11 @@ class OrderXml {
     }
     
     /**
-     * 
+     * Подготавливает XML-с товарами
+     * @param PayqrInvoice $invoice
+     * @return string
      */
-    public static function getXmlProduct($invoice)
+    private static function getXmlProduct($invoice)
     {
         $carts = $invoice->getCart();
         $xml = "";
@@ -62,5 +63,28 @@ class OrderXml {
                     '</order-line-attributes>';
         }
         return $xml;
+    }
+    
+    /**
+     * Подготавливаем XML-файл для смены статуса заказа
+     * @param type $invoice
+     * @return string
+     */
+    public static function getOrderStatusXML($invoice)
+    {
+        $userData = json_decode($invoice->getUserData());
+        
+        if(isset($userData->orderId) && !empty($userData->orderId))
+        {
+            $xml = '<?xml version="1.0" encoding="UTF-8"?>
+                    <order>
+                        <id type="integer">'.(int)$userData->orderId.'</id>
+                        <financial-status>'.$financeStatus.'</financial-status>
+                        <fulfillment-status>'.$fulFillMent.'</fulfillment-status>
+                    </order>';
+
+            return $xml;
+        }
+        return null;
     }
 }
