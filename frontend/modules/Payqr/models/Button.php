@@ -39,8 +39,10 @@ class Button extends \yii\base\Model{
     
     /**
      * Инициализация кнопки
+     * @param \frontend\models\Market $market
+     * @return string|void
      */
-    public function init(\frontend\models\Market $market = null)
+    public function initBuy(\frontend\models\Market $market = null)
     {
         if($market && isset($market->settings))
         {
@@ -77,19 +79,36 @@ class Button extends \yii\base\Model{
         $html .= \yii\bootstrap\Html::submitButton('Сохранить');
         $html .= \yii\bootstrap\Html::endForm();
 
-        //Производим генерацию скрипта для InSales
-        $html .= \yii\bootstrap\Html::beginTag("div", ['class' => 'row form-group']);
+        return $html;
+    }
+
+    public function initPay(\frontend\models\Market $market = null)
+    {
+        $html = "";
+        if($market && isset($market->settings))
+        {
+            $settings = json_decode($market->settings, true);
+        }
+        else
+        {
+            $settings = array();
+        }
+
+        //Производим генерацию скрипта для InSales, чтобы могли реализовывать сценарий pay
+        if($RSA = $this->RSAInsalesEncrypt($settings))
+        {
+            $html .= \yii\bootstrap\Html::beginTag("div", ['class' => 'row form-group']);
             $html .= \yii\bootstrap\Html::beginTag("div", ['class' => 'col-xs-6']);
             $html .= "Кодированная строка:";
             $html .= \yii\bootstrap\Html::endTag("div");
 
             $html .= \yii\bootstrap\Html::beginTag("div", ['class' => 'col-xs-6']);
-            $html .= \yii\bootstrap\Html::beginTag("textarea", ['cols' => 55, 'rows'=>'5']) . (( $RSA = $this->RSAInsalesEncrypt($settings))? $RSA : " вы еще не ввели необходимые данные!");
+            $html .= \yii\bootstrap\Html::beginTag("textarea", ['cols' => 55, 'rows'=>'5']) . $RSA ;
             $html .= \yii\bootstrap\Html::endTag("textarea");
             $html .= \yii\bootstrap\Html::endTag("div");
-        $html .= \yii\bootstrap\Html::endTag("div");
+            $html .= \yii\bootstrap\Html::endTag("div");
+        }
         //
-        
         return $html;
     }
 
@@ -265,7 +284,6 @@ class Button extends \yii\base\Model{
             return "";
 
         //Получаем информацию из URL
-
         $insales_url = parse_url($settings["insales_url"]);
 
         if(isset($insales_url['host'], $insales_url['user'], $insales_url['pass']))

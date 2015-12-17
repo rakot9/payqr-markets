@@ -16,15 +16,23 @@ class ButtonController extends Controller
     
     /**
      * Редактирование свойств кнопки
-     * @param type $market_id
-     * @return type
+     * @param int $market_id
+     * @return string
      */
     public function actionEdit($market_id = 0)
     {
-        $button = Button::getInstance()->init(Market::findOne($market_id));
-        
+        $market = Market::findOne($market_id);
+        /**
+         * scenarion
+         * $pay
+         * $buy
+         */
+        $buy = Button::getInstance()->initBuy($market);
+        $pay = Button::getInstance()->initPay($market);
+
         return $this->render('edit', [
-            'button' => $button
+            'buy' => $buy,
+            'pay' => $pay,
         ]);
     }
     
@@ -37,7 +45,8 @@ class ButtonController extends Controller
 
     /**
      * Метод обновляет/создает параметр кнопки
-     * @param type $market_id
+     * @param int $market_id
+     * @return bool
      */
     public function actionCreate($market_id = 0)
     {
