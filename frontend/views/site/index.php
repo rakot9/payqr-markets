@@ -13,8 +13,8 @@ $this->title = 'PayQR редактор кнопок';
 
     <div class="body-content">
         <div class="row">
-            <?php 
-                if(\Yii::$app->user->getId()) { ?>
+            <?php
+            if(\Yii::$app->user->getId()) { ?>
                 <h2>Здесь представлены настройки кнопок пользователя</h2>
                 <?php
                 echo GridView::widget([
