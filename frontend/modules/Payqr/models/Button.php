@@ -103,7 +103,7 @@ class Button extends \yii\base\Model{
             $html .= \yii\bootstrap\Html::endTag("div");
 
             $html .= \yii\bootstrap\Html::beginTag("div", ['class' => 'col-xs-6']);
-            $html .= \yii\bootstrap\Html::beginTag("textarea", ['cols' => 55, 'rows'=>'5']) . $RSA ;
+            $html .= \yii\bootstrap\Html::beginTag("textarea", ['cols' => 55, 'rows'=>'5']) . "<script>var insales='".$RSA."';</script>" ;
             $html .= \yii\bootstrap\Html::endTag("textarea");
             $html .= \yii\bootstrap\Html::endTag("div");
             $html .= \yii\bootstrap\Html::endTag("div");

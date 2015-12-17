@@ -57,8 +57,6 @@ class ButtonController extends Controller
             return false;
         }
         
-        //exit($isMerchant);
-        
         if(!empty($market_id))
         {
             $market = Market::findOne($market_id);
@@ -84,12 +82,11 @@ class ButtonController extends Controller
         
         $this->redirect(empty($market_id)? '/' :  '?r=payqr/button/edit&market_id=' . $market_id);
     }
-    
+
     /**
-     * 
-     * @param type $merchantId
-     * @param type $settings
-     * @return boolean|string
+     * @param null $merchantId
+     * @param array $settings
+     * @return bool|null
      */
     private function issetMerchantId($merchantId = null, $settings = array())
     {
