@@ -76,16 +76,28 @@ class Button extends \yii\base\Model{
         
         $html .= \yii\bootstrap\Html::submitButton('Сохранить');
         $html .= \yii\bootstrap\Html::endForm();
+
+        //Производим генерацию скрипта для InSales
+        $html .= \yii\bootstrap\Html::beginTag("div", ['class' => 'row form-group']);
+            $html .= \yii\bootstrap\Html::beginTag("div", ['class' => 'col-xs-6']);
+            $html .= "Кодированная строка:";
+            $html .= \yii\bootstrap\Html::endTag("div");
+
+            $html .= \yii\bootstrap\Html::beginTag("div", ['class' => 'col-xs-6']);
+            $html .= \yii\bootstrap\Html::beginTag("textarea", ['cols' => 55, 'rows'=>'5']) . (( $RSA = $this->RSAInsalesEncrypt($settings))? $RSA : " вы еще не ввели необходимые данные!");
+            $html .= \yii\bootstrap\Html::endTag("textarea");
+            $html .= \yii\bootstrap\Html::endTag("div");
+        $html .= \yii\bootstrap\Html::endTag("div");
+        //
         
         return $html;
     }
-    
+
     /**
-     * 
-     * @param type $xmlRow
-     * @param type $settings
-     * @param type $place - Для какого места (карточка товара, корзина, категория товара) будет настраиваться настройка
-     * @return type
+     * @param $xmlRow
+     * @param $settings
+     * @param bool $place
+     * @return string
      */
     private function generateHtml($xmlRow, $settings, $place = false)
     {
@@ -239,5 +251,43 @@ class Button extends \yii\base\Model{
         }
         
         return array();
+    }
+
+    /**
+     * @param $settings
+     * @return string
+     */
+    private function RSAInsalesEncrypt($settings)
+    {
+        $publicKey = openssl_pkey_get_public("file://".realpath(dirname(__FILE__).'/../../../web/rsa/pubkey'));
+
+        if(empty($settings["insales_url"]) || empty($settings['secret_key_in']) || empty($settings['secret_key_out']) )
+            return "";
+
+        //Получаем информацию из URL
+
+        $insales_url = parse_url($settings["insales_url"]);
+
+        if(isset($insales_url['host'], $insales_url['user'], $insales_url['pass']))
+        {
+            //user -> индентификатор
+            //pass -> пароль
+            openssl_public_encrypt($insales_url['host'] . ";" . $insales_url['user'] . ";" . $insales_url['pass'], $encrypted, $publicKey);
+        }
+
+        return base64_encode($encrypted);
+    }
+
+    private function RSAInsalesDecrypt($string)
+    {
+        $str = base64_decode($string);
+
+        if($str)
+        {
+            $privateKey = openssl_pkey_get_private('file://' . realpath(dirname(__FILE__).'/../../../web/rsa/privkey '), "insales");
+            openssl_private_decrypt($str, $decrypted, $privateKey);
+            return $decrypted;
+        }
+        return  "";
     }
 }
