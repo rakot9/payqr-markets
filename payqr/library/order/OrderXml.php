@@ -15,7 +15,7 @@ class OrderXml {
                     <order>
                         <force type="boolean">true</force>
                         <shipping-address>
-                            <address>'.(isset($shipping->city)?           $shipping->city.' ':'').
+                            <address>'.(isset($shipping->city)?           $shipping->l.' ':'').
                                        (isset($shipping->street)?   'Ул. '.$shipping->street.' ':'').
                                        (isset($shipping->house)?    'Д. '.$shipping->house.' ':'').
                                        (isset($shipping->unit)?     'Корп. '.$shipping->unit.' ':'').
@@ -67,10 +67,12 @@ class OrderXml {
     
     /**
      * Подготавливаем XML-файл для смены статуса заказа
-     * @param type $invoice
-     * @return string
+     * @param $invoice
+     * @param string $financeStatus
+     * @param string $fulFillMent
+     * @return null|string
      */
-    public static function getOrderStatusXML($invoice)
+    public static function getOrderStatusXML($invoice, $financeStatus = "paid", $fulFillMent = "accepted")
     {
         $userData = json_decode($invoice->getUserData());
         

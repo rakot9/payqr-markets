@@ -197,8 +197,10 @@ class InvoiceHandler
             /*
             * Подготавливаем XML для смены статуса заказа
             */
-            $xmlOrder = new PayqrXmlOrder($this->invoice);
-            $statusPayXml = $xmlOrder->changeOrderPayStatus();
+            $statusPayXml = OrderXml::getOrderStatusXML($this->invoice);
+            //$xmlOrder = new PayqrXmlOrder($this->invoice);
+            //$statusPayXml = $xmlOrder->changeOrderPayStatus();
+
             if(empty($statusPayXml)) {
                PayqrLog::log("inv_paid. Не смогли получить xml-файл");
                return false;
@@ -219,9 +221,10 @@ class InvoiceHandler
             PayqrLog::log("revert. Не можем осуществить возврат,не оплаченного заказа!");
             return false;
         }
-        
-        $xmlOrder = new PayqrXmlOrder($this->invoice);
-        $statusPayXml = $xmlOrder->changeOrderPayStatus("pending", "returned");
+        $statusPayXml = OrderXml::getOrderStatusXML($this->invoice, "pending", "returned");
+        //$xmlOrder = new PayqrXmlOrder($this->invoice);
+        //$statusPayXml = $xmlOrder->changeOrderPayStatus("pending", "returned");
+
         if(empty($statusPayXml)) {
             PayqrLog::log("revert. Не смогли получить xml-файл");
             return false;
@@ -244,8 +247,11 @@ class InvoiceHandler
     
     public function cancelOrder()
     {
-        $xmlOrder = new PayqrXmlOrder($this->invoice);
-        $statusPayXml = $xmlOrder->changeOrderPayStatus("pending", "declined");
+
+//        $xmlOrder = new PayqrXmlOrder($this->invoice);
+//        $statusPayXml = $xmlOrder->changeOrderPayStatus("pending", "declined");
+        $statusPayXml = OrderXml::getOrderStatusXML($this->invoice, "pending", "declined");
+        
         if(empty($statusPayXml)){
             PayqrLog::log("cancel. Не смогли получить xml-файл");            
             return false;
