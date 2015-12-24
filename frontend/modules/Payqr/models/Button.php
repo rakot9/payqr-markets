@@ -290,7 +290,19 @@ class Button extends \yii\base\Model{
         {
             //user -> индентификатор
             //pass -> пароль
-            openssl_public_encrypt($insales_url['host'] . ";" . $insales_url['user'] . ";" . $insales_url['pass'], $encrypted, $publicKey);
+            /**
+             * Проверяем хост на наличие порта
+             */
+            if(isset($path['path']))
+            {
+                $path['path'] = trim($path['path'],"/");
+                $_ = explode("/", $path['path']);
+                if(isset($_[0]))
+                {
+                    echo $path['host'] .":".$path['port'] . "/" . $_[0];
+                }
+            }
+            openssl_public_encrypt($insales_url['host']. (isset($insales_url['port'])?":".$insales_url['port'].(isset($_[0])?"/".$_[0]:""):"") . ";" . $insales_url['user'] . ";" . $insales_url['pass'], $encrypted, $publicKey);
         }
 
         return base64_encode($encrypted);
