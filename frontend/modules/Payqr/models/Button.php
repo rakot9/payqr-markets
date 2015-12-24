@@ -293,22 +293,18 @@ class Button extends \yii\base\Model{
             /**
              * Проверяем хост на наличие порта
              */
-            if(isset($path['path']))
+            if(isset($insales_url['path']))
             {
-                $path['path'] = trim($path['path'],"/");
-                $_ = explode("/", $path['path']);
-                if(isset($_[0]))
-                {
-                    echo $path['host'] .":".$path['port'] . "/" . $_[0];
-                }
+                $insales_url['path'] = trim($insales_url['path'],"/");
+                $_ = explode("/", $insales_url['path']);
             }
-            openssl_public_encrypt($insales_url['host']. (isset($insales_url['port'])?":".$insales_url['port'].(isset($_[0])?"/".$_[0]:""):"") . ";" . $insales_url['user'] . ";" . $insales_url['pass'], $encrypted, $publicKey);
+            openssl_public_encrypt($insales_url['host']. (isset($insales_url['port'])?":".$insales_url['port']:"") . ((isset($_[0])?"/".$_[0]:"")) . ";" . $insales_url['user'] . ";" . $insales_url['pass'], $encrypted, $publicKey);
         }
 
         return base64_encode($encrypted);
     }
 
-    private function RSAInsalesDecrypt($string)
+    public function RSAInsalesDecrypt($string)
     {
         $str = base64_decode($string);
 
