@@ -177,8 +177,10 @@ class InvoiceHandler
             PayqrLog::log("inv_paid. Не смогли получить информацию о заказе из таблицы invoice_table");
             return false;
         }
-        
-        if($result && isset($result->is_paid) && !empty((int)$result->is_paid)) {
+
+        $result->is_paid = (int)$result->is_paid;
+
+        if($result && isset($result->is_paid) && !empty($result->is_paid)) {
             PayqrLog::log("inv_paid. Повторный запрос.");
             return true;
         }
@@ -251,7 +253,7 @@ class InvoiceHandler
 //        $xmlOrder = new PayqrXmlOrder($this->invoice);
 //        $statusPayXml = $xmlOrder->changeOrderPayStatus("pending", "declined");
         $statusPayXml = OrderXml::getOrderStatusXML($this->invoice, "pending", "declined");
-        
+
         if(empty($statusPayXml)){
             PayqrLog::log("cancel. Не смогли получить xml-файл");            
             return false;
@@ -280,7 +282,11 @@ class InvoiceHandler
     
     public function setDeliveryCases()
     {
+        PayqrLog::log("setDeliveryCases" . PHP_EOL);
+
         $result = \frontend\models\InvoiceTable::find()->where(["invoice_id" => $this->invoiceId])->one();
+
+        PayqrLog::log( print_r($result, true));
         
         $deliveryData = json_decode($result->data);
         
@@ -302,6 +308,7 @@ class InvoiceHandler
 
         if(empty($payqrDelivery))
         {
+            PayqrLog::log("Возвращаем пустой массив");
             return array();
         }
         
@@ -469,7 +476,7 @@ class InvoiceHandler
         //PayqrLog::log("Передаем варианты доставок");
         //PayqrLog::log(print_r($delivery_cases, true));
         
-        \frontend\models\InvoiceTable::updateAll(['data' => json_encode($delivery_cases)], 'invoice_id = :invoice_id', [':invoice_id' => $invoice_id]);
+        \frontend\models\InvoiceTable::updateAll(['data' => json_encode($delivery_cases)], 'invoice_id = :invoice_id', [':invoice_id' => $this->invoiceId]);
         
         $this->invoice->setDeliveryCases($delivery_cases);
     }
@@ -527,8 +534,10 @@ class InvoiceHandler
     private function isPaid()
     {
         $result = \frontend\models\InvoiceTable::find()->where(["invoice_id" => $this->invoiceId])->one();
-        
-        if($result && isset($result->is_paid) && !empty((int)$result->is_paid))
+
+        $result->is_paid = (int)$result->is_paid;
+
+        if($result && isset($result->is_paid) && !empty($result->is_paid))
         {
             return true;
         }
