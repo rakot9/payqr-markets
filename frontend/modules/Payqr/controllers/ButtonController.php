@@ -30,6 +30,8 @@ class ButtonController extends Controller
         $buy = Button::getInstance()->initBuy($market);
         $pay = Button::getInstance()->initPay($market);
 
+        echo Button::getInstance()->RSAInsalesDecrypt('mcEwHxdtxcGpW+1rHxg3u5dr10kIS0OIGaVK268YzHLda+fbOGxxPX4NuYyUzjlOW6DjJnkeE0G59jY4KZ+11pd9R3QpPL8usVnzSkxcIC+bUC8olt5uyvEXipoNFBarkqwN4rDBIg6I2YPwQX9JoRMkUUfzUv15LXpRc+I/gUIygEn8+z71Jo14xMSgm/xPPAomRtT68OfE8VHkHv0H5fYnFsSHtLqeBU5iha63B5AYj5SCthP1RWXP0zaMrDYIe9K0xuP3uDlK5OH/+9rIuSm9/d+encEpX5Ds7obV6Vd0I5VVaO2sGbhhHX+IOCrri9MyaoVzLscyVcJpIEPapQ==');
+
         return $this->render('edit', [
             'buy' => $buy,
             'pay' => $pay,
